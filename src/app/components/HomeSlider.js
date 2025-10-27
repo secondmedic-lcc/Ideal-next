@@ -33,19 +33,49 @@ const HomeSlider = () => {
         <Row className="g-0">
           <Col>
             <Carousel
-              swipeable={true}
+              swipeable={false}
               draggable={true}
               showDots={true}
               responsive={responsive}
               infinite={true}
               autoPlay={true}
-              autoPlaySpeed={3000}
-              customTransition="all .5"
+              autoPlaySpeed={2000}
               transitionDuration={500}
-              arrows={false}
+              arrows={true}
               dotListClass="custom-dot-list"
             >
-              <div>Hiii</div>
+              <div>
+                <Image
+                  src="/img/banner-1.png"
+                  alt="sliderImg"
+                  width={1920}
+                  height={1080}
+                />
+              </div>
+              <div>
+                <Image
+                  src="/img/banner-2.png"
+                  alt="sliderImg"
+                  width={1920}
+                  height={1080}
+                />
+              </div>
+              <div>
+                <Image
+                  src="/img/banner-3.png"
+                  alt="sliderImg"
+                  width={1920}
+                  height={1080}
+                />
+              </div>
+              <div>
+                <Image
+                  src="/img/banner-4.png"
+                  alt="sliderImg"
+                  width={1920}
+                  height={1080}
+                />
+              </div>
             </Carousel>
           </Col>
         </Row>

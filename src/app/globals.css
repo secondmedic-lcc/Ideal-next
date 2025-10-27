@@ -10,18 +10,18 @@
 }
 
 @font-face {
-    font-family: helvetica-bold;
-    src: url(/custom-fonts/helvetica-bold.otf);
+  font-family: helvetica-bold;
+  src: url(/custom-fonts/helvetica-bold.otf);
 }
 
 @font-face {
-    font-family: helvetica-light;
-    src: url(/custom-fonts/helvetica-light.otf);
+  font-family: helvetica-light;
+  src: url(/custom-fonts/helvetica-light.otf);
 }
 
 @font-face {
-    font-family: helvetica-55;
-    src: url(/custom-fonts/helvetica-55.otf);
+  font-family: helvetica-55;
+  src: url(/custom-fonts/helvetica-55.otf);
 }
 
 html,
@@ -91,6 +91,8 @@ header .top-logo-header .logo {
 header .header-menu .menu-wrapper {
   padding: 15px 50px;
   background-color: var(--themecolor2);
+  position: relative;
+  z-index: 1;
 }
 
 header .header-menu .menu-wrapper ul {
@@ -107,3 +109,35 @@ header .header-menu .menu-wrapper ul li a {
 }
 
 /* header work end */
+
+/* home banner work start */
+
+.home-banner-slider {
+  margin-top: -27px;
+}
+
+.home-banner-slider img {
+  width: 100%;
+  height: auto;
+}
+
+.home-banner-slider .react-multi-carousel-dot-list {
+  bottom: 15px;
+}
+
+.home-banner-slider .react-multi-carousel-dot-list .react-multi-carousel-dot button {
+  width: 40px;
+  height: 8px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: var(--themecolor2);
+}
+
+.home-banner-slider .react-multi-carousel-dot--active button {
+  background-color: var(--themecolor) !important;
+
+}
+
+/* home banner work end */
