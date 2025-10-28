@@ -6,13 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import HomeSlider from "../components/HomeSlider";
+import HomeFuture from "../components/HomeFuture";
+import HomeMilestone from "../components/HomeMilestone";
 
 const HomePage = () => {
   return (
     <>
       <Header />
       <HomeSlider />
-      <h2>Home Page</h2>
+      <HomeFuture />
+      <HomeMilestone />
     </>
   );
 };
