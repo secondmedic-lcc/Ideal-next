@@ -5,8 +5,6 @@
   --themecolor2: #24489e;
   --blackcolor: #222222;
   --whitecolor: #ffffff;
-  --heading-font: "Raleway", sans-serif;
-  --para-font: "AR One Sans", sans-serif;
 }
 
 @font-face {
@@ -22,6 +20,11 @@
 @font-face {
   font-family: helvetica-55;
   src: url(/custom-fonts/helvetica-55.otf);
+}
+
+@font-face {
+  font-family: noto-tamil;
+  src: url(/custom-fonts/noto-tamil.ttf);
 }
 
 html,
@@ -54,6 +57,16 @@ a {
 
 .theme-clr {
   color: var(--themecolor) !important;
+}
+
+.web-heading {
+  font-family: noto-tamil;
+  font-size: 42px;
+  line-height: 60px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--themecolor2);
 }
 
 /* splash page work start */
@@ -125,7 +138,10 @@ header .header-menu .menu-wrapper ul li a {
   bottom: 15px;
 }
 
-.home-banner-slider .react-multi-carousel-dot-list .react-multi-carousel-dot button {
+.home-banner-slider
+  .react-multi-carousel-dot-list
+  .react-multi-carousel-dot
+  button {
   width: 40px;
   height: 8px;
   border-radius: 20px;
@@ -137,7 +153,51 @@ header .header-menu .menu-wrapper ul li a {
 
 .home-banner-slider .react-multi-carousel-dot--active button {
   background-color: var(--themecolor) !important;
-
 }
 
 /* home banner work end */
+
+/* home future work start */
+
+.home-future-section {
+  padding: 60px 0;
+}
+
+.home-future-section .home-future-para {
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 500;
+  font-family: helvetica-55;
+  color: #757679;
+}
+
+.home-future-section .home-future-img {
+  width: 100%;
+  height: auto;
+}
+
+/* home future work end */
+
+/* home milestone work start */
+
+.home-milestone-section {
+  padding: 60px 0;
+  background-image: url(/img/milestone-bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.home-milestone-section .home-milestone-para {
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 500;
+  font-family: helvetica-55;
+  color: #757679;
+}
+
+.home-milestone-section .home-milestone-img {
+  width: 100%;
+  height: auto;
+}
+
+/* home milestone work end */
