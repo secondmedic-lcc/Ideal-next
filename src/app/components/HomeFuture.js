@@ -8,7 +8,7 @@ import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
 const HomeFuture = () => {
   return (
     <>
-      <section className="home-future-section">
+      <section className="home-future-section section-padding">
         <Container>
           <Row className="g-5 align-items-center">
             <Col xs={12}>

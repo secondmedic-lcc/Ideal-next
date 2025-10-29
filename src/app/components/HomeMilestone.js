@@ -8,7 +8,7 @@ import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
 const HomeMilestone = () => {
   return (
     <>
-      <section className="home-milestone-section">
+      <section className="home-milestone-section web-bg section-padding">
         <Container>
           <Row className="g-5 align-items-center">
             <Col xs={12}>
@@ -31,6 +31,17 @@ const HomeMilestone = () => {
                 Ideal Classes stands among the few institutes offering expert
                 coaching across all levels of education. From school to
                 professional courses, we specialize in:
+              </p>
+              <ul className="common-check-list">
+                <li>School | Commerce | Science</li>
+                <li>Competitive & Professional Exams</li>
+                <li>BAF, BMS, BBI, BFM | Engineering</li>
+              </ul>
+              <p className="home-milestone-para mb-0">
+                With a structured, result-oriented approach, we have empowered
+                over <b className="theme-clr">2,00,000 students</b> to excel in
+                their careers, producing thousands of Board and University
+                toppers.
               </p>
             </Col>
           </Row>

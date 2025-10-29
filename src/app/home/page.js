@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 import Header from "../components/Header";
 import HomeSlider from "../components/HomeSlider";
 import HomeFuture from "../components/HomeFuture";
 import HomeMilestone from "../components/HomeMilestone";
+import HomeWhyChoose from "../components/HomeWhyChoose";
+import HomeTestimonials from "../components/HomeTestimonials";
+import Footer from "../components/Footer";
 
 const HomePage = () => {
   return (
@@ -16,6 +16,9 @@ const HomePage = () => {
       <HomeSlider />
       <HomeFuture />
       <HomeMilestone />
+      <HomeWhyChoose />
+      <HomeTestimonials />
+      <Footer />
     </>
   );
 };
