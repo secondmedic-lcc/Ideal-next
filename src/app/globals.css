@@ -46,6 +46,10 @@ body {
   margin: 0;
 }
 
+p {
+  font-family: helvetica-55;
+}
+
 ul {
   list-style: none;
   padding: 0 !important;
@@ -76,6 +80,21 @@ a {
   background-image: var(--themebg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+.web-btn {
+  padding: 7px 25px;
+  border-radius: 10px;
+  background-color: var(--themecolor);
+  color: var(--whitecolor);
+  border: none;
+  outline: none !important;
+  box-shadow: none !important;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: helvetica-55;
 }
 
 .common-check-list {
@@ -203,7 +222,6 @@ header .header-menu .menu-wrapper ul li a {
   font-size: 24px;
   line-height: 34px;
   font-weight: 500;
-  font-family: helvetica-55;
   color: #757679;
   margin-bottom: 0;
 }
@@ -221,7 +239,6 @@ header .header-menu .menu-wrapper ul li a {
   font-size: 24px;
   line-height: 34px;
   font-weight: 500;
-  font-family: helvetica-55;
   color: #757679;
   margin-bottom: 25px;
 }
@@ -518,3 +535,117 @@ header .header-menu .menu-wrapper ul li a {
 }
 
 /* social commtiment  page work  end*/
+
+/* footer work start */
+
+footer {
+  background-color: var(--themecolor2);
+  position: relative;
+}
+
+footer .footer-logo {
+  background-color: var(--whitecolor);
+  padding: 20px;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+
+footer .footer-logo img {
+  width: 220px;
+  height: auto;
+}
+
+footer .footer-info {
+  margin-top: 110px !important;
+}
+
+footer .footer-info li {
+  margin-top: 10px;
+}
+
+footer .footer-info li a {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  font-size: 18px;
+  font-family: helvetica-55;
+  color: var(--whitecolor) !important;
+}
+
+footer .footer-info li a svg {
+  margin-top: 4px;
+  width: 20px;
+}
+
+footer .footer-social {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 40px !important;
+  color: var(--whitecolor);
+}
+
+footer .footer-social li {
+  font-size: 18px;
+  font-family: helvetica-55;
+}
+
+footer .footer-social li img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+footer .footer-heading {
+  font-size: 20px;
+  font-family: helvetica-bold;
+  color: var(--whitecolor);
+  position: relative;
+  margin-bottom: 30px;
+}
+
+footer .footer-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  height: 4px;
+  width: 80px;
+  background-color: var(--whitecolor);
+}
+
+footer .footer-links {
+  font-size: 18px;
+  font-family: helvetica-55;
+  color: var(--whitecolor);
+}
+
+footer .footer-links li {
+  margin-top: 15px;
+}
+
+footer .form-box {
+  padding: 20px;
+  background-color: var(--whitecolor);
+  border-radius: 20px;
+}
+
+footer .form-box label {
+  font-size: 16px;
+  font-family: helvetica-55;
+  color: var(--blackcolor);
+  margin-top: 10px;
+}
+
+footer .form-box .form-control,
+footer .form-box select {
+  padding: 0 0 5px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0;
+}
+
+/* footer work end */
