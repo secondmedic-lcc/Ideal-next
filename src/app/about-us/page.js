@@ -5,6 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const AboutUs = () => {
   return (
@@ -119,6 +120,7 @@ const AboutUs = () => {
           </Row>
         </Container>
       </section>
+       <Footer />
     </>
   );
 };

@@ -97,6 +97,15 @@ const Footer = () => {
                   <Link href="#">News & Events</Link>
                 </li>
                 <li>
+                  <Link href="/social-commitment">Social Commitment</Link>
+                </li>
+                <li>
+                  <Link href="/journey">Journey of Ideal Classes</Link>
+                </li>
+                <li>
+                  <Link href="#">News & Events</Link>
+                </li>
+                <li>
                   <Link href="#">I-SET</Link>
                 </li>
               </ul>

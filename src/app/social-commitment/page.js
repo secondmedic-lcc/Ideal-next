@@ -5,6 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const Social = () => {
   return (
@@ -12,14 +13,14 @@ const Social = () => {
       <Header />
 
       <div className="heading">
-        <h1 class="web-heading ">
+        <h1 class="web-heading mb-0">
           OUR SOCIAL <span className="greenclr">COMMITMENT</span>
         </h1>
       </div>
-      <section className="social-section sec-padding">
+      <section className="social-section section-padding">
         <Container>
           <Row className="justify-content-center">
-            <Col lg={10}>
+            <Col lg={12}>
               <p className="heading-text">
                 At IDEAL, we believe that education goes beyond academics. In
                 line with our mission to support holistic student development,
@@ -66,7 +67,7 @@ const Social = () => {
           </Row>
         </Container>
       </section>
-      <section className="social-section sec-padding">
+      <section className="social-section section-padding">
         <Container>
           <Row className="justify-content-center">
             <Col lg={5}>
@@ -98,7 +99,7 @@ const Social = () => {
         </Container>
       </section>
 
-      <section className="social-section sec-padding">
+      <section className="social-section section-padding">
         <Container>
           <Row className="justify-content-center">
            
@@ -150,6 +151,7 @@ const Social = () => {
           </Row>
         </Container>
       </section>
+       <Footer />
     </>
   );
 };
