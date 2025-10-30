@@ -5,6 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const Journey = () => {
   return (
@@ -12,14 +13,14 @@ const Journey = () => {
       <Header />
 
       <div className="heading">
-        <h1 class="web-heading ">
+        <h1 class="web-heading mb-0">
           THE JOURNEY OF <span className="greenclr">IDEAL CLASSES</span>
         </h1>
       </div>
-      <section className="journey-section sec-padding">
+      <section className="journey-section section-padding">
         <Container>
           <Row className="justify-content-center">
-            <Col lg={10}>
+            <Col lg={12}>
               <p className="heading-text">
                 For over 38 years, IDEAL Classes has been a trusted name in the
                 world of education-empowering students across every stage of
@@ -73,7 +74,7 @@ const Journey = () => {
         </Container>
       </section>
 
-      <section className="legacy-section sec-padding">
+      <section className="legacy-section section-padding pt-0">
         <Container>
           <Row>
             <Col lg={6}>
@@ -115,6 +116,7 @@ const Journey = () => {
           </Row>
         </Container>
       </section>
+       <Footer />
 
       
     </>
