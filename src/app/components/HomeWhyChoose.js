@@ -37,7 +37,7 @@ const HomeWhyChoose = ({ reasons = whyChooseReasons }) => {
     <>
       <section className="home-why-choose-section section-padding">
         <Container>
-          <Row className="g-5 align-items-center">
+          <Row className="g-md-5 g-4 align-items-center">
             <Col xs={12}>
               <h2 className="web-heading">
                 WHY CHOOSE IDEAL CLASSES FOR <br />
@@ -46,7 +46,11 @@ const HomeWhyChoose = ({ reasons = whyChooseReasons }) => {
             </Col>
 
             {reasons.map((reason) => (
-              <Col xs={4} key={reason.title.replace(/\s/g, "-").toLowerCase()}>
+              <Col
+                xs={6}
+                md={4}
+                key={reason.title.replace(/\s/g, "-").toLowerCase()}
+              >
                 <div className="why-choose-box">
                   <div className="icon-div">
                     <Image

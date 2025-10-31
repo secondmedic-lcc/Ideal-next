@@ -3,29 +3,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Col,
-  Container,
-  Row,
-  Form,
-} from "react-bootstrap";
+import { Col, Container, Row, Form } from "react-bootstrap";
 import { FaEnvelope, FaPhoneSquareAlt } from "react-icons/fa";
 import { FaLocationDot, FaRegPaperPlane } from "react-icons/fa6";
 import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
 
-
 const Footer = () => {
-
-  const { register, handleSubmit, mutate, isPending } = useAdmissionEnquiryForm();
+  const { register, handleSubmit, mutate, isPending } =
+    useAdmissionEnquiryForm();
 
   return (
     <>
       {isPending && <Loader />}
       <footer className="section-padding">
         <Container>
-          <Row className="g-3">
-            <Col xs={3}>
+          <Row className="g-xl-3 g-lg-4 g-4">
+            <Col xl={3} lg={12}>
               <Link href="/" className="footer-logo">
                 <Image
                   src="/img/logo.png"
@@ -89,7 +83,7 @@ const Footer = () => {
                 </li>
               </ul>
             </Col>
-            <Col xs={2}>
+            <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Quick Links</h5>
               <ul className="footer-links">
                 <li>
@@ -115,7 +109,7 @@ const Footer = () => {
                 </li>
               </ul>
             </Col>
-            <Col xs={2}>
+            <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Franchisee Invited</h5>
               <ul className="footer-links">
                 <li>
@@ -126,7 +120,7 @@ const Footer = () => {
                 </li>
               </ul>
             </Col>
-            <Col xs={2}>
+            <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Find Us</h5>
               <ul className="footer-links">
                 <li>
@@ -137,16 +131,20 @@ const Footer = () => {
                 </li>
               </ul>
             </Col>
-            <Col xs={3}>
+            <Col xl={3} lg={12}>
               <h5 className="footer-heading">Help us know you better</h5>
               <div className="form-box">
                 <form onSubmit={handleSubmit(mutate)} metthod="POST">
                   <Form.Group className="form-group">
                     <Form.Label className="m-0">Academic Year:</Form.Label>
-                    <select className="react-select form-control"
-                      {...register("academic_year")}>
+                    <select
+                      className="react-select form-control"
+                      {...register("academic_year")}
+                    >
                       <option>-- Select Academic Year --</option>
-                      <option value={"2025-2026"} selected>2025-2026</option>
+                      <option value={"2025-2026"} selected>
+                        2025-2026
+                      </option>
                     </select>
                   </Form.Group>
                   <Form.Group className="form-group">
@@ -170,7 +168,7 @@ const Footer = () => {
                   <Form.Group className="form-group">
                     <Form.Label>Your Full Name:</Form.Label>
                     <Form.Control
-                      {...register('parent_name')}
+                      {...register("parent_name")}
                       type="text"
                       placeholder="Write your full name"
                       required
@@ -232,7 +230,10 @@ const Footer = () => {
                   </Form.Group>
                   <Form.Group className="form-group">
                     <Form.Label>For which grade are you applying?</Form.Label>
-                    <select className="react-select form-control" {...register("apply_for")}>
+                    <select
+                      className="react-select form-control"
+                      {...register("apply_for")}
+                    >
                       <option value="">-- Select Grade --</option>
                       <option value="nursery">Nursery</option>
                       <option value="kg">KG</option>
@@ -249,7 +250,6 @@ const Footer = () => {
                       <option value="11">Class 11</option>
                       <option value="12">Class 12</option>
                     </select>
-
                   </Form.Group>
                   <button type="submit" className="web-btn">
                     <FaRegPaperPlane /> Enquire

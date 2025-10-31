@@ -11,13 +11,13 @@ const HomeMilestone = () => {
       <section className="home-milestone-section web-bg section-padding">
         <Container>
           <Row className="g-5 align-items-center">
-            <Col xs={12}>
+            <Col lg={12}>
               <h2 className="web-heading">
                 COMPREHENSIVE COACHING FOR <br />
                 <span className="theme-clr">EVERY ACADEMIC MILESTONE</span>
               </h2>
             </Col>
-            <Col xs={6}>
+            <Col lg={6}>
               <Image
                 src="/img/home-milestone-img.png"
                 alt="image"
@@ -26,7 +26,7 @@ const HomeMilestone = () => {
                 className="home-milestone-img"
               />
             </Col>
-            <Col xs={6}>
+            <Col lg={6}>
               <p className="home-milestone-para">
                 Ideal Classes stands among the few institutes offering expert
                 coaching across all levels of education. From school to

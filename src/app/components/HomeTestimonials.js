@@ -89,13 +89,13 @@ const HomeTestimonials = ({ testimonials = testimonialData }) => {
     <>
       <section className="home-testimonials-section web-bg section-padding">
         <Container>
-          <Row className="g-5 align-items-center">
+          <Row className="g-md-5 align-items-center">
             <Col xs={12}>
               <h2 className="web-heading">
                 Our <span className="theme-clr">testimonial</span>
               </h2>
             </Col>
-            <Col xs={4}>
+            <Col xs={4} className=" d-none d-md-block">
               <Image
                 src="/img/theme-arrow.png"
                 alt="img"
@@ -107,7 +107,7 @@ const HomeTestimonials = ({ testimonials = testimonialData }) => {
                 What Our <span className="theme-clr">Students</span> Are Saying
               </h2>
             </Col>
-            <Col xs={8}>
+            <Col md={8} xs={12}>
               <Carousel
                 swipeable={false}
                 draggable={true}

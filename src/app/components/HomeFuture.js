@@ -10,14 +10,14 @@ const HomeFuture = () => {
     <>
       <section className="home-future-section section-padding">
         <Container>
-          <Row className="g-5 align-items-center">
+          <Row className="g-md-5 g-3 align-items-center">
             <Col xs={12}>
               <h2 className="web-heading">
                 IDEAL EDUCATION: <br /> SHAPING FUTURES FOR{" "}
                 <span className="theme-clr">38 YEARS</span>
               </h2>
             </Col>
-            <Col xs={8}>
+            <Col xs={12} md={8} className="order-2 order-md-1">
               <p className="home-future-para">
                 More than just a coaching institute, Ideal Education is a
                 trusted partner in academic success. From a single classroom 38
@@ -32,7 +32,7 @@ const HomeFuture = () => {
                 benchmarks in learning.
               </p>
             </Col>
-            <Col xs={4}>
+            <Col xs={12} md={4} className="order-1 order-md-2">
               <Image
                 src="/img/home-future-img.png"
                 alt="image"

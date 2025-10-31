@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./media.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Providers from "./providers";
 
