@@ -1,15 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { useAdminLogin } from '@/hooks/admin/useAdminLogin';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+
+    const router = useRouter();
 
     const [showPassword, setShowPassword] = useState(false);
 
     const { handleSubmit, register, mutate, isPending } = useAdminLogin();
+
+    const { user } = useAuthStore();
+
+
+    useEffect(() => {
+        const hasToken = localStorage.getItem("token");
+        const user = localStorage.getItem("user");
+        if (user && hasToken) {
+            router.push("/admin/dashboard");
+        }
+    }, [user]);
 
     return (
         <div className="min-vh-100 d-flex align-items-center justify-content-center bg-secondary">

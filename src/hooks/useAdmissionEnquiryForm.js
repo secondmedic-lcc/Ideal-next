@@ -12,8 +12,12 @@ export const useAdmissionEnquiryForm = () => {
     const { mutate, isPending } = useMutation({
         mutationFn: submitAdmissionRequest,
         onSuccess: (result) => {
-            swal("Thank you", result.message, "success");
-            reset();
+            if (result['status'] == true) {
+                swal("Thank you", result['message'], "success");
+                reset();
+            } else {
+                swal("Error", result.message, "error");
+            }
         },
         onError: () => {
             swal("Error", result.message, "error");
