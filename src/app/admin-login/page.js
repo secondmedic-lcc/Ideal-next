@@ -23,7 +23,7 @@ export default function LoginPage() {
         if (user && hasToken) {
             router.push("/admin/dashboard");
         }
-    }, [user]);
+    }, [router, user]);
 
     return (
         <div className="min-vh-100 d-flex align-items-center justify-content-center bg-secondary">

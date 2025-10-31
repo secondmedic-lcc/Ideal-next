@@ -11,15 +11,7 @@ export default function AdminDashboard() {
                 <div className="col-md-4">
                     <div className="card text-center mb-4">
                         <div className="card-body">
-                            <h5 className="card-title">Users</h5>
-                            <p className="card-text fs-4">245</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="card text-center mb-4">
-                        <div className="card-body">
-                            <h5 className="card-title">Orders</h5>
+                            <h5 className="card-title">Admission Enquiry</h5>
                             <p className="card-text fs-4">87</p>
                         </div>
                     </div>
@@ -27,8 +19,8 @@ export default function AdminDashboard() {
                 <div className="col-md-4">
                     <div className="card text-center mb-4">
                         <div className="card-body">
-                            <h5 className="card-title">Revenue</h5>
-                            <p className="card-text fs-4">$4,532</p>
+                            <h5 className="card-title">Total Courses</h5>
+                            <p className="card-text fs-4">32</p>
                         </div>
                     </div>
                 </div>
