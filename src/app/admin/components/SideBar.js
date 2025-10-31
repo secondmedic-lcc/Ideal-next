@@ -16,12 +16,12 @@ export default function Sidebar() {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/dashboard/users" className="nav-link text-white">
+                    <Link href="/admin/users" className="nav-link text-white">
                         Users
                     </Link>
                 </li>
                 <li>
-                    <Link href="/dashboard/settings" className="nav-link text-white">
+                    <Link href="/admin/settings" className="nav-link text-white">
                         Settings
                     </Link>
                 </li>
