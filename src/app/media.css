@@ -4,6 +4,11 @@
     line-height: 42px;
   }
 
+  .web-para {
+    font-size: 18px;
+    
+  }
+
   .home-future-section .home-future-para {
     font-size: 18px;
     line-height: 27px;
@@ -13,7 +18,7 @@
     font-size: 18px;
     line-height: 27px;
   }
-  
+
   .common-check-list li {
     font-size: 20px;
   }
@@ -78,56 +83,63 @@
     width: 50px;
   }
 
- .heading .web-heading {
+  .heading .web-heading {
     font-size: 22px;
     margin: 30px 0px 20px;
-   
-}
+  }
 
-.social-section .heading-text{
-  margin-bottom: 20px;
+  .social-section .heading-text {
+    margin-bottom: 20px;
     font-size: 16px;
-}
+  }
 
-.social-section .item h3 {
-  
-
+  .social-section .item h3 {
     font-size: 18px;
-}
-.social-section .item p{
-  font-size: 14px;
-}
+  }
+  .social-section .item p {
+    font-size: 14px;
+  }
 
-.social-section .social-list{
-  font-size: 15px;
-}
+  .social-section .social-list {
+    font-size: 15px;
+  }
 
-.social-section .sub-text{
-  font-size: 14px;
-  margin-top: 15px;
-}
+  .social-section .sub-text {
+    font-size: 14px;
+    margin-top: 15px;
+  }
 
-.legacy-section .legacy-list{
-      font-size: 15px;
-}
+  .legacy-section .legacy-list {
+    font-size: 15px;
+  }
 
-.journey-section .info-card .info-card-header{
-  font-size: 18px;
-}
+  .journey-section .info-card .info-card-header {
+    font-size: 18px;
+  }
 
-.journey-section .info-card .info-card-subtitle{
-  font-size: 16px;
-  
-}
+  .journey-section .info-card .info-card-subtitle {
+    font-size: 16px;
+  }
 
-.journey-section .info-card .info-card-list{
-  font-size: 15px;
-}
+  .journey-section .info-card .info-card-list {
+    font-size: 15px;
+  }
 
-.journey-section .info-card .info-card-body {
+  .journey-section .info-card .info-card-body {
     padding: 20px 15px;
-}
-  
+  }
+
+  .leadership-team-page .team-box .team-title {
+    font-size: 22px;
+  }
+
+  .leadership-team-page .team-box .team-role {
+    font-size: 16px;
+  }
+
+  .leadership-team-page .team-box .team-content {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -137,30 +149,29 @@
 
   .about-us-section .about-img img {
     height: 300px;
-}
+  }
 
-.about-us-section .about-content .sub-h {
+  .about-us-section .about-content .sub-h {
     font-size: 17px;
     margin-bottom: 15px;
-   
-}
+  }
 
-.about-us-section .about-content p {
+  .about-us-section .about-content p {
     font-size: 14px;
     margin-bottom: 15px;
-}
+  }
 
-.vision-section .vison-img img{
-  height: 300px;
-}
-.vision-section .vision-content .sub-h{
-  font-size: 17px;
+  .vision-section .vison-img img {
+    height: 300px;
+  }
+  .vision-section .vision-content .sub-h {
+    font-size: 17px;
     margin-bottom: 15px;
-}
+  }
 
-.vision-section .vision-content p{
-  font-size: 14px;
-}
+  .vision-section .vision-content p {
+    font-size: 14px;
+  }
 
   .web-heading {
     font-size: 22px;
@@ -181,82 +192,80 @@
   .home-testimonials-section .custom-dot-list {
     justify-content: center;
   }
-  
+
   .section-padding {
     padding: 30px 0;
   }
 
-  .course-section .sub-head{
+  .course-section .sub-head {
     font-size: 20px;
   }
-  .course-section .heading-text{
+  .course-section .heading-text {
     font-size: 16px;
   }
 
-  .course-section .item h3{
+  .course-section .item h3 {
     font-size: 19px;
   }
 
-  .course-section .item p{
+  .course-section .item p {
     font-size: 14px;
   }
 
-  .text-section .sub-head{
+  .text-section .sub-head {
     font-size: 20px;
   }
 
-  .text-section .heading-text{
+  .text-section .heading-text {
     margin-bottom: 20px;
     font-size: 14px;
   }
 
-  .cta-section .sub-head{
+  .cta-section .sub-head {
     font-size: 18px;
   }
 
-  .cta-section .heading-text
-  {
+  .cta-section .heading-text {
     font-size: 16px;
   }
 
-  .journey-section .info-card{
+  .journey-section .info-card {
     height: calc(100% - 20px);
     margin-bottom: 20px;
   }
 }
 
-@media (max-width: 700px) { 
-.about-us-section .about-img img{
-  margin-bottom: 20px;
-}
+@media (max-width: 700px) {
+  .about-us-section .about-img img {
+    margin-bottom: 20px;
+  }
 
-.journey-section .heading-text{
-  margin-bottom: 20px;
+  .journey-section .heading-text {
+    margin-bottom: 20px;
     font-size: 16px;
-}
+  }
 
-.journey-section .info-card .info-card-header{
-  font-size: 15px;
-}
+  .journey-section .info-card .info-card-header {
+    font-size: 15px;
+  }
 
-.journey-section .info-card .info-card-body {
+  .journey-section .info-card .info-card-body {
     padding: 15px 10px;
-}
+  }
 
-.journey-section .info-card .info-card-subtitle{
-  font-size: 14px;
-}
+  .journey-section .info-card .info-card-subtitle {
+    font-size: 14px;
+  }
 
-.journey-section .info-card .info-card-list{
-  font-size: 13px;
-}
+  .journey-section .info-card .info-card-list {
+    font-size: 13px;
+  }
 
-.course-section .sub-head {
-        font-size: 18px;
-    }
+  .course-section .sub-head {
+    font-size: 18px;
+  }
 
-    .course-section .item h3 {
-        font-size: 17px;
-    }
-
+  .course-section .item h3 {
+    font-size: 17px;
+  }
 }
