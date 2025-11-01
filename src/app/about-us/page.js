@@ -16,10 +16,10 @@ const AboutUs = () => {
         <h1 class="web-heading clr-green">ABOUT US</h1>
       </div>
 
-      <section className="about-us-section sec-padding">
+      <section className="about-us-section section-padding">
         <Container>
           <Row className="align-items-center">
-            <Col lg={7}>
+            <Col lg={7} md={8} className="order-2 order-md-1">
               <div className="about-content">
                 <h3 className="sub-h">FOUNDER’S MESSAGE</h3>
                 <div className="content">
@@ -46,8 +46,8 @@ const AboutUs = () => {
                 </div>
               </div>
             </Col>
-            <Col lg={5}>
-              <div className="about-img">
+            <Col lg={5} md={4} className="order-1 order-md-2">
+              <div className="about-img" >
                 <Image
                   src="/img/about-us.png"
                   alt="sliderImg"
@@ -60,11 +60,11 @@ const AboutUs = () => {
         </Container>
       </section>
 
-       <section className="vision-section sec-padding mb-4" style={{
+       <section className="vision-section section-padding mb-md-4 mb-3" style={{
     backgroundImage: "url('/img/about-us-bg-16.png')", }}>
         <Container>
-          <Row className="align-items-center g-5">
-             <Col lg={6}>
+          <Row className="align-items-center g-lg-5 g-3">
+             <Col lg={6} md={4}>
               <div className="vison-img">
                 <Image
                   src="/img/about-us-2.png"
@@ -74,7 +74,7 @@ const AboutUs = () => {
                 />
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} md={8}>
               <div className="vision-content">
                 <h3 className="sub-h">VISION</h3>
                 <div className="content">
@@ -90,12 +90,12 @@ const AboutUs = () => {
         </Container>
       </section>
 
-      <section className="vision-section sec-padding" style={{
+      <section className="vision-section section-padding" style={{
     backgroundImage: "url('/img/misson-bg-15.png')", }}>
         <Container>
-          <Row className="align-items-center g-5">
+          <Row className="align-items-center g-lg-5 g-3  ">
              
-            <Col lg={6}>
+            <Col lg={6} md={8} className="order-2 order-md-1" >
               <div className="vision-content">
                 <h3 className="sub-h">MISSION</h3>
                 <div className="content">
@@ -106,7 +106,7 @@ const AboutUs = () => {
                 </div>
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} md={4} className="order-1 order-md-2">
               <div className="vison-img">
                 <Image
                   src="/img/about-us-3-14.png"

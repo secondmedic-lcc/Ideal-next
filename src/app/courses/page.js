@@ -31,7 +31,7 @@ const courses = () => {
                 just textbook knowledge, but with the real-world
               </p>
             </Col>
-            <Col lg={6}>
+            <Col lg={6}  md={7}>
               <div className="item">
                 <h3>Our Commerce Program: A Legacy of Excellence</h3>
                 <p>
@@ -41,7 +41,7 @@ const courses = () => {
                 </p>
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} md={5}>
               <div className="course-img">
                 <Image
                   src="/img/courses-1-13.png"
@@ -57,8 +57,8 @@ const courses = () => {
 
       <section className="journey-section  section-padding">
         <Container>
-          <Row className="justify-content-center">
-            <Col lg={6}>
+          <Row className="justify-content-center g-3">
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Comprehensive Curriculum</div>
                 <div className="info-card-body">
@@ -82,7 +82,7 @@ const courses = () => {
             </Col>
 
             {/* Right Box */}
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Proven Track Record</div>
                 <div className="info-card-body">
@@ -100,7 +100,7 @@ const courses = () => {
                 </div>
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Expert Faculty</div>
                 <div className="info-card-body">
@@ -120,7 +120,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   Regular Parent-Teacher Meetings
@@ -139,7 +139,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   24x7 Teacher Connectivity
@@ -157,7 +157,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Workshops & Expert Tips</div>
                 <div className="info-card-body">
@@ -176,7 +176,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Shortcut Techniques</div>
                 <div className="info-card-body">
@@ -198,7 +198,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">Real-Life Application</div>
                 <div className="info-card-body">
@@ -219,7 +219,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   Timely Course Completion & In-Depth Revision
@@ -242,7 +242,7 @@ const courses = () => {
               </div>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={6} xs={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   Last Minute Revision (LMR) Series

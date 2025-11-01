@@ -29,7 +29,7 @@ const Journey = () => {
                 disciplines and competitive streams.
               </p>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} md={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   Comprehensive Learning Across Domains
@@ -50,7 +50,7 @@ const Journey = () => {
             </Col>
 
             {/* Right Box */}
-            <Col lg={6}>
+            <Col lg={6} md={6}>
               <div className="info-card">
                 <div className="info-card-header">
                   Our Approach: Structured. Insightful. Impactful.
@@ -77,7 +77,7 @@ const Journey = () => {
       <section className="legacy-section section-padding pt-0">
         <Container>
           <Row>
-            <Col lg={6}>
+            <Col lg={6} md={8} className="order-2 order-md-1">
               <div className="heading">
                 <h1 class="web-heading text-start">
                   Our Legacy of <span className="greenclr">Success</span>
@@ -103,7 +103,7 @@ const Journey = () => {
               </ul>
             </Col>
 
-            <Col lg={6}>
+            <Col lg={6} md={4} className="order-1 order-md-2">
               <div className="legacy-img">
                 <Image
                   src="/img/journey-1-13.png"

@@ -30,7 +30,7 @@ const Social = () => {
                 promoting educational access and extra-curricular growth.
               </p>
             </Col>
-            <Col lg={7}>
+            <Col lg={7} md={8} className="order-2 order-md-1">
               <div className="heading">
                 <h1 class="web-heading text-start">
                   Empowering Through Education
@@ -54,7 +54,7 @@ const Social = () => {
               </div>
             </Col>
 
-            <Col lg={5}>
+            <Col lg={5} md={4} className="order-1 order-md-2">
               <div className="social-img">
                 <Image
                   src="/img/tree-img-13.png"
@@ -70,7 +70,7 @@ const Social = () => {
       <section className="social-section section-padding">
         <Container>
           <Row className="justify-content-center">
-            <Col lg={5}>
+            <Col lg={5} md={4}>
               <div className="social-img">
                 <Image
                   src="/img/social-img-2-13.png"
@@ -80,7 +80,7 @@ const Social = () => {
                 />
               </div>
             </Col>
-            <Col lg={7}>
+            <Col lg={7} md={8}>
               <div className="heading">
                 <h1 class="web-heading text-start">
                   Encouraging Talent & Expression
@@ -103,7 +103,7 @@ const Social = () => {
         <Container>
           <Row className="justify-content-center">
            
-            <Col lg={7}>
+            <Col lg={7} md={8} className="order-2 order-md-1">
               <div className="heading">
                 <h1 class="web-heading text-start">
                  Career Guidance & Awareness
@@ -138,7 +138,7 @@ const Social = () => {
                 Through these meaningful initiatives, the IDEAL Foundation continues to bridge the educational divide, spark new aspirations, and empower students to unlock their true potential.
               </p>
             </Col>
-             <Col lg={5}>
+             <Col lg={5} md={4} className="order-1 order-md-2">
               <div className="social-img">
                 <Image
                   src="/img/social-img-3-13.png"
