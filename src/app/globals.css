@@ -213,6 +213,67 @@ header .menu-btn {
   width: 70vw !important;
 }
 
+.sidebar-menu .sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sidebar-menu .sidebar-header .menu-close-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ececec;
+  color: var(--blackcolor);
+  border-radius: 50%;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.sidebar-menu .sidebar-links li {
+  margin-bottom: 12px;
+}
+
+.sidebar-menu .sidebar-links li .menu-btn {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0 15px;
+  border-radius: 10px;
+  background-color: #eee;
+  color: var(--blackcolor);
+  box-shadow: none;
+  outline: none;
+  border: none;
+  font-family: helvetica-55;
+  font-size: 15px;
+}
+
+.sidebar-menu .sidebar-links .sub-menu {
+  padding-left: 20px !important;
+  position: relative;
+}
+
+.sidebar-menu .sidebar-links .sub-menu::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: 1.5px;
+  height: 82%;
+  background-color: #eee;
+}
+
+.sidebar-menu .sidebar-links .sub-menu li {
+  margin-bottom: 0;
+}
+
 /* header work end */
 
 /* home banner work start */
@@ -684,17 +745,15 @@ footer .form-box select {
 
 /* footer work end */
 
-
 /* courses work start */
 .course-section .sub-head {
   font-size: 24px;
   margin-bottom: 10px;
   font-weight: 600;
-text-align: center;
+  text-align: center;
   color: var(--themecolor);
 }
 
- 
 .course-section .heading-text {
   margin-bottom: 30px;
   color: var(--text-color);
@@ -702,7 +761,7 @@ text-align: center;
   text-align: center;
 }
 
-.course-section .item h3{
+.course-section .item h3 {
   font-size: 26px;
   color: var(--themecolor);
   font-weight: 600;
@@ -710,33 +769,29 @@ text-align: center;
   font-family: helvetica-55;
 }
 
-.course-section .item p{
-    font-size: 20px;
+.course-section .item p {
+  font-size: 20px;
   color: var(--text-color);
 }
 
-.course-section .course-img img{
+.course-section .course-img img {
   width: 100%;
   height: 300px;
   object-fit: contain;
 }
 
-
-.section-padding{
+.section-padding {
   padding: 50px 0px;
-
 }
-
 
 .text-section .sub-head {
   font-size: 24px;
   margin-bottom: 10px;
   font-weight: 600;
-text-align: center;
+  text-align: center;
   color: var(--themecolor);
 }
 
- 
 .text-section .heading-text {
   margin-bottom: 30px;
   color: var(--text-color);
@@ -744,7 +799,7 @@ text-align: center;
   text-align: center;
 }
 
-.cta-section{
+.cta-section {
   background-color: #faf6ef;
 }
 .cta-section .sub-head {
@@ -754,7 +809,6 @@ text-align: center;
   color: var(--themecolor);
 }
 
- 
 .cta-section .heading-text {
   margin-bottom: 30px;
   color: #000;
@@ -762,9 +816,8 @@ text-align: center;
   font-size: 20px;
 }
 
-
 .header-menu .dropdown-item {
-  color:var(--themecolor2) !important;
+  color: var(--themecolor2) !important;
 }
 
 .header-menu .dropdown-item:hover {
@@ -772,8 +825,8 @@ text-align: center;
   color: #fff !important;
 }
 
-header .header-menu .menu-wrapper ul li{
-   font-size: 16px;
+header .header-menu .menu-wrapper ul li {
+  font-size: 16px;
   font-weight: 500;
   color: var(--whitecolor);
   font-family: helvetica-55 !important;

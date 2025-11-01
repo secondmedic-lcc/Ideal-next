@@ -12,6 +12,7 @@ import {
   Collapse,
 } from "react-bootstrap"; // Added 'Collapse'
 import { TbMenu4 } from "react-icons/tb";
+import { IoClose } from "react-icons/io5";
 
 const menuItems = [
   { name: "About Us", href: "/about-us" },
@@ -62,7 +63,10 @@ const Header = ({ menuData = menuItems }) => {
                       className="logo"
                     />
                   </Link>
-                  <button className="menu-btn" onClick={handleShow}>
+                  <button
+                    className="menu-btn d-flex d-lg-none"
+                    onClick={handleShow}
+                  >
                     <TbMenu4 />
                   </button>
                 </div>
@@ -75,14 +79,16 @@ const Header = ({ menuData = menuItems }) => {
             placement="end"
             className="sidebar-menu"
           >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Menu</Offcanvas.Title>
-            </Offcanvas.Header>
             <Offcanvas.Body>
-              {/* Menu using Collapse/Accordion logic */}
-              <ul className="list-unstyled p-0">
+              <div className="sidebar-header">
+                <h4>Menu</h4>
+                <button className="menu-close-btn" onClick={handleClose}>
+                  <IoClose />
+                </button>
+              </div>
+              <ul className="sidebar-links">
                 {menuData.map((item) => (
-                  <li key={item.name} className="mb-2">
+                  <li key={item.name}>
                     {item.submenu ? (
                       <div>
                         <button
@@ -90,14 +96,13 @@ const Header = ({ menuData = menuItems }) => {
                           aria-controls={`collapse-${item.name.toLowerCase()}`}
                           aria-expanded={openSubmenu === item.name}
                           // Applying existing button/link styles for theme consistency
-                          className="text-dark text-decoration-none d-block w-100 text-start p-2 border btn btn-link"
-                          style={{ color: "inherit", textDecoration: "none" }}
+                          className="menu-btn"
                         >
                           {item.name}
                         </button>
                         <Collapse in={openSubmenu === item.name}>
                           <div id={`collapse-${item.name.toLowerCase()}`}>
-                            <ul className="list-unstyled p-0 ps-3">
+                            <ul className="sub-menu">
                               {item.submenu.map((subItem) => (
                                 <li key={subItem.name}>
                                   <Link
@@ -116,7 +121,7 @@ const Header = ({ menuData = menuItems }) => {
                     ) : (
                       <Link
                         href={item.href}
-                        className="text-dark text-decoration-none d-block p-2 border"
+                        className="menu-btn"
                         onClick={handleClose}
                       >
                         {item.name}
