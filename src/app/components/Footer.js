@@ -138,11 +138,12 @@ const Footer = () => {
                   <Form.Group className="form-group">
                     <Form.Label className="m-0">Academic Year:</Form.Label>
                     <select
+                      defaultValue={"2025-2026"}
                       className="react-select form-control"
                       {...register("academic_year")}
                     >
-                      <option>-- Select Academic Year --</option>
-                      <option value={"2025-2026"} selected>
+                      <option value={""}>-- Select Academic Year --</option>
+                      <option value={"2025-2026"}>
                         2025-2026
                       </option>
                     </select>

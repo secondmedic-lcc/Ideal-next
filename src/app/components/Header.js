@@ -13,35 +13,47 @@ import {
 } from "react-bootstrap"; // Added 'Collapse'
 import { TbMenu4 } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
+import { getCourses } from "@/services/admin/courseService";
+import { useQuery } from "@tanstack/react-query";
 
-const menuItems = [
-  { name: "About Us", href: "/about-us" },
-  {
-    name: "Courses",
-    submenu: [
-      { name: "Commerce", href: "/courses" },
-      { name: "Science", href: "/courses/science" },
-      { name: "Arts", href: "/courses/arts" },
-    ],
-  },
-  { name: "Online Learning", href: "/online-learning" },
-  { name: "Brands", href: "/brands" },
-  { name: "CSR", href: "/csr" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Careers", href: "/careers" },
-  { name: "Franchise Proposal", href: "/franchise-proposal" },
-  { name: "Contact Us", href: "/contact-us" },
-];
+const Header = () => {
 
-const Header = ({ menuData = menuItems }) => {
-  const [show, setShow] = useState(false); // State to manage which submenu is open (stores the 'name' of the collapsed item)
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["courses"],
+    queryFn: () => getCourses(),
+  });
+
+  const courseList = data?.data?.list || data?.list || [];
+
+  const menuData = [
+    { name: "About Us", href: "/about-us" },
+    {
+      name: "Courses",
+      submenu: [
+        ...courseList.map((details) => ({
+          name: details.course_name,
+          href: `/courses/${details.course_slug}`,
+        })),
+      ],
+    },
+    { name: "Online Learning", href: "/online-learning" },
+    { name: "Brands", href: "/brands" },
+    { name: "CSR", href: "/csr" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Careers", href: "/careers" },
+    { name: "Franchise Proposal", href: "/franchise-proposal" },
+    { name: "Contact Us", href: "/contact-us" },
+  ];
+
+
+  const [show, setShow] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
 
   const handleClose = () => {
     setShow(false);
-    setOpenSubmenu(null); // Close any open submenus when offcanvas closes
+    setOpenSubmenu(null);
   };
-  const handleShow = () => setShow(true); // Toggle the submenu open state
+  const handleShow = () => setShow(true);
 
   const toggleSubmenu = (itemName) => {
     setOpenSubmenu(openSubmenu === itemName ? null : itemName);
@@ -95,7 +107,6 @@ const Header = ({ menuData = menuItems }) => {
                           onClick={() => toggleSubmenu(item.name)}
                           aria-controls={`collapse-${item.name.toLowerCase()}`}
                           aria-expanded={openSubmenu === item.name}
-                          // Applying existing button/link styles for theme consistency
                           className="menu-btn"
                         >
                           {item.name}
@@ -139,7 +150,7 @@ const Header = ({ menuData = menuItems }) => {
               <Col>
                 <div className="menu-wrapper">
                   <ul className="list-unstyled d-flex align-items-center mb-0">
-                    {menuItems.map((item) => (
+                    {menuData.map((item) => (
                       <li key={item.name}>
                         {item.submenu ? (
                           <Dropdown>

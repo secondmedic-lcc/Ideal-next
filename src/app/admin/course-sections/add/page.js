@@ -1,10 +1,9 @@
 "use client";
 
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import dynamic from "next/dynamic";
 import { useCreateCourseSection } from "@/hooks/admin/useCourseSectionHooks";
 import { getCourseById } from "@/services/admin/courseService";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -64,6 +63,7 @@ export function AddSections() {
     });
 
 
+    // eslint-disable-next-line react-hooks/incompatible-library
     const description = watch("description");
 
     const onSubmit = (values) => {

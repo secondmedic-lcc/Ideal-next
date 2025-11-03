@@ -73,6 +73,7 @@ export const getCourses = async (params = {}, options = {}) => {
  * options: { token } optional
  */
 export const getCourseById = async (id, options = {}) => {
+    console.log(id);
     if (!id) throw new Error("Course id is required");
     const { token } = options;
 
