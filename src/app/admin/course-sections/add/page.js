@@ -1,16 +1,17 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useCreateCourseSection } from "@/hooks/admin/useCourseSectionHooks";
 import { getCourseById } from "@/services/admin/courseService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import swal from "sweetalert";
 
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+// dynamically import ReactQuill to avoid SSR errors
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 export default function CourseSectionAddForm() {
     return (
@@ -21,6 +22,14 @@ export default function CourseSectionAddForm() {
 }
 
 export function AddSections() {
+    // ensure quill css loads only on client
+    useEffect(() => {
+        import("react-quill-new/dist/quill.snow.css").catch((err) => {
+            // swallow import errors in dev/build if any — useful for debugging
+            // console.warn("Failed loading quill css:", err);
+        });
+    }, []);
+
     const searchParams = useSearchParams();
     const rawCourseId = searchParams?.get("course_id");
     const courseId = rawCourseId ? Number(rawCourseId) : null;
@@ -41,8 +50,6 @@ export function AddSections() {
         },
     });
 
-    const qc = useQueryClient();
-
     const { data: coursesRes, isLoading, isError } = useQuery({
         queryKey: ["courses", courseId],
         queryFn: () => getCourseById(courseId),
@@ -62,9 +69,13 @@ export function AddSections() {
         },
     });
 
-
-    // eslint-disable-next-line react-hooks/incompatible-library
+    // watch description so we can pass value to ReactQuill
     const description = watch("description");
+
+    // when the Quill editor changes, update RHF value
+    const onQuillChange = (val) => {
+        setValue("description", val, { shouldValidate: true, shouldDirty: true });
+    };
 
     const onSubmit = (values) => {
         const payload = {
@@ -103,9 +114,7 @@ export function AddSections() {
                                     readOnly
                                 />
                             )}
-                            {errors.course_id && (
-                                <div className="text-danger small mt-1">{errors.course_id.message}</div>
-                            )}
+                            {errors.course_id && <div className="text-danger small mt-1">{errors.course_id.message}</div>}
                         </div>
 
                         {/* Section Title */}
@@ -121,44 +130,31 @@ export function AddSections() {
                                 })}
                                 placeholder="Enter section title"
                             />
-                            {errors.title && (
-                                <div className="invalid-feedback">{errors.title.message}</div>
-                            )}
+                            {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                         </div>
 
                         {/* Description with ReactQuill */}
                         <div className="mb-3">
                             <label className="form-label fw-semibold">Description</label>
+                            {/* ReactQuill is client-only now */}
                             <ReactQuill
                                 theme="snow"
                                 value={description}
-                                onChange={(val) => setValue("description", val)}
+                                onChange={onQuillChange}
                                 className={`bg-white ${errors.description ? "border border-danger" : ""}`}
                                 placeholder="Write section description..."
-                                style={{ minHeight: "20px", }}
+                                style={{ minHeight: "20px" }}
                             />
-                            {errors.description && (
-                                <div className="text-danger small mt-1">{errors.description.message}</div>
-                            )}
+                            {errors.description && <div className="text-danger small mt-1">{errors.description.message}</div>}
                         </div>
-
 
                         {/* Buttons */}
                         <div className="d-flex gap-2 mt-4">
-                            <button
-                                type="submit"
-                                disabled={createMutation.isLoading || isSubmitting}
-                                className="btn btn-primary"
-                            >
+                            <button type="submit" disabled={createMutation.isLoading || isSubmitting} className="btn btn-primary">
                                 {createMutation.isLoading ? "Saving..." : "Create Section"}
                             </button>
 
-                            <button
-                                type="button"
-                                onClick={() => reset()}
-                                disabled={createMutation.isLoading}
-                                className="btn btn-outline-secondary"
-                            >
+                            <button type="button" onClick={() => reset()} disabled={createMutation.isLoading} className="btn btn-outline-secondary">
                                 Reset
                             </button>
                         </div>
