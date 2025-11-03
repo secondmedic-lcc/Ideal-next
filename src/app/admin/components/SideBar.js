@@ -11,18 +11,13 @@ export default function Sidebar() {
             <hr />
             <ul className="nav nav-pills flex-column mb-auto">
                 <li className="nav-item">
-                    <Link href="/dashboard" className="nav-link text-white active">
+                    <Link href="/admin/dashboard" className="nav-link text-white active">
                         Dashboard
                     </Link>
                 </li>
                 <li>
-                    <Link href="/admin/users" className="nav-link text-white">
-                        Users
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/admin/settings" className="nav-link text-white">
-                        Settings
+                    <Link href="/admin/courses" className="nav-link text-white">
+                        Courses
                     </Link>
                 </li>
             </ul>
