@@ -1,39 +1,8 @@
 import { baseUrl } from "@/services/baseUrl";
-import buildHeaders from '@/helper/buildHeaders'
+import buildHeaders from '@/helper/buildHeaders';
+import handleResponse from '@/helper/handleResponse';
+import convertToFormData from "@/helper/convertToFormData";
 
-
-const handleResponse = async (res) => {
-    const json = await res.json().catch(() => {
-        throw new Error("Invalid JSON response from server");
-    });
-    if (!res.ok) {
-        const message = json?.message || json?.error || "Server error";
-        throw new Error(message);
-    }
-    return json;
-};
-
-/**
- * convertToFormData
- * Accepts either FormData or a plain object and returns FormData.
- * Files should be File objects (from <input type="file">).
- */
-const convertToFormData = (data) => {
-    if (data instanceof FormData) return data;
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-        const value = data[key];
-        if (value === undefined || value === null) return;
-        if (value instanceof File) {
-            formData.append(key, value);
-        } else if (Array.isArray(value)) {
-            value.forEach((v) => formData.append(`${key}[]`, v));
-        } else {
-            formData.append(key, value);
-        }
-    });
-    return formData;
-};
 
 /**
  * submitCourse (CREATE)
