@@ -36,13 +36,14 @@ const PhotoGallery = ({ categories = galleryCategories }) => {
       <Header />
       <section className="gallery-page section-padding">
         <Container>
-          <Row>
+          <Row className="g-4">
             <Col xs={12}>
               <h2 className="web-heading">Photo Gallery</h2>
             </Col>
             {categories.map((category) => (
               <Col
-                xs={3}
+                lg={3}
+                md={6}
                 key={category.title.replace(/\s/g, "-").toLowerCase()}
               >
                 <Link href={category.href} className="photo-wrapper">
