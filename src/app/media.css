@@ -6,7 +6,6 @@
 
   .web-para {
     font-size: 18px;
-    
   }
 
   .home-future-section .home-future-para {
@@ -267,5 +266,31 @@
 
   .course-section .item h3 {
     font-size: 17px;
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .image-modal-content .close-btn {
+    top: 10px; /* Move inside for smaller screens */
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6); /* Darker background for visibility */
+    color: white;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .image-modal-content {
+    padding: 10px; /* Less padding on smaller screens */
+  }
+
+  .image-modal-content img {
+    max-height: calc(100vh - 100px); /* Adjust for smaller screen */
+  }
+
+  .image-caption {
+    font-size: 1rem;
+    margin-top: 10px;
   }
 }
