@@ -17,7 +17,6 @@ import { getCourses } from "@/services/admin/courseService";
 import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["courses"],
     queryFn: () => getCourses(),
@@ -39,12 +38,17 @@ const Header = () => {
     { name: "Online Learning", href: "/online-learning" },
     { name: "Brands", href: "/brands" },
     { name: "CSR", href: "/csr" },
-    { name: "Gallery", href: "/gallery" },
+    {
+      name: "Gallery",
+      submenu: [
+        { name: "Photo Gallery", href: "/gallery/photos" },
+        { name: "Video Gallery", href: "/gallery/videos" },
+      ],
+    },
     { name: "Careers", href: "/careers" },
     { name: "Franchise Proposal", href: "/franchise-proposal" },
     { name: "Contact Us", href: "/contact-us" },
   ];
-
 
   const [show, setShow] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
@@ -58,6 +62,7 @@ const Header = () => {
   const toggleSubmenu = (itemName) => {
     setOpenSubmenu(openSubmenu === itemName ? null : itemName);
   };
+
   return (
     <>
       <header>

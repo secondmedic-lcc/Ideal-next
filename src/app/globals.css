@@ -261,7 +261,7 @@ header .menu-btn {
 }
 
 .sidebar-menu .sidebar-links .sub-menu::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 10px;
   top: 12px;
@@ -872,3 +872,175 @@ header .header-menu .menu-wrapper ul li {
 }
 
 /* leadership team page work end */
+
+/* gallery page work start */
+
+.gallery-page .photo-wrapper {
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+
+.gallery-page .photo-wrapper img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.gallery-page .photo-wrapper .photo-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 12px 15px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.gallery-page .photo-wrapper .photo-content h4 {
+  margin-bottom: 0;
+  color: var(--whitecolor);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.gallery-page .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--themecolor) !important;
+  transition: all 0.3s 0s linear;
+}
+
+.gallery-page .back-btn:hover {
+  gap: 20px;
+}
+
+/* --- Image Modal Styles --- */
+
+/* Backdrop: covers the entire screen */
+.image-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Use viewport width */
+  height: 100vh; /* Use viewport height */
+  background-color: rgba(0, 0, 0, 0.9); /* Darker, more opaque backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* High z-index to overlay everything */
+
+  /* Animation for modal entry/exit */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* When the modal is open */
+.image-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Content Container: holds the image and close button */
+.image-modal-content {
+  position: relative;
+  background-color: transparent; /* No background, let the backdrop show */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7); /* Stronger shadow for depth */
+  padding: 20px;
+  max-width: 90%; /* Max width relative to parent */
+  max-height: 90%; /* Max height relative to parent */
+  display: flex;
+  flex-direction: column; /* Allows caption below image */
+  justify-content: center;
+  align-items: center;
+
+  /* Animation for content (optional, can be combined with backdrop animation) */
+  transform: scale(0.95); /* Start slightly smaller */
+  transition: transform 0.3s ease-in-out;
+}
+
+.image-modal-backdrop.open .image-modal-content {
+  transform: scale(1); /* Scale up to normal size */
+}
+
+/* Close Button */
+.image-modal-content .close-btn {
+  position: absolute;
+  top: -40px; /* Position outside the content box */
+  right: -40px; /* Position outside the content box */
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  border: none;
+  color: white;
+  font-size: 28px; /* Larger icon */
+  width: 40px; /* Fixed size for a perfect circle */
+  height: 40px;
+  border-radius: 50%; /* Make it circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.image-modal-content .close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: rotate(90deg); /* Nice little rotation effect */
+}
+
+/* Image within the modal */
+.image-modal-content img {
+  border-radius: 5px; /* Slightly rounded image corners */
+  object-fit: contain; /* Ensure the entire image is visible without cropping */
+  max-width: 100%; /* Responsive image */
+  max-height: calc(100vh - 120px); /* Adjust based on caption/padding */
+  display: block; /* Remove extra space below image */
+}
+
+/* Image Caption */
+.image-caption {
+  color: white;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 80%; /* Limit width for long captions */
+  line-height: 1.4;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); /* Make text more readable */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .image-modal-content .close-btn {
+    top: 10px; /* Move inside for smaller screens */
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6); /* Darker background for visibility */
+    color: white;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .image-modal-content {
+    padding: 10px; /* Less padding on smaller screens */
+  }
+
+  .image-modal-content img {
+    max-height: calc(100vh - 100px); /* Adjust for smaller screen */
+  }
+
+  .image-caption {
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+}
+
+/* gallery page work end */
