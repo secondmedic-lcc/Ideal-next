@@ -1,13 +1,21 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Col, Container, Row } from "react-bootstrap";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { getGalleryVideos } from "@/services/admin/galleryVideoService";
 
 const VideoGallery = () => {
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["gallery-video"],
+    queryFn: getGalleryVideos,
+  });
+
+  const videoList = data?.data?.list;
+
   return (
     <>
       <Header />
@@ -17,36 +25,20 @@ const VideoGallery = () => {
             <Col xs={12}>
               <h2 className="web-heading">Video Gallery</h2>
             </Col>
-            <Col lg={4} md={6}>
-              <iframe
-                src="https://www.youtube.com/embed/vTXjVuNDdb4?si=-2ETdXAbqqhsgzIg"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </Col>
-            <Col lg={4} md={6}>
-              <iframe
-                src="https://www.youtube.com/embed/BjDIduHFb0A?si=K1gvrI1Z3JtuZC1Z"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </Col>
-            <Col lg={4} md={6}>
-              <iframe
-                src="https://www.youtube.com/embed/vilUdPxLcO4?si=hLIm2fT9ZlZDhi9N"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </Col>
+            {
+              videoList?.map((data, index) => (
+                <Col lg={4} md={6} key={index}>
+                  <iframe
+                    src={data.link}
+                    title={data.title}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </Col>
+              ))
+            }
           </Row>
         </Container>
       </section>
