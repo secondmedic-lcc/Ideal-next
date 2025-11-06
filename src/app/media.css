@@ -139,6 +139,18 @@
   .leadership-team-page .team-box .team-content {
     font-size: 16px;
   }
+  .franchise-hero-heading {
+    font-size: 48px !important;
+  }
+  .franchise-hero-para {
+    font-size: 22px !important;
+  }
+  .benefit-card {
+    min-height: auto;
+  }
+  .success-step-connector {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -232,6 +244,29 @@
     height: calc(100% - 20px);
     margin-bottom: 20px;
   }
+
+  .image-modal-content .close-btn {
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .image-modal-content {
+    padding: 10px;
+  }
+
+  .image-modal-content img {
+    max-height: calc(100vh - 100px);
+  }
+
+  .image-caption {
+    font-size: 1rem;
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 700px) {
@@ -266,31 +301,5 @@
 
   .course-section .item h3 {
     font-size: 17px;
-  }
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-  .image-modal-content .close-btn {
-    top: 10px; /* Move inside for smaller screens */
-    right: 10px;
-    background: rgba(0, 0, 0, 0.6); /* Darker background for visibility */
-    color: white;
-    font-size: 24px;
-    width: 36px;
-    height: 36px;
-  }
-
-  .image-modal-content {
-    padding: 10px; /* Less padding on smaller screens */
-  }
-
-  .image-modal-content img {
-    max-height: calc(100vh - 100px); /* Adjust for smaller screen */
-  }
-
-  .image-caption {
-    font-size: 1rem;
-    margin-top: 10px;
   }
 }
