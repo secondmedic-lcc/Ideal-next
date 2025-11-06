@@ -20,6 +20,11 @@ export default function Sidebar() {
                         Courses
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/gallery-video" className="nav-link text-white">
+                        Gallery Video
+                    </Link>
+                </li>
             </ul>
         </div>
     );
