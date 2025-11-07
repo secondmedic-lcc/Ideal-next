@@ -4,8 +4,8 @@ import React from "react";
 export default function AdminDashboard() {
     return (
         <div className="p-4">
-            <h2>Welcome to your Dashboard</h2>
-            <p>Here’s your overview and stats.</p>
+            <h2 className="fw-bold">Welcome to Admin Dashboard</h2>
+            <p>Here’s Admin overview and stats.</p>
 
             <div className="row">
                 <div className="col-md-4">

@@ -25,6 +25,11 @@ export default function Sidebar() {
                         Gallery Video
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/contact-us" className="nav-link text-white">
+                        Contact Request
+                    </Link>
+                </li>
             </ul>
         </div>
     );
