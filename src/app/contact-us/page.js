@@ -1,16 +1,18 @@
 "use client";
 import { Container, Row, Col } from "react-bootstrap";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
-import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useContactRequest } from "@/hooks/useContactRequest";
 
 export default function contactus() {
+
+  const { handleSubmit, register, reset, isPending, mutate } = useContactRequest();
+
   return (
     <>
       <Header />
@@ -81,14 +83,14 @@ export default function contactus() {
                   Reach out to us anytime! We're here to assist with your
                   queries, support needs, and feedback. Contact us today!
                 </p>
-                <form>
+                <form onSubmit={handleSubmit(mutate)} method="POST">
                   <Row>
                     <Col xl={6}>
                       <FloatingLabel
                         controlId="floatingInput"
                         label="Your Full Name"
                       >
-                        <Form.Control type="text" placeholder="" name="name" />
+                        <Form.Control type="text" placeholder="" name="name" {...register('name')} />
                       </FloatingLabel>
                     </Col>
                     <Col xl={6}>
@@ -100,6 +102,7 @@ export default function contactus() {
                           type="email"
                           placeholder=""
                           name="email"
+                          {...register('email')}
                         />
                       </FloatingLabel>
                     </Col>
@@ -112,6 +115,7 @@ export default function contactus() {
                           type="text"
                           placeholder=""
                           name="contact"
+                          {...register('contact')}
                         />
                       </FloatingLabel>
                     </Col>
@@ -121,6 +125,7 @@ export default function contactus() {
                           type="text"
                           placeholder=""
                           name="subject"
+                          {...register('subject')}
                         />
                       </FloatingLabel>
                     </Col>
@@ -134,6 +139,7 @@ export default function contactus() {
                           placeholder="Leave a comment here"
                           name="message"
                           style={{ height: "100px" }}
+                          {...register('message')}
                         />
                       </FloatingLabel>
                     </Col>
