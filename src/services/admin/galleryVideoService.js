@@ -6,7 +6,7 @@ import handleResponse from "@/helper/handleResponse";
 
 const ENDPOINT = `${baseUrl}gallery-video`;
 
-export const createGalleryVideo = async (data) => {
+export const saveGalleryVideo = async (data) => {
 
     const token = localStorage.getItem('token');
 
