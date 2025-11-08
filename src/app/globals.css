@@ -1359,3 +1359,132 @@ header .header-menu .menu-wrapper ul li {
 }
 
 /* franchise page work end */
+
+/* online learning page work start */
+
+.online-learning-intro {
+  background-color: #f5f5f5; /* Light background for the top section */
+}
+
+.online-learning-intro h2.web-heading {
+  /* Style for the "Learn@Home" heading */
+  text-align: left !important;
+  color: var(--themecolor) !important;
+  margin-bottom: 30px;
+}
+
+.online-learning-intro p.web-para {
+  /* Style for the introductory text block */
+  text-align: justify !important;
+  font-size: 18px !important;
+  color: var(--blackcolor) !important;
+  line-height: 1.8;
+}
+
+.online-learning-hero-image {
+  /* Styling for the student image */
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 2. FEATURES SECTION --- */
+.features-list li {
+  /* Overrides for common-check-list to match image text style */
+  font-size: 20px !important;
+  color: var(--blackcolor) !important;
+  font-weight: normal !important;
+  font-family: helvetica-55 !important;
+  margin-bottom: 15px !important;
+}
+
+.features-list li::before {
+  /* Reset icon position/size if necessary for specific feature section */
+  top: 10px;
+}
+
+.features-highlight-box {
+  /* Styling for the visual placeholder box next to the features list */
+  padding: 25px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.features-highlight-box h4 {
+  color: var(--themecolor2);
+  font-family: noto-tamil;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.features-highlight-box p {
+  color: var(--text-color);
+  font-family: helvetica-55;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* --- 3. UNNOBO PRO APP SECTION --- */
+.unnobo-app-section {
+  background-color: #f0f0f0;
+}
+
+.unnobo-app-heading {
+  /* Style for the "UNNOBO PRO" heading */
+  text-align: left !important;
+  color: var(--themecolor) !important;
+  margin-bottom: 20px;
+}
+
+.unnobo-app-list li {
+  /* Styling for UNNOBO PRO features list items */
+  font-size: 20px !important;
+  color: var(--blackcolor) !important;
+  font-weight: normal !important;
+  font-family: helvetica-55 !important;
+  margin-bottom: 15px !important;
+}
+
+.app-badge-link {
+  /* Ensure link behaves as a block element for image placement */
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.app-badge-image {
+  width: 180px;
+  height: auto;
+}
+
+/* --- 4. GET IN TOUCH SECTION --- */
+.get-in-touch-heading {
+  color: var(--blackcolor);
+  font-family: noto-tamil;
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-size: 30px; /* Slightly smaller than web-heading */
+}
+
+.contact-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Spacing between buttons */
+}
+
+.whatsapp-btn {
+  background-color: #25d366 !important; /* WhatsApp Green */
+  padding: 10px 30px !important;
+  border-radius: 5px !important;
+}
+
+.email-btn {
+  background-color: var(--themecolor2) !important; /* Blue theme color */
+  padding: 10px 30px !important;
+  border-radius: 5px !important;
+}
+
+/* online learning page work end */

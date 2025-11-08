@@ -267,6 +267,20 @@
     font-size: 1rem;
     margin-top: 10px;
   }
+
+  .online-learning-intro h2.web-heading,
+  .unnobo-app-heading {
+    text-align: center !important;
+  }
+  .contact-button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  .whatsapp-btn,
+  .email-btn {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 @media (max-width: 700px) {
