@@ -30,6 +30,11 @@ export default function Sidebar() {
                         Contact Request
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/job-openings" className="nav-link text-white">
+                        Job Openings
+                    </Link>
+                </li>
             </ul>
         </div>
     );

@@ -51,14 +51,14 @@ const CareersPage = () => {
             <Col xs={12}>
               <h2 className="web-heading mb-0">Openings</h2>
             </Col>
-            <Col xl={4} lg={6} md={12}>
+            <Col xl={6} lg={6} md={12}>
               <div className="career-card-wrapper">
-                <Image
+                {/* <Image
                   alt="career-card-img"
                   width={300}
                   height={300}
                   src="/img/career-icon.png"
-                />
+                /> */}
                 <div className="career-card-content">
                   <h6 className="career-card-label">Job Title</h6>
                   <h4 className="career-card-title">Center Manager</h4>
