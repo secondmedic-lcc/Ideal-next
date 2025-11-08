@@ -6,8 +6,18 @@ import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
+import { getJobOpenings } from '@/services/admin/jobOpeningService'
+import { useQuery } from "@tanstack/react-query";
 
 const CareersPage = () => {
+
+  const { data } = useQuery({
+    queryKey: ["job-opening"],
+    queryFn: getJobOpenings,
+  });
+
+  const jobOpeningList = data?.data?.list;
+
   return (
     <>
       <Header />
@@ -51,31 +61,30 @@ const CareersPage = () => {
             <Col xs={12}>
               <h2 className="web-heading mb-0">Openings</h2>
             </Col>
-            <Col xl={6} lg={6} md={12}>
-              <div className="career-card-wrapper">
-                {/* <Image
+            {
+              jobOpeningList &&
+              jobOpeningList.map((data, index) => (
+                <Col xl={6} lg={6} md={12} key={index}>
+                  <div className="career-card-wrapper">
+                    {/* <Image
                   alt="career-card-img"
                   width={300}
                   height={300}
                   src="/img/career-icon.png"
                 /> */}
-                <div className="career-card-content">
-                  <h6 className="career-card-label">Job Title</h6>
-                  <h4 className="career-card-title">Center Manager</h4>
-                  <h6 className="career-card-label">Job Description</h6>
-                  <h5 className="career-card-para">
-                    As a Center Manager, your direct responsibility is to
-                    oversee the daily activities and duties at the center. Along
-                    with that, your job entitles you to handle the security,
-                    operational and financial matters while overseeing the
-                    booking of resources.
-                  </h5>
-                  <Link href="mailto:" className="web-btn">
-                    Apply Now
-                  </Link>
-                </div>
-              </div>
-            </Col>
+                    <div className="career-card-content">
+                      <h6 className="career-card-label">Job Title</h6>
+                      <h4 className="career-card-title">{data.title}</h4>
+                      <h6 className="career-card-label">Job Description</h6>
+                      <h5 className="career-card-para">{data.description}</h5>
+                      <Link href={`mailto:${data.apply_mail}`} className="web-btn">
+                        Apply Now
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+              ))
+            }
           </Row>
         </Container>
       </section>
