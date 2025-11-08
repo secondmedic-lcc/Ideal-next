@@ -301,6 +301,19 @@
   .brands-page-section .web-heading {
     font-size: 40px;
   }
+
+   .csr-main-heading {
+    text-align: center !important;
+  }
+  .csr-section-title {
+    font-size: 28px;
+    text-align: center;
+    justify-content: center;
+  }
+  .csr-section-title svg {
+    margin-bottom: 10px;
+    margin-right: 0 !important;
+  }
 }
 
 @media (max-width: 700px) {

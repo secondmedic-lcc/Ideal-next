@@ -1631,3 +1631,87 @@ header .header-menu .menu-wrapper ul li {
 }
 
 /* Brands work end */
+
+/* csr work start */
+
+.csr-section-title {
+  /* Titles for Competitions, Seminars, etc. */
+  color: var(--themecolor2);
+  font-family: noto-tamil;
+  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 10px;
+  text-align: left;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  gap: 10px;
+}
+
+.csr-section-subtitle {
+  /* Subtitle text below section titles */
+  text-align: left !important;
+  font-size: 18px !important;
+  color: var(--text-color) !important;
+  margin-bottom: 30px;
+}
+
+.csr-list-style li {
+  /* Overrides for common-check-list to ensure clarity */
+  font-size: 18px !important;
+  color: var(--blackcolor) !important;
+  font-weight: normal !important;
+  font-family: helvetica-55 !important;
+  margin-bottom: 15px !important;
+  /* Ensure check icon is theme color */
+  list-style: none; /* Remove default list style */
+  position: relative;
+  padding-left: 30px;
+}
+
+.csr-list-style li::before {
+  /* Using the provided check-list-icon */
+  content: "";
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-image: url(/img/check-list-icon.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 25px;
+  height: 25px;
+}
+
+.csr-seminar-section {
+  /* Background for the seminar section */
+  background-color: #f0f0f0;
+}
+
+.csr-activity-card {
+  /* Styling for the large outreach activity boxes */
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: var(--whitecolor);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.csr-activity-icon {
+  /* Styling for the icon next to the activity text */
+  flex-shrink: 0;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+.csr-activity-text {
+  /* Text style for the activity description */
+  text-align: justify !important;
+  font-size: 17px !important;
+  color: var(--blackcolor) !important;
+  line-height: 1.6;
+  margin-bottom: 0 !important;
+}
+
+/* csr work end */
