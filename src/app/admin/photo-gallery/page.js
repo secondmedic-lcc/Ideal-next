@@ -96,6 +96,9 @@ export default function PhotoGalleryList() {
                                                     >
                                                         Edit
                                                     </Link>
+                                                    <Link href={`/admin/photo-gallery/photos-list?photo_gallery_id=${gallery.id}`} className="btn btn-sm btn-warning">
+                                                        Add
+                                                    </Link>
                                                     <button
                                                         type="button"
                                                         className="btn btn-sm btn-danger"
