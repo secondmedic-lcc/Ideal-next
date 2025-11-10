@@ -26,6 +26,11 @@ export default function Sidebar() {
                     </Link>
                 </li>
                 <li>
+                    <Link href="/admin/photo-gallery" className="nav-link text-white">
+                        Photo Gallery
+                    </Link>
+                </li>
+                <li>
                     <Link href="/admin/contact-us" className="nav-link text-white">
                         Contact Request
                     </Link>
