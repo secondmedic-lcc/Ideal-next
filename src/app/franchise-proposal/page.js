@@ -7,11 +7,20 @@ import { Col, Container, Row } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import { getFaqs } from "@/services/admin/faqsServices";
 // FaArrowLeftLong is not used on this page, but kept import for completeness if needed elsewhere
 // import { FaArrowLeftLong } from "react-icons/fa6";
 
 const FranchiseProposal = () => {
-  // Content extracted from the PDF
+  
+  const { data, isLoading, isError } = useQuery({
+      queryKey: ["faqs"],
+      queryFn: () => getFaqs(),
+  });
+  
+  const faqList = data?.data?.list || data?.list || [];
+    
   const benefits = [
     "Proven Success Formula: Benefit from a model honed over decades. Our approach guarantees growth for franchisees and students alike.",
     "Comprehensive Support System: Setup Guidance: From infrastructure to faculty hiring, we've got your back. Teacher Training: Equip your team with our expert-curated program. Marketing Support: National level campaigns tailored to local strategies for guaranteed visibility.",
@@ -165,10 +174,10 @@ const FranchiseProposal = () => {
           <h2 className="web-heading">FAQS</h2>
           <Row className="mt-4 justify-content-center">
             <Col lg={10}>
-              {faqs.map((faq, index) => (
+              {faqList.map((faq, index) => (
                 <div key={index} className="faq-item">
-                  <h4 className="faq-question">{faq.question}</h4>
-                  <p className="web-para faq-answer">{faq.answer}</p>
+                  <h4 className="faq-question">{index+1}. {faq.title}</h4>
+                  <p className="web-para faq-answer">{faq.description}</p>
                 </div>
               ))}
             </Col>

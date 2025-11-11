@@ -3,16 +3,18 @@
 
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getPhotosListById, deletePhotosList } from "@/services/admin/photosListService";
+import { getPhotosList, deletePhotosList } from "@/services/admin/photosListService";
 import swal from "sweetalert";
 import { imageUrl } from "@/services/baseUrl";
 
 export default function PhotosList({ photoGalleryId }) {
     const queryClient = useQueryClient();
 
+    
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["photos-list"],
-        queryFn: () => getPhotosListById(photoGalleryId),
+        queryKey: ["photos-list", photoGalleryId],
+        queryFn: () => getPhotosList({id:photoGalleryId}),
+        enabled: !!photoGalleryId,
     });
 
     const { mutate: deleteMutate, isPending: isDeleting } = useMutation({

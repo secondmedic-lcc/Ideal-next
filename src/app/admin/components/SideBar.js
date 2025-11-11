@@ -40,6 +40,11 @@ export default function Sidebar() {
                         Job Openings
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/faqs" className="nav-link text-white">
+                        Manage FAQs
+                    </Link>
+                </li>
             </ul>
         </div>
     );
