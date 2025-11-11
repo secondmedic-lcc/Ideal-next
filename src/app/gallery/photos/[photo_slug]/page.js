@@ -1,43 +1,43 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react"; // Import useEffect
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Col, Container, Row } from "react-bootstrap";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { FaTimes } from "react-icons/fa"; // FaTimes for close button
+import { FaTimes } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { getPhotosList } from "@/services/admin/photosListService";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { imageUrl } from "@/services/baseUrl";
 
-// --- Reusable Photo Item Component ---
 const PhotoItem = ({ src, alt, onClick }) => (
   <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
     <a href="#" className="photo-wrapper" onClick={onClick}>
-      <Image
+      <img
         src={src}
         width={600}
         height={500}
         alt={alt}
-        className="img-fluid" // Added for responsiveness
-        // style={{ width: "100%", height: "auto", display: "block" }} // Ensure image fills its container
+        className="img-fluid"
       />
     </a>
   </Col>
 );
 
-// --- Enhanced Image Modal Component ---
+
 const ImageModal = ({ src, alt, onClose, isOpen }) => {
-  // Add a class for animating the modal in/out
   const modalClass = isOpen
     ? "image-modal-backdrop open"
     : "image-modal-backdrop";
-
-  // This prevents the modal content click from propagating to the backdrop
   const handleContentClick = (e) => {
     e.stopPropagation();
   };
 
-  if (!isOpen) return null; // Only render when isOpen is true
+  if (!isOpen) return null;
 
   return (
     <div className={modalClass} onClick={onClose}>
@@ -45,14 +45,12 @@ const ImageModal = ({ src, alt, onClose, isOpen }) => {
         <button className="close-btn" onClick={onClose}>
           <FaTimes />
         </button>
-        {/* Using key={src} ensures the Image component re-renders when src changes */}
-        <Image
+        <img
           key={src}
           src={src}
-          width={1200} // Larger default size for modal viewing
+          width={1200}
           height={900}
           alt={alt}
-          // CSS for responsive scaling within the modal
           style={{
             width: "100%",
             height: "auto",
@@ -61,15 +59,19 @@ const ImageModal = ({ src, alt, onClose, isOpen }) => {
           }}
         />
         <div className="image-caption">
-          {alt} {/* Display alt text as a caption */}
+          {alt}
         </div>
       </div>
     </div>
   );
 };
 
-// --- Main Gallery Component ---
+
 const PhotoGallery = () => {
+
+  const params = useParams();
+  const photo_slug = params?.photo_slug;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageSrc, setCurrentImageSrc] = useState("");
   const [currentImageAlt, setCurrentImageAlt] = useState("");
@@ -82,30 +84,28 @@ const PhotoGallery = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // No need to clear src/alt immediately, let animation play out if needed
   };
 
-  // Effect to manage body scroll when modal is open/closed
   useEffect(() => {
     if (isModalOpen) {
-      document.body.style.overflow = "hidden"; // Prevent body scroll
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""; // Restore body scroll
+      document.body.style.overflow = "";
     }
-    // Cleanup function
+    
     return () => {
-      document.body.style.overflow = ""; // Ensure scroll is restored on component unmount
+      document.body.style.overflow = "";
     };
-  }, [isModalOpen]); // Rerun when isModalOpen changes
+  }, [isModalOpen]);
 
-  // Example list of photo data (replace with your actual data source)
-  const photos = [
-    { src: "/img/photo-cat-1.jpg", alt: "Golden Gate Bridge at Sunset" },
-    { src: "/img/photo-cat-2.jpg", alt: "Lush Green Forest Path" },
-    { src: "/img/photo-cat-3.jpg", alt: "City Skyline at Night" },
-    { src: "/img/photo-cat-4.jpg", alt: "Snow-capped Mountains with Lake" },
-    // Add more photos here...
-  ];
+  
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["photos-list", photo_slug],
+    queryFn: () => getPhotosList({photo_slug}),
+    enabled: !!photo_slug,
+  });
+  
+  const photoGalleryList = data?.data?.list || data?.list || [];
 
   return (
     <>
@@ -121,14 +121,14 @@ const PhotoGallery = () => {
                 </Link>
               </div>
             </Col>
-            {photos.map((photo, index) => (
+            {photoGalleryList.map((photo, index) => (
               <PhotoItem
                 key={index}
-                src={photo.src}
-                alt={photo.alt}
+                src={imageUrl+photo.image}
+                alt={photo.title}
                 onClick={(e) => {
                   e.preventDefault();
-                  openModal(photo.src, photo.alt);
+                  openModal(imageUrl+photo.image, photo.title);
                 }}
               />
             ))}

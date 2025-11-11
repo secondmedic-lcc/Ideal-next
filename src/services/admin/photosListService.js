@@ -17,17 +17,27 @@ export const submitPhotosList = async (data) => {
 };
 
 
-export const getPhotosListById = async (id, options = {}) => {
+export const getPhotosList = async (params = {}, options = {}) => {
+    const { id, photo_slug, page = 1, limit = 10 } = params;
 
-    if (!id) throw new Error("Photo Gallery id is required");
+    const queryParams = new URLSearchParams();
 
-    const res = await fetch(`${baseUrl}photos-list?photo_gallery_id=${id}`, {
+    if (id) queryParams.append("photo_gallery_id", id);
+    if (photo_slug) queryParams.append("slug", photo_slug);
+
+    queryParams.append("page", page);
+    queryParams.append("limit", limit);
+
+    console.log(`${baseUrl}photos-list?${queryParams.toString()}`);
+
+    const res = await fetch(`${baseUrl}photos-list?${queryParams.toString()}`, {
         method: "GET",
         headers: buildHeaders(false),
     });
 
     return handleResponse(res);
 };
+
 
 
 export const deletePhotosList = async (id, options = {}) => {
