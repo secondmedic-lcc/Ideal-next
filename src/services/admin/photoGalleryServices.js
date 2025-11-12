@@ -19,7 +19,6 @@ export const submitPhotoGallery = async (data) => {
 
 export const updatePhotoGallery = async (id, data) => {
     if (!id) throw new Error("Photo Gallery id is required for update");
-    const token = localStorage.getItem("token");
     const formData = convertToFormData(data);
 
     const res = await fetch(`${baseUrl}photo-gallery/${id}`, {
@@ -67,7 +66,6 @@ export const getPhotoGalleryById = async (id, options = {}) => {
 
 export const deletePhotoGallery = async (id, options = {}) => {
     if (!id) throw new Error("Photo Gallery id is required");
-    const { token } = options;
 
     const res = await fetch(`${baseUrl}photo-gallery/${id}`, {
         method: "DELETE",

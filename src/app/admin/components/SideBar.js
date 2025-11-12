@@ -50,6 +50,11 @@ export default function Sidebar() {
                         Manage Brands
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/page-content/csr" className="nav-link text-white">
+                        Manage CSR
+                    </Link>
+                </li>
             </ul>
         </div>
     );
