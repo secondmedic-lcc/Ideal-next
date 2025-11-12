@@ -56,6 +56,7 @@ const EditBrands = () => {
     if (!brandPayload) return;
     const defaults = {
       title: brandPayload.title ?? "",
+      subtitle: brandPayload.subtitle ?? "",
       small_description: brandPayload.small_description ?? "",
       long_description: brandPayload.long_description ?? "",
       key_features: brandPayload.key_features ?? "",
@@ -116,7 +117,7 @@ const EditBrands = () => {
     try {
       const formData = new FormData();
 
-      const fields = ["title", "small_description", "long_description", "key_features"];
+      const fields = ["title","subtitle", "small_description", "long_description", "key_features"];
       fields.forEach((f) => {
         if (values[f]) formData.append(f, values[f]);
       });
@@ -167,52 +168,25 @@ const EditBrands = () => {
                 />
                 {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
               </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Brand Sub Title</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.subtitle ? "is-invalid" : ""}`}
+                  {...register("subtitle", { required: "Brand subtitle is required" })}
+                />
+                {errors.subtitle && <div className="invalid-feedback">{errors.subtitle.message}</div>}
+              </div>
 
               <div className="col-md-6 mb-3">
                 <label className="form-label">Short Description</label>
-                <input
-                  type="text"
-                  className={`form-control ${errors.small_description ? "is-invalid" : ""}`}
-                  {...register("small_description", { required: "Short description is required" })}
-                />
+                <textarea className={`form-control ${errors.small_description ? "is-invalid" : ""}`}
+                  {...register("small_description", { required: "Short description is required" })}></textarea>
                 {errors.small_description && (
                   <div className="invalid-feedback">{errors.small_description.message}</div>
                 )}
               </div>
 
-              {/* ✅ Long Description (ReactQuill) */}
-              <div className="col-12 mb-3">
-                <label className="form-label">Long Description</label>
-                <Controller
-                  name="long_description"
-                  control={control}
-                  render={({ field }) => (
-                    <ReactQuill
-                      theme="snow"
-                      value={field.value || ""}
-                      onChange={field.onChange}
-                      placeholder="Enter long description..."
-                    />
-                  )}
-                />
-              </div>
-
-              {/* ✅ Key Features (ReactQuill) */}
-              <div className="col-12 mb-3">
-                <label className="form-label">Key Features</label>
-                <Controller
-                  name="key_features"
-                  control={control}
-                  render={({ field }) => (
-                    <ReactQuill
-                      theme="snow"
-                      value={field.value || ""}
-                      onChange={field.onChange}
-                      placeholder="Enter key features..."
-                    />
-                  )}
-                />
-              </div>
 
               {/* ✅ Brand Image */}
               <div className="col-md-6 mb-3">
@@ -241,6 +215,40 @@ const EditBrands = () => {
                     ) : null}
                   </div>
                 </div>
+              </div>
+
+              {/* ✅ Long Description (ReactQuill) */}
+              <div className="col-6 mb-3">
+                <label className="form-label">Long Description</label>
+                <Controller
+                  name="long_description"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactQuill
+                      theme="snow"
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      placeholder="Enter long description..."
+                    />
+                  )}
+                />
+              </div>
+
+              {/* ✅ Key Features (ReactQuill) */}
+              <div className="col-6 mb-3">
+                <label className="form-label">Key Features</label>
+                <Controller
+                  name="key_features"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactQuill
+                      theme="snow"
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      placeholder="Enter key features..."
+                    />
+                  )}
+                />
               </div>
             </div>
 

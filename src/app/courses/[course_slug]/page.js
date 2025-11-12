@@ -19,10 +19,7 @@ export default function Courses() {
     enabled: !!course_slug,
   });
 
-
   const course = data?.data || data;
-
-  console.log(`${imageUrl}${course?.course_about_image}`);
 
   return (
     <>

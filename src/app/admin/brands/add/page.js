@@ -34,7 +34,7 @@ export default function AddBrands() {
           <form onSubmit={onSubmit} encType="multipart/form-data">
             <div className="row">
               {/* Brand Title */}
-              <div className="col-md-12 mb-3">
+              <div className="col-md-6 mb-3">
                 <label className="form-label">Brand Name</label>
                 <input
                   type="text"
@@ -46,6 +46,20 @@ export default function AddBrands() {
                 />
                 {errors.title && (
                   <div className="invalid-feedback">{errors.title.message}</div>
+                )}
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Brand Sub Title</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.subtitle ? "is-invalid" : ""}`}
+                  {...register("subtitle", {
+                    required: "Brand name is required",
+                    minLength: { value: 3, message: "At least 3 characters" },
+                  })}
+                />
+                {errors.subtitle && (
+                  <div className="invalid-feedback">{errors.subtitle.message}</div>
                 )}
               </div>
 
