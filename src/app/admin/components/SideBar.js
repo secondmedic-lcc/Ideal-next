@@ -45,6 +45,11 @@ export default function Sidebar() {
                         Manage FAQs
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/brands" className="nav-link text-white">
+                        Manage Brands
+                    </Link>
+                </li>
             </ul>
         </div>
     );

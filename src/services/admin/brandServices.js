@@ -3,11 +3,12 @@ import buildHeaders from '@/helper/buildHeaders';
 import handleResponse from '@/helper/handleResponse';
 import convertToFormData from "@/helper/convertToFormData";
 
+const ENDPOINT = `${baseUrl}brands`;
 
-export const submitCourse = async (data, options = {}) => {
+export const submitBrand = async (data, options = {}) => {
     const formData = convertToFormData(data);
 
-    const res = await fetch(`${baseUrl}course`, {
+    const res = await fetch(`${ENDPOINT}`, {
         method: "POST",
         headers: buildHeaders(false),
         body: formData,
@@ -17,11 +18,11 @@ export const submitCourse = async (data, options = {}) => {
 };
 
 
-export const updateCourse = async (id, data) => {
-    if (!id) throw new Error("Course id is required for update");
+export const updateBrand = async (id, data) => {
+    if (!id) throw new Error("Brand id is required for update");
     const formData = convertToFormData(data);
 
-    const res = await fetch(`${baseUrl}course/${id}`, {
+    const res = await fetch(`${ENDPOINT}/${id}`, {
         method: "PUT",
         headers: buildHeaders(false),
         body: formData,
@@ -31,7 +32,7 @@ export const updateCourse = async (id, data) => {
 };
 
 
-export const getCourses = async (params = {}, options = {}) => {
+export const getBrands = async (params = {}, options = {}) => {
     const query = new URLSearchParams();
 
     Object.keys(params).forEach((k) => {
@@ -40,7 +41,7 @@ export const getCourses = async (params = {}, options = {}) => {
         }
     });
 
-    const url = query.toString() ? `${baseUrl}course?${query.toString()}` : `${baseUrl}course`;
+    const url = query.toString() ? `${ENDPOINT}?${query.toString()}` : `${ENDPOINT}`;
 
     const res = await fetch(url, {
         method: "GET",
@@ -51,22 +52,24 @@ export const getCourses = async (params = {}, options = {}) => {
 };
 
 
-export const getCourseById = async (id, options = {}) => {
+export const getBrandById = async (id, options = {}) => {
  
-    if (!id) throw new Error("Course id is required");
+    if (!id) throw new Error("Brand id is required");
 
-    const res = await fetch(`${baseUrl}course/${id}`, {
+    const res = await fetch(`${ENDPOINT}/${id}`, {
         method: "GET",
         headers: buildHeaders(false),
     });
 
+    console.log(res);
+
     return handleResponse(res);
 };
 
-export const deleteCourse = async (id, options = {}) => {
-    if (!id) throw new Error("Course id is required");
+export const deleteBrand = async (id, options = {}) => {
+    if (!id) throw new Error("Brand id is required");
 
-    const res = await fetch(`${baseUrl}course/${id}`, {
+    const res = await fetch(`${ENDPOINT}/${id}`, {
         method: "DELETE",
         headers: buildHeaders(false),
     });

@@ -90,8 +90,8 @@ export function AddSections() {
     return (
         <div className="container mt-4">
             <div className="card shadow-sm border-0 rounded-3">
-                <div className="card-header bg-primary text-white">
-                    <h4 className="mb-0">Add Course Section</h4>
+                <div className="card-header">
+                    <p className="mb-0">Add Course Section</p>
                 </div>
 
                 <div className="card-body">
