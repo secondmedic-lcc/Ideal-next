@@ -124,7 +124,7 @@ const OnlineLearning = () => {
               </ul>
               {/* Google Play Button */}
               <Link
-                href="https://play.google.com/store"
+                href="https://play.google.com/store/apps/details?id=com.unnobopartner.application&hl=en"
                 target="_blank"
                 className="app-badge-link"
               >
@@ -147,14 +147,14 @@ const OnlineLearning = () => {
           <h3 className="get-in-touch-heading">GET IN TOUCH</h3>
           <div className="contact-button-group">
             <Link
-              href="https://wa.me/yourphonenumber"
+              href="https://wa.me/919820420389?text=I%27m%20interested%20in%20your%20virtual%20coaching%20classes"
               target="_blank"
               className="web-btn whatsapp-btn"
             >
               <FaWhatsapp size={20} /> Connect on WhatsApp
             </Link>
             <Link
-              href="mailto:youremail@example.com"
+              href="mailto:gjw@idealclasses.com?Subject=Unnobo%20Pro%20Enquiry"
               className="web-btn email-btn"
             >
               <IoMailOpenOutline size={20} /> Email Us

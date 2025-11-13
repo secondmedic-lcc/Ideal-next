@@ -87,14 +87,18 @@ const Footer = () => {
               <h5 className="footer-heading">Quick Links</h5>
               <ul className="footer-links">
                 <li>
-                  <Link href="#">Flexi Class</Link>
+                  <Link href="http://www.flexiclass.com/" target="_blank">
+                    Flexi Class
+                  </Link>
                 </li>
                 <li>
-                  <Link href="#">Member's Login</Link>
+                  <Link href="http://mail.idealclasses.com/">
+                    Member's Login
+                  </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="#">News & Events</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/social-commitment">Social Commitment</Link>
                 </li>
@@ -102,10 +106,9 @@ const Footer = () => {
                   <Link href="/journey">Journey of Ideal Classes</Link>
                 </li>
                 <li>
-                  <Link href="#">News & Events</Link>
-                </li>
-                <li>
-                  <Link href="#">I-SET</Link>
+                  <Link href="http://www.iset.in/" target="_blank">
+                    I-SET
+                  </Link>
                 </li>
               </ul>
             </Col>
@@ -113,10 +116,9 @@ const Footer = () => {
               <h5 className="footer-heading">Franchisee Invited</h5>
               <ul className="footer-links">
                 <li>
-                  <Link href="#">Intrested in Franchisee?? </Link>
-                </li>
-                <li>
-                  <Link href="#">Click Here!</Link>
+                  <Link href="mailto:gjw@idealclasses.com?Subject=Franchisee%20Enquiry">
+                    Intrested in Franchisee?? Click Here!
+                  </Link>
                 </li>
               </ul>
             </Col>
@@ -143,9 +145,7 @@ const Footer = () => {
                       {...register("academic_year")}
                     >
                       <option value={""}>-- Select Academic Year --</option>
-                      <option value={"2025-2026"}>
-                        2025-2026
-                      </option>
+                      <option value={"2025-2026"}>2025-2026</option>
                     </select>
                   </Form.Group>
                   <Form.Group className="form-group">
