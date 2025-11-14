@@ -1,56 +1,64 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import Image from "next/image";
-import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { getPageContents } from "@/services/admin/pageContentServices";
+import parse from "html-react-parser";
+import { imageUrl } from "@/services/baseUrl";
 
 const AboutUs = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["page-content", "about-us"],
+    queryFn: () => getPageContents({page_name:"about-us"}),
+  });
+
+  const aboutUsData = data?.data?.list || [];
+
+  const founders = aboutUsData[0];
+  const vision = aboutUsData[1]; 
+  const mission = aboutUsData[2];
+
   return (
     <>
       <Header />
 
       <div className="heading">
-        <h1 class="web-heading clr-green">ABOUT US</h1>
+        <h1 className="web-heading clr-green">ABOUT US</h1>
       </div>
+      
+      <section className="about-us-section section-padding">
+        <Container>
+          <Row className="align-items-center">
+            { (isLoading) && <p>Loading...</p>}
+            { (error)&& <p>Something went wrong</p> }
+          </Row>
+        </Container>
+      </section>
 
+      {/* ------------------ FOUNDER’S MESSAGE ------------------ */}
       <section className="about-us-section section-padding">
         <Container>
           <Row className="align-items-center">
             <Col lg={7} md={8} className="order-2 order-md-1">
               <div className="about-content">
-                <h3 className="sub-h">FOUNDER’S MESSAGE</h3>
+                <h3 className="sub-h">{founders?.title}</h3>
+
                 <div className="content">
-                  <p>
-                    38 years ago, IDEAL began as a humble classroom coaching
-                    institute. Today, we proudly educate thousands of students
-                    across India. Every year, many learners benefit from our
-                    comprehensive approach—whether through classroom coaching,
-                    online platforms, or distance education. We have always
-                    stood for one core belief: quality education. And that’s
-                    exactly what we continue to deliver-across 6 academic
-                    streams and many expertly designed courses.
-                  </p>
-                  <p>
-                    Our commitment to excellence is upheld daily by over 200
-                    expert educators, who guide students with unmatched
-                    dedication and passion. Pioneering progress in education has
-                    always been our guiding force. IDEAL was the first coaching
-                    institute in India to receive ISO 9001 certification, and
-                    the first to initiate an independent teacher training
-                    program. We also remain the only coaching institute to offer
-                    a dedicated in-hous
-                  </p>
+                  {founders?.description ? parse(founders.description) : ""}
                 </div>
               </div>
             </Col>
+
             <Col lg={5} md={4} className="order-1 order-md-2">
-              <div className="about-img" >
-                <Image
-                  src="/img/about-us.png"
-                  alt="sliderImg"
+              <div className="about-img">
+                <img
+                  src={`${imageUrl}${founders?.image}`}
+                  alt="Founder's Image"
                   width={300}
                   height={300}
                 />
@@ -60,67 +68,69 @@ const AboutUs = () => {
         </Container>
       </section>
 
-       <section className="vision-section section-padding mb-md-4 mb-3" style={{
-    backgroundImage: "url('/img/about-us-bg-16.png')", }}>
+      {/* ------------------ VISION ------------------ */}
+      <section
+        className="vision-section section-padding mb-md-4 mb-3"
+        style={{ backgroundImage: "url('/img/about-us-bg-16.png')" }}
+      >
         <Container>
           <Row className="align-items-center g-lg-5 g-3">
-             <Col lg={6} md={4}>
+            <Col lg={6} md={4}>
               <div className="vison-img">
-                <Image
-                  src="/img/about-us-2.png"
-                  alt="sliderImg"
+                <img
+                  src={`${imageUrl}${vision?.image}`}
+                  alt="Vision Image"
                   width={300}
                   height={300}
                 />
               </div>
             </Col>
+
             <Col lg={6} md={8}>
               <div className="vision-content">
-                <h3 className="sub-h">VISION</h3>
+                <h3 className="sub-h">{vision?.title}</h3>
+
                 <div className="content">
-                  <p>
-                    To empower learners across India with quality education that fuels ambition and unlocks potential.
-                  </p>
-                 
+                  <p>{vision?.subtitle}</p>
                 </div>
               </div>
             </Col>
-           
           </Row>
         </Container>
       </section>
 
-      <section className="vision-section section-padding" style={{
-    backgroundImage: "url('/img/misson-bg-15.png')", }}>
+      {/* ------------------ MISSION ------------------ */}
+      <section
+        className="vision-section section-padding"
+        style={{ backgroundImage: "url('/img/misson-bg-15.png')" }}
+      >
         <Container>
-          <Row className="align-items-center g-lg-5 g-3  ">
-             
-            <Col lg={6} md={8} className="order-2 order-md-1" >
+          <Row className="align-items-center g-lg-5 g-3">
+            <Col lg={6} md={8} className="order-2 order-md-1">
               <div className="vision-content">
-                <h3 className="sub-h">MISSION</h3>
+                <h3 className="sub-h">{mission?.title}</h3>
+
                 <div className="content">
-                  <p>
-                    To innovate, inspire & improve everyday, in every way.
-                  </p>
-                 
+                  <p>{mission?.subtitle}</p>
                 </div>
               </div>
             </Col>
+
             <Col lg={6} md={4} className="order-1 order-md-2">
               <div className="vison-img">
-                <Image
-                  src="/img/about-us-3-14.png"
-                  alt="sliderImg"
+                <img
+                  src={`${imageUrl}${mission?.image}`}
+                  alt="Mission Image"
                   width={300}
                   height={300}
                 />
               </div>
             </Col>
-           
           </Row>
         </Container>
       </section>
-       <Footer />
+
+      <Footer />
     </>
   );
 };

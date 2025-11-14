@@ -60,6 +60,11 @@ export default function Sidebar() {
                         Manage Online Learning
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/page-content/about-us" className="nav-link text-white">
+                        Manage About Us
+                    </Link>
+                </li>
             </ul>
         </div>
     );

@@ -106,7 +106,7 @@ const PageContent = () => {
   return (
     <div className="container mt-4">
       <div className="card">
-        <div className="card-header">
+        <div className="card-header bg-white">
           Manage {pageContentList[0]?.page_name || "Page"}
         </div>
 
@@ -141,18 +141,20 @@ const PageContent = () => {
                 )}
 
                 {/* Description */}
-                <div className="col-md-8 mb-3">
-                  <label>Description</label>
-                  <ReactQuill
-                    theme="snow"
-                    value={
-                      formValues[index]?.description ??
-                      data.description ??
-                      ""
-                    }
-                    onChange={(val) => handleChange(index, "description", val)}
-                  />
-                </div>
+                {data.description && (
+                  <div className="col-md-8 mb-3">
+                    <label>Description</label>
+                    <ReactQuill
+                      theme="snow"
+                      value={
+                        formValues[index]?.description ??
+                        data.description ??
+                        ""
+                      }
+                      onChange={(val) => handleChange(index, "description", val)}
+                    />
+                  </div>)
+                }
 
                 {/* Image Upload */}
                 { data.image &&
