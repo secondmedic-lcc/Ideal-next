@@ -32,10 +32,12 @@ export const createPageContent = async (data) => {
 export const updatePageContent = async (id, data = {}, options = {}) => {
     if (!id) throw new Error("Page Content id is required for update");
 
+
+    const formData = convertToFormData(data);
     const res = await fetch(`${ENDPOINT}/${id}`, {
         method: "PUT",
-        headers: buildHeaders(true),
-        body: JSON.stringify(data),
+        headers: buildHeaders(false),
+        body: formData,
     });
 
     return handleResponse(res);

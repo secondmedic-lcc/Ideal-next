@@ -55,6 +55,11 @@ export default function Sidebar() {
                         Manage CSR
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/page-content/online-learning" className="nav-link text-white">
+                        Manage Online Learning
+                    </Link>
+                </li>
             </ul>
         </div>
     );
