@@ -44,13 +44,6 @@ const BrandsPage = () => {
     <>
       <Header />
 
-      <>
-        {
-          isLoading && <div className="text-center p-5">Loading...</div>
-        }
-        {isError && <div>Error loading brands list</div>}
-      </>
-
       {/* --- BRANDS LIST SECTION --- */}
       <section className="section-padding brands-page-section">
         <Container>
@@ -59,6 +52,10 @@ const BrandsPage = () => {
               <h1 className="web-heading">Our Brands</h1>
             </Col>
           </Row>
+          <>
+            {isLoading && <div className="text-center p-5">Loading...</div>}
+            {isError && <div className="text-center p-5">Error loading brands list</div>}
+          </>
           <Row className="g-4">
             {brandsData?.map((brand, index) => (
               <BrandCard

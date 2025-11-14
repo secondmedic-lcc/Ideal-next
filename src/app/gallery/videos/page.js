@@ -9,7 +9,7 @@ import { getGalleryVideos } from "@/services/admin/galleryVideoService";
 
 const VideoGallery = () => {
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["gallery-video"],
     queryFn: getGalleryVideos,
   });
@@ -25,6 +25,10 @@ const VideoGallery = () => {
             <Col xs={12}>
               <h2 className="web-heading">Video Gallery</h2>
             </Col>
+            <>
+              {isLoading && <div className="text-center p-5">Loading...</div>}
+              {isError && <div className="text-center p-5">Error loading Video Gallery list</div>}
+            </>
             {
               videoList?.map((data, index) => (
                 <Col lg={4} md={6} key={index}>
