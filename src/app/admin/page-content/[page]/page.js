@@ -1,10 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { getPageContents } from "@/services/admin/pageContentServices";
+import { getPageContents, updatePageContent } from "@/services/admin/pageContentServices";
+import swal from "sweetalert";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 import "react-quill-new/dist/quill.snow.css";
@@ -12,6 +13,8 @@ import "react-quill-new/dist/quill.snow.css";
 const PageContent = () => {
   const params = useParams();
   const pageName = params.page;
+
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["page-content", pageName],
@@ -33,10 +36,33 @@ const PageContent = () => {
     }));
   };
 
+  const mutation = useMutation({
+    mutationFn: ({ id, payload }) => updatePageContent(id, payload),
+    onSuccess: () => {
+      swal("Thank you", "Page content updated successfully!", "success");
+      queryClient.invalidateQueries(["page-content", pageName]);
+    },
+    onError: () => {
+      swal("Error", "Failed to update!", "error");
+    },
+  });
+
   const handleSubmit = (e, index) => {
     e.preventDefault();
-    const formData = formValues[index] || {};
-    console.log("Submitting updated data:", formData);
+
+    const original = pageContentList[index];
+    const updated = formValues[index] || {};
+
+    const payload = {
+      title: updated.title ?? original?.title ?? "",
+      subtitle: updated.subtitle ?? original?.subtitle ?? "",
+      description: updated.description ?? original?.description ?? "",
+    };
+
+    mutation.mutate({
+      id: original.id, 
+      payload,
+    });
   };
 
   if (isLoading)
@@ -66,35 +92,31 @@ const PageContent = () => {
               <div className="card-body border-bottom" key={index}>
                 <form onSubmit={(e) => handleSubmit(e, index)}>
                   <div className="row">
-                    {/* ✅ Title */}
+                    
+                    {/* Title */}
                     <div className="col-md-6 mb-3">
                       <div className="form-group">
                         <label>Title</label>
                         <input
                           type="text"
                           className="form-control"
-                          name="title"
-                          value={
-                            formValues[index]?.title ?? data.title ?? ""
-                          }
+                          value={formValues[index]?.title ?? data.title ?? ""}
                           onChange={(e) =>
                             handleChange(index, "title", e.target.value)
                           }
+                          readOnly
                         />
                       </div>
                     </div>
 
-                    {/* ✅ Sub Title */}
+                    {/* Sub Title */}
                     <div className="col-md-6 mb-3">
                       <div className="form-group">
                         <label>Sub Title</label>
                         <input
                           type="text"
                           className="form-control"
-                          name="subtitle"
-                          value={
-                            formValues[index]?.subtitle ?? data.subtitle ?? ""
-                          }
+                          value={formValues[index]?.subtitle ?? data.subtitle ?? ""}
                           onChange={(e) =>
                             handleChange(index, "subtitle", e.target.value)
                           }
@@ -102,7 +124,7 @@ const PageContent = () => {
                       </div>
                     </div>
 
-                    {/* ✅ Description (ReactQuill Editor) */}
+                    {/* Description (Quill) */}
                     <div className="col-md-12 mb-3">
                       <div className="form-group">
                         <label>Description</label>
@@ -116,20 +138,21 @@ const PageContent = () => {
                           onChange={(val) =>
                             handleChange(index, "description", val)
                           }
-                          placeholder="Enter description..."
                         />
                       </div>
                     </div>
 
                     <div className="col-md-12">
                       <button type="submit" className="btn btn-primary">
-                        Update Details
+                        {mutation.isPending ? "Updating..." : "Update Details"}
                       </button>
                     </div>
+
                   </div>
                 </form>
               </div>
             ))}
+
           </div>
         </div>
       </div>

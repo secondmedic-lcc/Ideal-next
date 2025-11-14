@@ -4,141 +4,121 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
-import Link from "next/link"; // Included in case "Read More" links are added later
 import {
   FaGraduationCap,
   FaHandsHelping,
   FaMicrophoneAlt,
   FaBookOpen,
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import { getPageContents } from "@/services/admin/pageContentServices";
+
+const iconMap = {
+  "Ideal Foundation": null,
+  "Competitions & Events": <FaMicrophoneAlt className="theme-clr me-2" size={30} />,
+  "Educational Seminars": <FaBookOpen className="theme-clr me-2" size={30} />,
+  "Outreach & Support": <FaHandsHelping className="theme-clr me-2" size={30} />,
+};
 
 const CSRPage = () => {
-  // Content extracted and structured from the image
-  const competitions = [
-    "Vocal Music (Marathi Sugam Sangeet)",
-    "Instrumental Music (Tabla Playing)",
-    "Mono-Acting",
-    "Elocution Competition",
-  ];
+  const pageName = "csr";
 
-  const seminars = [
-    "What after 10th?",
-    "New syllabus - Change and challenges",
-    "Workshop for Maharashtra Public service Commission exam",
-    "Commerce careers like CA, CS",
-    "Career in Science like Medicine, Engineering",
-  ];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["page-content", pageName],
+    queryFn: () => getPageContents({ page_name: pageName }),
+    enabled: !!pageName,
+  });
 
-  const otherActivities = [
-    "IDEAL Foundation carried out training of students from Thane Municipal Corporation Schools. More than hundred students were trained by IDEAL Foundation staff. The training was done for Extra-Curricular Activities.",
-    "In 2007-08 IDEAL Foundation conducted coaching for CA-CPT exam in different colleges in Raigarh, Ratnagiri and Sindhudurg districts of Maharashtra. The coaching was done by professors of IDEAL Classes in order to encourage the students of backward area in pursuing professional courses.",
-  ];
+  const sections = data?.data?.list || [];
+
+  const parseDescription = (text) => {
+    if (!text) return [];
+    return text
+      .replace(/[\r\n]/g, "")
+      .split(",")
+      .map((item) => item.trim().replace(/"/g, ""))
+      .filter((item) => item.length > 0);
+  };
 
   return (
     <>
       <Header />
 
-      {/* --- HERO / INTRODUCTION SECTION --- */}
-      <section
-        className="section-padding csr-hero-section"
-        style={{ backgroundColor: "#f9f9f9" }}
-      >
-        <Container>
-          <Row>
-            <Col xs={12}>
-              <h1 className="web-heading">Ideal Foundation</h1>
-              <p className="web-para">
-                IDEAL Foundation established in the year 2003. It is a
-                <b> charitable institute registered under Public Trust Act</b>{" "}
-                and also having a registration no. under section 80G of Income
-                Tax Act. The Objective of the Foundation is to promote
-                <b> Non-Academic Interest of the Students</b>. Since IDEAL
-                Classes is concentrating only on Academics, it was decided to
-                promote students' interest in singing, dancing, debating.
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+      {sections.map((section) => {
+        const items = parseDescription(section.description);
 
-      {/* --- COMPETITIONS SECTION --- */}
-      <section className="section-padding">
-        <Container>
-          <Row>
-            <Col xs={12}>
-              <h2 className="csr-section-title">
-                <FaMicrophoneAlt className="theme-clr me-2" size={30} />{" "}
-                Competitions & Events
-              </h2>
-              <p className="web-para csr-section-subtitle">
-                For the last four years, IDEAL foundation arranges various
-                competitions. It consists of:
-              </p>
-            </Col>
-            <Col lg={12}>
-              <ul className="common-check-list p-0 csr-list-style">
-                {competitions.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+        // HERO SECTION (ID = 1 / Title = Ideal Foundation)
+        if (section.title === "Ideal Foundation") {
+          return (
+            <section
+              key={section.id}
+              className="section-padding csr-hero-section"
+              style={{ backgroundColor: "#f9f9f9" }}
+            >
+              <Container>
+                <Row>
+                  <Col xs={12}>
+                    <h1 className="web-heading">{section.title}</h1>
+                    <div
+                      className="web-para"
+                      dangerouslySetInnerHTML={{ __html: section.description }}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </section>
+          );
+        }
 
-      {/* --- SEMINARS SECTION --- */}
-      <section
-        className="section-padding csr-seminar-section"
-        style={{ backgroundColor: "#f0f0f0" }}
-      >
-        <Container>
-          <Row>
-            <Col xs={12}>
-              <h2 className="csr-section-title">
-                <FaBookOpen className="theme-clr me-2" size={30} /> Educational
-                Seminars
-              </h2>
-              <p className="web-para csr-section-subtitle">
-                IDEAL Foundation also conducts various seminars to make the
-                students and parents aware on various issues. The seminar
-                conducted on various subjects like:
-              </p>
-            </Col>
-            <Col lg={12}>
-              <ul className="common-check-list p-0 csr-list-style">
-                {seminars.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+        // OTHER SECTIONS
+        return (
+          <section
+            key={section.id}
+            className="section-padding"
+            style={
+              section.title === "Educational Seminars"
+                ? { backgroundColor: "#f0f0f0" }
+                : {}
+            }
+          >
+            <Container>
+              <Row>
+                <Col xs={12}>
+                  <h2 className="csr-section-title">
+                    {iconMap[section.title]} {section.title}
+                  </h2>
 
-      {/* --- OTHER ACTIVITIES SECTION --- */}
-      <section className="section-padding">
-        <Container>
-          <Row>
-            <Col xs={12} className="mb-4">
-              <h2 className="csr-section-title">
-                <FaHandsHelping className="theme-clr me-2" size={30} /> Outreach
-                & Support
-              </h2>
-            </Col>
-            <Col lg={12} className="mx-auto">
-              {otherActivities.map((activity, index) => (
-                <div key={index} className="csr-activity-card">
-                  <FaGraduationCap
-                    className="theme-clr csr-activity-icon"
-                    size={40}
-                  />
-                  <p className="web-para csr-activity-text">{activity}</p>
-                </div>
-              ))}
-            </Col>
-          </Row>
-        </Container>
-      </section>
+                  {section.subtitle && (
+                    <p className="web-para csr-section-subtitle">
+                      {section.subtitle}
+                    </p>
+                  )}
+                </Col>
+
+                <Col lg={12}>
+                  {section.title === "Outreach & Support" ? (
+                    items.map((item, index) => (
+                      <div key={index} className="csr-activity-card">
+                        <FaGraduationCap
+                          className="theme-clr csr-activity-icon"
+                          size={40}
+                        />
+                        <p className="web-para csr-activity-text">{item}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <ul className="common-check-list p-0 csr-list-style">
+                      {items.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </Col>
+              </Row>
+            </Container>
+          </section>
+        );
+      })}
 
       <Footer />
     </>
