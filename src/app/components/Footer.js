@@ -126,10 +126,10 @@ const Footer = () => {
               <h5 className="footer-heading">Find Us</h5>
               <ul className="footer-links">
                 <li>
-                  <Link href="#">Branch Locator</Link>
+                  <Link href="/branch-locator">Branch Locator</Link>
                 </li>
                 <li>
-                  <Link href="#">Course Locator</Link>
+                  <Link href="/branch-locator">Course Locator</Link>
                 </li>
               </ul>
             </Col>
