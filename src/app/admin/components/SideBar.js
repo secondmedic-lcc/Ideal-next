@@ -65,6 +65,11 @@ export default function Sidebar() {
                         Manage About Us
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/branch-locator" className="nav-link text-white">
+                        Manage Branch Locator
+                    </Link>
+                </li>
             </ul>
         </div>
     );
