@@ -128,9 +128,9 @@ const Footer = () => {
                 <li>
                   <Link href="/branch-locator">Branch Locator</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/branch-locator">Course Locator</Link>
-                </li>
+                </li> */}
               </ul>
             </Col>
             <Col xl={3} lg={12}>
