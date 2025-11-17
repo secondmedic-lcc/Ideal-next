@@ -13,7 +13,7 @@ const store = () => {
       <Header />
 
       <div className="heading">
-        <h1 class="web-heading mb-0">
+        <h1 className="web-heading mb-0">
          Course Locator 
         </h1>
       </div>

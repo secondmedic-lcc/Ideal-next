@@ -1,72 +1,81 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { getPageContents } from "@/services/admin/pageContentServices";
+import { imageUrl } from "@/services/baseUrl";
 
 const Journey = () => {
+  const pageName = "journey";
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["page-content", pageName],
+    queryFn: () => getPageContents({ page_name: pageName }),
+  });
+
+  const journey = data?.data?.list || [];
+
+  const imgURL = (img) =>
+    img ? `${imageUrl}/${img}` : "";
+
+  const main = journey[0];
+  const block1 = journey[1];
+  const block2 = journey[2];
+  const block3 = journey[3];
+
   return (
     <>
       <Header />
 
+      {/* PAGE TITLE */}
       <div className="heading">
-        <h1 class="web-heading mb-0">
-          THE JOURNEY OF <span className="greenclr">IDEAL CLASSES</span>
+        <h1 className="web-heading mb-0">
+          {main?.title?.replace(" IDEAL CLASSES", "")}
+          <span className="greenclr"> IDEAL CLASSES</span>
         </h1>
       </div>
+      
+      { (isLoading) && <div>Loading...</div> }
+      { (error) && <div>Error loading journey page content</div> }
+
+      {/* MAIN SUBTEXT */}
       <section className="journey-section section-padding">
         <Container>
           <Row className="justify-content-center">
             <Col lg={12}>
-              <p className="heading-text">
-                For over 38 years, IDEAL Classes has been a trusted name in the
-                world of education-empowering students across every stage of
-                learning. We are one of the few institutions offering
-                structured, high-quality coaching across diverse academic
-                disciplines and competitive streams.
-              </p>
+              <p className="heading-text">{main?.subtitle}</p>
             </Col>
+
+            {/* BLOCK 1 */}
             <Col lg={6} md={6}>
               <div className="info-card">
-                <div className="info-card-header">
-                  Comprehensive Learning Across Domains
-                </div>
+                <div className="info-card-header">{block1?.title}</div>
                 <div className="info-card-body">
-                  <p className="info-card-subtitle">
-                    We provide expert coaching across multiple verticals:
-                  </p>
-                  <ul className="info-card-list">
-                    <li>School-Level Education</li>
-                    <li>Commerce</li>
-                    <li>Science</li>
-                    <li>Entrance Examinations</li>
-                    <li>Professional & Competitive Exams</li>
-                  </ul>
+                  <p className="info-card-subtitle">{block1?.subtitle}</p>
+
+                  <div
+                    className="info-card-list"
+                    dangerouslySetInnerHTML={{ __html: block1?.description }}
+                  ></div>
                 </div>
               </div>
             </Col>
 
-            {/* Right Box */}
+            {/* BLOCK 2 */}
             <Col lg={6} md={6}>
               <div className="info-card">
-                <div className="info-card-header">
-                  Our Approach: Structured. Insightful. Impactful.
-                </div>
+                <div className="info-card-header">{block2?.title}</div>
                 <div className="info-card-body">
-                  <p className="info-card-subtitle">
-                    IDEAL’s success lies in its:
-                  </p>
-                  <ul className="info-card-list">
-                    <li>Systematic and knowledge-driven methodology</li>
-                    <li>Result-oriented coaching with measurable outcomes</li>
-                    <li>
-                      Dedicated focus on conceptual clarity and academic
-                      excellence
-                    </li>
-                  </ul>
+                  <p className="info-card-subtitle">{block2?.subtitle}</p>
+
+                  <div
+                    className="info-card-list"
+                    dangerouslySetInnerHTML={{ __html: block2?.description }}
+                  ></div>
                 </div>
               </div>
             </Col>
@@ -74,51 +83,38 @@ const Journey = () => {
         </Container>
       </section>
 
+      {/* LEGACY SECTION */}
       <section className="legacy-section section-padding pt-0">
         <Container>
           <Row>
             <Col lg={6} md={8} className="order-2 order-md-1">
               <div className="heading">
-                <h1 class="web-heading text-start">
-                  Our Legacy of <span className="greenclr">Success</span>
-                </h1>
+                <h1 className="web-heading text-start">{block3?.title}</h1>
               </div>
-              <ul className="legacy-list">
-                <li>
-                  <span>2,00,000+ students</span> have shaped their academic and
-                  professional journeys with IDEA
-                </li>
-                <li>
-                  Thousands of <span>IDEAL toppers</span> have secured
-                  distinctions in Board and University examinations.
-                </li>
-                <li>
-                  <span>A robust network</span> spread across Western, Central &
-                  Harbour Mumbai.
-                </li>
-                <li>
-                  Expansion across India with <span>skill based coaching,</span>{" "}
-                  bringing IDEAL’s expertise to learners nationwide.
-                </li>
-              </ul>
+
+              <div
+                className="legacy-list"
+                dangerouslySetInnerHTML={{ __html: block3?.description }}
+              ></div>
             </Col>
 
             <Col lg={6} md={4} className="order-1 order-md-2">
               <div className="legacy-img">
-                <Image
-                  src="/img/journey-1-13.png"
-                  alt="sliderImg"
-                  width={300}
-                  height={300}
-                />
+                {block3?.image && (
+                  <img
+                    src={imgURL(block3.image)}
+                    alt={block3.title}
+                    width={300}
+                    height={300}
+                  />
+                )}
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-       <Footer />
 
-      
+      <Footer />
     </>
   );
 };

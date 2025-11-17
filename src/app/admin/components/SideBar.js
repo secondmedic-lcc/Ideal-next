@@ -75,6 +75,11 @@ export default function Sidebar() {
                         Manage Social Commitment
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/page-content/journey" className="nav-link text-white">
+                        Manage Journey
+                    </Link>
+                </li>
             </ul>
         </div>
     );
