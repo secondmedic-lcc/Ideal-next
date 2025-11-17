@@ -70,6 +70,11 @@ export default function Sidebar() {
                         Manage Branch Locator
                     </Link>
                 </li>
+                <li>
+                    <Link href="/admin/page-content/social-commitment" className="nav-link text-white">
+                        Manage Social Commitment
+                    </Link>
+                </li>
             </ul>
         </div>
     );
