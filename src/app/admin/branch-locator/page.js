@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
@@ -106,7 +105,7 @@ export default function BranchLocatorList() {
                                             <td>
                                                 <div className="d-flex gap-2">
                                                     <Link
-                                                        href={`/admin/branch-locator/edit?branch_id=${branch.id}`}
+                                                        href={`/admin/branch-locator/${branch.id}`}
                                                         className="btn btn-sm btn-primary text-white"
                                                     >
                                                         Edit
