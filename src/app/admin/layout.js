@@ -20,9 +20,9 @@ export default function AdminLayout({ children }) {
   }, [router, user]);
 
   return (
-    <div className="d-flex">
+    <div>
       <Sidebar />
-      <div className="flex-grow-1">
+      <div className="main-wrapper">
         <Header />
         <div className="p-4">{children}</div>
       </div>

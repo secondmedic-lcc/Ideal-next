@@ -1,3 +1,7 @@
+.main-wrapper {
+  padding-left: 260px;
+}
+
 /* Sidebar Container */
 .admin-sidebar {
   width: 260px;
@@ -8,6 +12,10 @@
   flex-direction: column;
   padding: 24px 16px;
   border-right: 1px solid #e2e8f0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 111;
 }
 
 /* Header */
@@ -183,4 +191,281 @@
 /* Focus */
 .admin-logout-btn:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Dashboard Wrapper */
+.admin-dashboard {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: calc(100vh - 64px);
+}
+
+/* Header */
+.dashboard-header {
+  margin-bottom: 24px;
+}
+
+.dashboard-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  font-size: 14.5px;
+}
+
+/* Stats Row */
+.dashboard-stats {
+  margin-top: 16px;
+}
+
+/* Card */
+.dashboard-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+/* Card Content */
+.dashboard-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icon */
+.dashboard-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.dashboard-icon.blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.dashboard-icon.green {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* Card Text */
+.dashboard-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.dashboard-card-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Header Left Section */
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.sidebar-toggle-btn:hover {
+  background: #e2e8f0;
+}
+
+/* Remove bootstrap focus ring */
+.sidebar-toggle-btn:focus {
+  box-shadow: none;
+}
+
+.admin-sidebar.collapsed {
+  width: 80px;
+  padding: 24px 8px;
+}
+
+.admin-sidebar.collapsed .sidebar-link span,
+.admin-sidebar.collapsed .sidebar-sublink,
+.admin-sidebar.collapsed .sidebar-logo {
+  display: none;
+}
+
+/* Page Wrapper */
+.admin-page {
+  padding: 24px;
+}
+
+/* Card */
+.admin-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+/* Card Header */
+.admin-card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #0f172a;
+}
+
+/* Card Body */
+.admin-card-body {
+  padding: 20px;
+}
+
+/* Table */
+.admin-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-table td {
+  font-size: 14px;
+}
+
+/* Image */
+.admin-table-image {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Muted text */
+.admin-muted {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Actions */
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Empty */
+.admin-empty {
+  padding: 40px;
+  text-align: center;
+  color: #64748b;
+}
+
+/* Title with icon */
+.admin-card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0f172a;
+}
+
+/* Header button icon spacing */
+.admin-card-header .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Icon buttons */
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-btn.edit:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.icon-btn.add:hover {
+  background: #ecfeff;
+  color: #0891b2;
+}
+
+.icon-btn.delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.icon-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.theme-btn {
+  padding: 7px 15px;
+  border-radius: 10px;
+  background-color: #3b82f6;
+  color: white !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  transition: all 0.3s 0s linear;
+  font-size: 14px;
+}
+
+.theme-btn.btn-danger {
+  background-color: #d10000;
+}
+
+.theme-btn:hover {
+  background-color: #0284c7;
+}
+
+.theme-btn.btn-danger:hover {
+  background-color: #af0505;
 }

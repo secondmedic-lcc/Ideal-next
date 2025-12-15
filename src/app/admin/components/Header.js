@@ -23,7 +23,7 @@ export default function Header() {
         <div className="admin-header-actions">
           <Button
             onClick={handleLogout}
-            className="admin-logout-btn"
+            className="theme-btn btn-danger"
             variant="primary"
           >
             <FiLogOut size={16} />
