@@ -36,6 +36,11 @@ export default function Sidebar() {
                     </Link>
                 </li>
                 <li>
+                    <Link href="/admin/admission-request" className="nav-link text-white">
+                        Man. Admission Enquire
+                    </Link>
+                </li>
+                <li>
                     <Link href="/admin/job-openings" className="nav-link text-white">
                         Job Openings
                     </Link>
