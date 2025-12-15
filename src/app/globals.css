@@ -110,6 +110,10 @@ a {
   margin-bottom: 25px !important;
 }
 
+.common-check-list ol {
+  list-style: none;
+}
+
 .common-check-list li {
   position: relative;
   margin-bottom: 10px;
@@ -123,7 +127,7 @@ a {
   content: "";
   position: absolute;
   left: -35px;
-  top: 50%;
+  top: 50% !important;
   transform: translateY(-50%);
   background-image: url(/img/check-list-icon.png);
   background-repeat: no-repeat;
