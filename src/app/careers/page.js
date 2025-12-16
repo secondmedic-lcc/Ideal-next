@@ -8,6 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getJobOpenings } from "@/services/admin/jobOpeningService";
 import { useQuery } from "@tanstack/react-query";
+import { useApplyJobForm } from "@/hooks/useApplyJobForm";
+import Loader from "../components/Loader";
 
 const CareersPage = () => {
   const { data } = useQuery({
@@ -15,10 +17,13 @@ const CareersPage = () => {
     queryFn: getJobOpenings,
   });
 
+  const { register, handleSubmit, mutate, isPending } = useApplyJobForm();
+
   const jobOpeningList = data?.data?.list;
 
   return (
     <>
+      {isPending && <Loader />}
       <Header />
       <section className="career-page section-padding">
         <Container>
@@ -84,7 +89,6 @@ const CareersPage = () => {
                 </Col>
               ))
             } */}
-
           </Row>
           <Row className="align-items-center career-form-section g-md-5">
             <Col lg={6} md={6} sm={12}>
@@ -100,10 +104,13 @@ const CareersPage = () => {
               <div className="career-form-card">
                 <h4 className="career-heading">Apply for a Job</h4>
 
-                <form>
+                <form onSubmit={handleSubmit(mutate)}>
                   <div className="form-group mb-3">
                     <label>Category</label>
-                    <select className="form-select form-control">
+                    <select
+                      className="form-select form-control"
+                      {...register("category", { required: true })}
+                    >
                       <option value="">Select Category</option>
                       <option value="teaching">Teaching</option>
                       <option value="non-teaching">Non-Teaching</option>
@@ -112,7 +119,7 @@ const CareersPage = () => {
 
                   <div className="form-group mb-3">
                     <label>
-                      Job Title
+                      Job Title{" "}
                       <button
                         type="button"
                         className="btn text-primary"
@@ -121,14 +128,16 @@ const CareersPage = () => {
                         <u>details</u>
                       </button>
                     </label>
-                    <select className="form-select form-control">
+                    <select
+                      className="form-select form-control"
+                      {...register("job_id", { required: true })}
+                    >
                       <option value="">Select Job Title</option>
-                      {
-                        jobOpeningList &&
-                        jobOpeningList.map((data, index) => (
-                          <option key={index}>{data.title}</option>
-                        ))
-                      }
+                      {jobOpeningList?.map((job) => (
+                        <option key={job.id} value={job.id}>
+                          {job.title}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -137,7 +146,7 @@ const CareersPage = () => {
                     <input
                       type="email"
                       className="form-control"
-                      placeholder="Enter your email"
+                      {...register("email", { required: true })}
                     />
                   </div>
 
@@ -146,23 +155,30 @@ const CareersPage = () => {
                     <input
                       type="tel"
                       className="form-control"
-                      placeholder="Enter phone number"
+                      {...register("contact", { required: true })}
                     />
                   </div>
 
                   <div className="form-group mb-3">
                     <label>Preferred Branch</label>
-                    <select className="form-select form-control">
+                    <select
+                      className="form-select form-control"
+                      {...register("preferred_branch", { required: true })}
+                    >
                       <option value="">Select Branch</option>
-                      <option>Delhi</option>
-                      <option>Mumbai</option>
-                      <option>Bangalore</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Bangalore">Bangalore</option>
                     </select>
                   </div>
 
-                  <div className="form-group">
+                  <div className="form-group mb-3">
                     <label>Upload Resume</label>
-                    <input type="file" className="form-control" />
+                    <input
+                      type="file"
+                      className="form-control"
+                      {...register("resume", { required: true })}
+                    />
                   </div>
 
                   <button type="submit" className="web-btn">
@@ -171,10 +187,9 @@ const CareersPage = () => {
                 </form>
               </div>
             </Col>
-
           </Row>
-        </Container >
-      </section >
+        </Container>
+      </section>
       <Footer />
     </>
   );

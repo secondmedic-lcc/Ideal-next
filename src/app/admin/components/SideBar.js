@@ -57,6 +57,10 @@ export default function Sidebar() {
           Manage Brands
         </Link>
 
+        <Link href="/admin/applied-jobs" className="sidebar-link">
+          Applied Jobs
+        </Link>
+
         {/* <div className="sidebar-divider" /> */}
 
         {/* Dropdown */}
