@@ -6,11 +6,10 @@ import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
-import { getJobOpenings } from '@/services/admin/jobOpeningService'
+import { getJobOpenings } from "@/services/admin/jobOpeningService";
 import { useQuery } from "@tanstack/react-query";
 
 const CareersPage = () => {
-
   const { data } = useQuery({
     queryKey: ["job-opening"],
     queryFn: getJobOpenings,
@@ -23,7 +22,7 @@ const CareersPage = () => {
       <Header />
       <section className="career-page section-padding">
         <Container>
-          <Row className="align-items-center g-md-5">
+          <Row className="align-items-center g-md-5 mb-5"> 
             <Col xs={12}>
               <h2 className="web-heading mb-0">Careers</h2>
             </Col>
@@ -58,20 +57,20 @@ const CareersPage = () => {
                 className="career-img"
               />
             </Col>
-            <Col xs={12}>
+            {/* <Col xs={12}>
               <h2 className="web-heading mb-0">Openings</h2>
-            </Col>
-            {
+            </Col> */}
+            {/* {
               jobOpeningList &&
               jobOpeningList.map((data, index) => (
                 <Col xl={6} lg={6} md={12} key={index}>
                   <div className="career-card-wrapper">
-                    {/* <Image
+                    <Image
                   alt="career-card-img"
                   width={300}
                   height={300}
                   src="/img/career-icon.png"
-                /> */}
+                />
                     <div className="career-card-content">
                       <h6 className="career-card-label">Job Title</h6>
                       <h4 className="career-card-title">{data.title}</h4>
@@ -84,7 +83,92 @@ const CareersPage = () => {
                   </div>
                 </Col>
               ))
-            }
+            } */}
+           
+          </Row>
+          <Row className="align-items-center career-form-section g-md-5">
+             <Col lg={6}  md={6} sm={12}>
+              <Image
+                src="/img/career-form-img.jpg"
+                alt="career-img"
+                width={800}
+                height={800}
+                className="career-form-img d-none d-md-block"
+              />
+            </Col>
+            <Col  lg={6} md={6} sm={12}>
+              <div className="career-form-card">
+                <h4 className="career-heading">Apply for a Job</h4>
+
+                <form>
+                  <div className="form-group mb-3">
+                    <label>Category</label>
+                    <select className="form-select form-control">
+                      <option value="">Select Category</option>
+                      <option value="teaching">Teaching</option>
+                      <option value="non-teaching">Non-Teaching</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label>
+                      Job Title
+                      <button
+                        type="button"
+                        className="info-btn"
+                        title="View Job Description"
+                      >
+                        i
+                      </button>
+                    </label>
+                    <select className="form-select form-control">
+                      <option value="">Select Job Title</option>
+                      <option>Account Manager</option>
+                      <option>Center Manager</option>
+                      <option>Teacher</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label>Phone Number</label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label>Preferred Branch</label>
+                    <select className="form-select form-control">
+                      <option value="">Select Branch</option>
+                      <option>Delhi</option>
+                      <option>Mumbai</option>
+                      <option>Bangalore</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Upload Resume</label>
+                    <input type="file" className="form-control" />
+                  </div>
+
+                  <button type="submit" className="web-btn">
+                    Submit Application
+                  </button>
+                </form>
+              </div>
+            </Col>
+
           </Row>
         </Container>
       </section>
