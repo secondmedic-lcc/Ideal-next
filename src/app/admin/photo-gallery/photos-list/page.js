@@ -1,88 +1,110 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { Suspense } from 'react';
+import React, { Suspense } from "react";
 import { usePhotosListHooks } from "@/hooks/admin/usePhotosListHooks";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import PhotosList from "./PhotosList";
+import { FiImage, FiUpload, FiSave, FiRefreshCw } from "react-icons/fi";
 
 export default function AddPhotosList() {
-    return (
-        <>
-            <Suspense fallback={<div className="container mt-4">Loading Editor...</div>}>
-                <AllPhotosList />
-            </Suspense>
-        </>
-    )
+  return (
+    <Suspense fallback={<div className="admin-page">Loading editor…</div>}>
+      <AllPhotosList />
+    </Suspense>
+  );
 }
 
 export function AllPhotosList() {
+  const searchParams = useSearchParams();
+  const photoGalleryId = searchParams?.get("photo_gallery_id");
 
-    const searchParams = useSearchParams();
-    const photoGalleryId = searchParams?.get("photo_gallery_id");
+  const { onSubmit, register, isLoading, errors, previewSrc } =
+    usePhotosListHooks();
 
-    const { onSubmit, register, isLoading, errors, previewSrc } = usePhotosListHooks();
-
-    return (
-        <div className="container mt-4">
-            <div className="card">
-                <div className="card-header bg-white p-3">
-                    <h5 className="mb-0">Upload Photos</h5>
-                </div>
-                <div className="card-body">
-                    <form onSubmit={onSubmit} encType="multipart/form-data">
-                        <input type="hidden"
-                            {...register("photo_gallery_id")}
-                            name="photo_gallery_id"
-                            defaultValue={photoGalleryId || ""} />
-                        <div className="row">
-
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label">Photo Gallery Title</label>
-                                <input
-                                    type="text"
-                                    className={`form-control ${errors.title ? "is-invalid" : ""}`}
-                                    {...register("title", { required: "Photo Gallery title is required" })}
-                                />
-                                {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
-                            </div>
-
-
-                            <div className="col-md-6 mb-3">
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <label className="form-label">Photo Gallery Image</label>
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            {...register("image")}
-                                        />
-                                    </div>
-                                    <div className="col-md-4">
-                                        {previewSrc && (
-                                            <div className="mt-2">
-                                                <div>
-                                                    <img src={previewSrc} alt="preview" style={{ maxWidth: "160px", maxHeight: "100px" }} />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="d-flex gap-2">
-                            <button type="submit" className="btn btn-primary" disabled={isLoading}>
-                                {isLoading ? "Saving..." : "Save Photos"}
-                            </button>
-                            <button type="reset" className="btn btn-outline-secondary" onClick={() => { }}>
-                                Reset
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <PhotosList photoGalleryId={photoGalleryId} />
+  return (
+    <div className="admin-page">
+      {/* Upload Card */}
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiImage size={18} />
+            <h5 className="admin-card-title">Upload Photos</h5>
+          </div>
         </div>
-    );
+
+        {/* Body */}
+        <div className="admin-card-body">
+          <form onSubmit={onSubmit} encType="multipart/form-data">
+            {/* Hidden gallery id */}
+            <input
+              type="hidden"
+              {...register("photo_gallery_id")}
+              name="photo_gallery_id"
+              defaultValue={photoGalleryId || ""}
+            />
+
+            <div className="row">
+              {/* Photo Title */}
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold">Photo Title</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.title ? "is-invalid" : ""}`}
+                  placeholder="Enter photo title"
+                  {...register("title", {
+                    required: "Photo title is required",
+                  })}
+                />
+                {errors.title && (
+                  <div className="invalid-feedback">{errors.title.message}</div>
+                )}
+              </div>
+
+              {/* Image Upload */}
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiUpload />
+                  Photo Image
+                </label>
+
+                <input
+                  type="file"
+                  className="form-control"
+                  {...register("image")}
+                />
+
+                {previewSrc && (
+                  <div className="image-preview mt-2">
+                    <img src={previewSrc} alt="preview" />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="admin-form-actions">
+              <button
+                type="submit"
+                className="theme-btn"
+                disabled={isLoading}
+              >
+                <FiSave />
+                {isLoading ? "Saving..." : "Save Photo"}
+              </button>
+
+              <button type="reset" className="theme-btn btn-danger">
+                <FiRefreshCw />
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* Photos List */}
+      <PhotosList photoGalleryId={photoGalleryId} />
+    </div>
+  );
 }
