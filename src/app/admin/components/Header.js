@@ -16,19 +16,13 @@ export default function Header() {
   return (
     <Navbar className="admin-header" expand="lg">
       <Container fluid className="admin-header-inner">
-        <Navbar.Brand className="admin-header-title">
-          Admin Panel
-        </Navbar.Brand>
+        <Navbar.Brand className="admin-header-title">Admin Panel</Navbar.Brand>
 
         <div className="admin-header-actions">
-          <Button
-            onClick={handleLogout}
-            className="theme-btn btn-danger"
-            variant="primary"
-          >
+          <button onClick={handleLogout} className="theme-btn btn-danger">
             <FiLogOut size={16} />
             <span>Logout</span>
-          </Button>
+          </button>
         </div>
       </Container>
     </Navbar>

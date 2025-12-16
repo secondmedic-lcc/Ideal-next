@@ -2,109 +2,136 @@
 
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGalleryVideos, deleteGalleryVideo } from "@/services/admin/galleryVideoService";
-import { imageUrl } from "@/services/baseUrl";
+import {
+  getGalleryVideos,
+  deleteGalleryVideo,
+} from "@/services/admin/galleryVideoService";
 import Link from "next/link";
 import swal from "sweetalert";
+import { FiVideo, FiPlusCircle, FiTrash2 } from "react-icons/fi";
 
 export default function GalleryVideoList() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["gallery-video"],
-        queryFn: () => getGalleryVideos(),
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["gallery-video"],
+    queryFn: () => getGalleryVideos(),
+  });
+
+  const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
+    mutationFn: (id) => deleteGalleryVideo(id),
+    onSuccess: (result) => {
+      if (result?.status) {
+        swal(
+          "Deleted!",
+          result.message || "Gallery video deleted successfully",
+          "success"
+        );
+        queryClient.invalidateQueries(["gallery-video"]);
+      } else {
+        swal("Error", result?.message || "Something went wrong", "error");
+      }
+    },
+    onError: (err) => {
+      swal("Error", err?.message || "Failed to delete gallery video", "error");
+    },
+  });
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "This video will be permanently deleted!",
+      icon: "warning",
+      buttons: ["Cancel", "Yes, Delete"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteMutate(id);
+      }
     });
+  };
 
-    const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
-        mutationFn: (id) => deleteGalleryVideo(id),
-        onSuccess: (result) => {
-            if (result?.status) {
-                swal("Deleted!", result.message || "Gallery Video deleted successfully", "success");
-                queryClient.invalidateQueries(["gallery-video"]);
-            } else {
-                swal("Error", result?.message || "Something went wrong", "error");
-            }
-        },
-        onError: (err) => {
-            swal("Error", err?.message || "Failed to delete Gallery Video", "error");
-        },
-    });
+  if (isLoading)
+    return <div className="admin-page">Loading gallery videos…</div>;
 
-    const handleDelete = (id) => {
-        swal({
-            title: "Are you sure?",
-            text: "This course will be permanently deleted!",
-            icon: "warning",
-            buttons: ["Cancel", "Yes, Delete"],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                deleteMutate(id);
-            }
-        });
-    };
-
-    if (isLoading) {
-        return <div className="container mt-4">Loading Gallery Video...</div>;
-    }
-
-    if (isError) {
-        return <div className="container mt-4 text-danger">Failed to load Gallery Video.</div>;
-    }
-
-    const galleryVideoList = data?.data?.list || data?.list || [];
-
+  if (isError)
     return (
-        <div className="container mt-4">
-            <div className="card">
-                <div className="card-header bg-white d-flex justify-content-between align-items-center p-3">
-                    <h5 className="mb-0">Gallery Video List</h5>
-                    <Link href="/admin/gallery-video/add" className="btn btn-primary text-white btn-sm">
-                        + Add Video
-                    </Link>
-                </div>
-
-                <div className="card-body">
-                    {galleryVideoList.length === 0 ? (
-                        <div className="text-center py-4">No Gallery Video found.</div>
-                    ) : (
-                        <div className="table-responsive">
-                            <table className="table table-bordered align-middle">
-                                <thead className="table-light">
-                                    <tr>
-                                        <th style={{ width: "60px" }}>#</th>
-                                        <th>Title</th>
-                                        <th>Link</th>
-                                        <th style={{ width: "150px" }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {galleryVideoList.map((video, index) => (
-                                        <tr key={video.id}>
-                                            <td>{index + 1}</td>
-                                            <td>{video.title}</td>
-                                            <td>{video.link}</td>
-
-                                            <td>
-                                                <div className="d-flex gap-2">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-danger"
-                                                        disabled={isDeleting}
-                                                        onClick={() => handleDelete(video.id)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
+      <div className="admin-page text-danger">
+        Failed to load gallery videos.
+      </div>
     );
+
+  const galleryVideoList = data?.data?.list || data?.list || [];
+
+  return (
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiVideo size={18} />
+            <h5 className="admin-card-title">Gallery Videos</h5>
+          </div>
+
+          <Link
+            href="/admin/gallery-video/add"
+            className="theme-btn"
+          >
+            <FiPlusCircle size={16} />
+            <span>Add Video</span>
+          </Link>
+        </div>
+
+        {/* Body */}
+        <div className="admin-card-body">
+          {galleryVideoList.length === 0 ? (
+            <div className="admin-empty">No gallery videos found.</div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table admin-table align-middle">
+                <thead>
+                  <tr>
+                    <th style={{ width: "60px" }}>#</th>
+                    <th>Title</th>
+                    <th>Video Link</th>
+                    <th className="text-end">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {galleryVideoList.map((video, index) => (
+                    <tr key={video.id}>
+                      <td>{index + 1}</td>
+                      <td className="fw-medium">{video.title}</td>
+                      <td>
+                        <a
+                          href={video.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary"
+                        >
+                          {video.link}
+                        </a>
+                      </td>
+                      <td className="text-end">
+                        <button
+                          type="button"
+                          className="icon-btn delete ms-auto"
+                          disabled={isDeleting}
+                          onClick={() => handleDelete(video.id)}
+                          title="Delete Video"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }

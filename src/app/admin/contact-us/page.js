@@ -1,109 +1,168 @@
 "use client";
-import React from 'react'
-import { useQuery } from '@tanstack/react-query';
-import { getContactRequest, deleteContactRequest } from "@/services/admin/contactUsServices";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import swal from 'sweetalert';
+
+import React from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getContactRequest,
+  deleteContactRequest,
+} from "@/services/admin/contactUsServices";
+import swal from "sweetalert";
+import {
+  FiMail,
+  FiTrash2,
+  FiUser,
+  FiPhone,
+  FiMessageSquare,
+} from "react-icons/fi";
 
 const ContactUs = () => {
+  const queryClient = useQueryClient();
 
-    const queryClient = useQueryClient();
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["contact-request"],
+    queryFn: getContactRequest,
+  });
 
-    const { data, isPending, isError } = useQuery({
-        queryKey: ['contact-request'],
-        queryFn: getContactRequest,
+  const requestList = data?.data?.list || data?.list || [];
+
+  const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
+    mutationFn: (id) => deleteContactRequest(id),
+    onSuccess: (result) => {
+      if (result?.status) {
+        swal(
+          "Deleted!",
+          result.message || "Contact request deleted successfully",
+          "success"
+        );
+        queryClient.invalidateQueries(["contact-request"]);
+      } else {
+        swal("Error", result?.message || "Something went wrong", "error");
+      }
+    },
+    onError: (err) => {
+      swal(
+        "Error",
+        err?.message || "Failed to delete contact request",
+        "error"
+      );
+    },
+  });
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "This contact request will be permanently deleted!",
+      icon: "warning",
+      buttons: ["Cancel", "Yes, Delete"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteMutate(id);
+      }
     });
+  };
 
-    const requestList = data?.data?.list || data?.list;
+  if (isPending) {
+    return <div className="admin-page">Loading contact requests…</div>;
+  }
 
-
-    const { mutate: deleteMutate } = useMutation({
-        mutationFn: (id) => deleteContactRequest(id),
-        onSuccess: (result) => {
-            if (result?.status) {
-                swal("Deleted!", result.message || "Contact Request deleted successfully", "success");
-                queryClient.invalidateQueries(["contact-request"]);
-            } else {
-                swal("Error", result?.message || "Something went wrong", "error");
-            }
-        },
-        onError: (err) => {
-            swal("Error", err?.message || "Failed to delete Contact Request", "error");
-        },
-    });
-
-    const handleDelete = (id) => {
-        swal({
-            title: "Are you sure?",
-            text: "This course will be permanently deleted!",
-            icon: "warning",
-            buttons: ["Cancel", "Yes, Delete"],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                deleteMutate(id);
-            }
-        });
-    };
-
+  if (isError) {
     return (
-        <>
-            <div className='row'>
-                <div className='col-md-12'>
-                    <div className='card'>
-                        <div className='card-header'>
-                            Manage Contact Request
-                        </div>
-                        <div className='card-body'>
-                            {
-                                isPending &&
-                                <div className='text-center py-4'>
-                                    Contact request data is loading...
-                                </div>
-                            }
-                            {
-                                !isPending && <div className='table-responsive'>
-                                    <table className='table table-bordered' width={"100%"}>
-                                        <thead>
-                                            <tr>
-                                                <th>Sr.</th>
-                                                <th>Name</th>
-                                                <th>Contact</th>
-                                                <th>Subject</th>
-                                                <th>Message</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                requestList?.map((data, index) => (
-                                                    <tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{data?.name}</td>
-                                                        <td>{data?.email}<br />{data?.contact}</td>
-                                                        <td>{data?.subject}</td>
-                                                        <td>{data?.message}</td>
-                                                        <td>
-                                                            <button
-                                                                onClick={() => handleDelete(data.id)}
-                                                                className="btn btn-danger text-sm px-3 py-1"
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+      <div className="admin-page text-danger">
+        Failed to load contact requests.
+      </div>
+    );
+  }
 
-export default ContactUs
+  return (
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiMail size={18} />
+            <h5 className="admin-card-title">Contact Requests</h5>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="admin-card-body">
+          {requestList.length === 0 ? (
+            <div className="admin-empty">
+              No contact requests found.
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table admin-table align-middle">
+                <thead>
+                  <tr>
+                    <th style={{ width: "60px" }}>#</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th className="text-end">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {requestList.map((item, index) => (
+                    <tr key={item.id || index}>
+                      <td>{index + 1}</td>
+
+                      <td className="fw-medium">
+                        <div className="d-flex align-items-center gap-2">
+                          <FiUser />
+                          {item?.name}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="small">
+                          <div className="d-flex align-items-center gap-2">
+                            <FiMail />
+                            {item?.email}
+                          </div>
+                          <div className="d-flex align-items-center gap-2">
+                            <FiPhone />
+                            {item?.contact}
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="fw-medium">
+                        {item?.subject}
+                      </td>
+
+                      <td className="text-muted">
+                        <div className="d-flex gap-2">
+                          <FiMessageSquare />
+                          <span>{item?.message}</span>
+                        </div>
+                      </td>
+
+                      <td className="text-end">
+                        <button
+                          className="icon-btn delete ms-auto"
+                          disabled={isDeleting}
+                          onClick={() =>
+                            handleDelete(item.id)
+                          }
+                          title="Delete Request"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactUs;
