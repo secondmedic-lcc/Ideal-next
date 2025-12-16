@@ -22,7 +22,7 @@ const CareersPage = () => {
       <Header />
       <section className="career-page section-padding">
         <Container>
-          <Row className="align-items-center g-md-5 mb-5"> 
+          <Row className="align-items-center g-md-5 mb-5">
             <Col xs={12}>
               <h2 className="web-heading mb-0">Careers</h2>
             </Col>
@@ -84,10 +84,10 @@ const CareersPage = () => {
                 </Col>
               ))
             } */}
-           
+
           </Row>
           <Row className="align-items-center career-form-section g-md-5">
-             <Col lg={6}  md={6} sm={12}>
+            <Col lg={6} md={6} sm={12}>
               <Image
                 src="/img/career-form-img.jpg"
                 alt="career-img"
@@ -96,7 +96,7 @@ const CareersPage = () => {
                 className="career-form-img d-none d-md-block"
               />
             </Col>
-            <Col  lg={6} md={6} sm={12}>
+            <Col lg={6} md={6} sm={12}>
               <div className="career-form-card">
                 <h4 className="career-heading">Apply for a Job</h4>
 
@@ -115,17 +115,20 @@ const CareersPage = () => {
                       Job Title
                       <button
                         type="button"
-                        className="info-btn"
+                        className="btn text-primary"
                         title="View Job Description"
                       >
-                        i
+                        <u>details</u>
                       </button>
                     </label>
                     <select className="form-select form-control">
                       <option value="">Select Job Title</option>
-                      <option>Account Manager</option>
-                      <option>Center Manager</option>
-                      <option>Teacher</option>
+                      {
+                        jobOpeningList &&
+                        jobOpeningList.map((data, index) => (
+                          <option key={index}>{data.title}</option>
+                        ))
+                      }
                     </select>
                   </div>
 
@@ -170,8 +173,8 @@ const CareersPage = () => {
             </Col>
 
           </Row>
-        </Container>
-      </section>
+        </Container >
+      </section >
       <Footer />
     </>
   );
