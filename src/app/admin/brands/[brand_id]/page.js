@@ -9,19 +9,24 @@ import swal from "sweetalert";
 import { useParams } from "next/navigation";
 import { getBrandById, updateBrand } from "@/services/admin/brandServices";
 import { imageUrl } from "@/services/baseUrl";
+import {
+  FiLayers,
+  FiImage,
+  FiFileText,
+  FiList,
+  FiSave,
+  FiRefreshCw,
+} from "react-icons/fi";
 
-// ✅ Dynamically import ReactQuill (for Next.js)
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 const EditBrands = () => {
-    
-    useEffect(() => {
-        import("react-quill-new/dist/quill.snow.css").catch(() => {});
-    }, []);
-    
+  useEffect(() => {
+    import("react-quill-new/dist/quill.snow.css").catch(() => {});
+  }, []);
+
   const params = useParams();
-  const rawBrandId = params?.brand_id;
-  const brandId = rawBrandId ? Number(rawBrandId) : null;
+  const brandId = params?.brand_id ? Number(params.brand_id) : null;
 
   const queryClient = useQueryClient();
   const {
@@ -38,8 +43,14 @@ const EditBrands = () => {
   const [initialValues, setInitialValues] = useState(null);
   const readerRef = useRef(null);
 
-  // ✅ Fetch brand data
-  const { data: rawRes, isLoading, isError } = useQuery({
+  /* =======================
+     Fetch Brand
+  ======================= */
+  const {
+    data: rawRes,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["brand", brandId],
     queryFn: () => getBrandById(brandId),
     enabled: !!brandId,
@@ -47,13 +58,14 @@ const EditBrands = () => {
 
   const brandPayload = useMemo(() => {
     if (!rawRes) return null;
-    if (rawRes.data && typeof rawRes.data === "object") return rawRes.data;
-    return rawRes;
+    return rawRes?.data && typeof rawRes.data === "object"
+      ? rawRes.data
+      : rawRes;
   }, [rawRes]);
 
-  // ✅ When data loads, populate form
   useEffect(() => {
     if (!brandPayload) return;
+
     const defaults = {
       title: brandPayload.title ?? "",
       subtitle: brandPayload.subtitle ?? "",
@@ -65,15 +77,17 @@ const EditBrands = () => {
     setInitialValues(defaults);
     reset(defaults);
 
-    const imageFile = brandPayload.brand_logo ?? brandPayload.image ?? null;
+    const imageFile = brandPayload.brand_logo ?? null;
     setExistingImage(imageFile ? `${imageUrl}${imageFile}` : null);
   }, [brandPayload, reset]);
 
-  // ✅ Update brand mutation
+  /* =======================
+     Update Mutation
+  ======================= */
   const mutation = useMutation({
     mutationFn: (formData) => updateBrand(brandId, formData),
     onSuccess: (res) => {
-      if (res?.status === true) {
+      if (res?.status) {
         swal("Success", res.message || "Brand updated successfully", "success");
         queryClient.invalidateQueries({ queryKey: ["brands"] });
         queryClient.invalidateQueries({ queryKey: ["brand", brandId] });
@@ -84,8 +98,11 @@ const EditBrands = () => {
     onError: (err) => swal("Error", err?.message || "Network error", "error"),
   });
 
-  // ✅ Watch file input for preview
+  /* =======================
+     Image Preview
+  ======================= */
   const watchedFile = watch("brand_logo");
+
   useEffect(() => {
     if (readerRef.current) {
       readerRef.current.onload = null;
@@ -98,6 +115,7 @@ const EditBrands = () => {
       readerRef.current = reader;
       reader.onload = (e) => setPreviewSrc(e.target.result);
       reader.readAsDataURL(file);
+
       return () => {
         reader.onload = null;
         readerRef.current = null;
@@ -107,29 +125,29 @@ const EditBrands = () => {
     }
   }, [watchedFile]);
 
-  // ✅ Submit handler
-  const onSubmit = async (values) => {
+  /* =======================
+     Submit
+  ======================= */
+  const onSubmit = (values) => {
     if (!brandId) {
       swal("Error", "Invalid brand id", "error");
       return;
     }
 
-    try {
-      const formData = new FormData();
+    const formData = new FormData();
+    [
+      "title",
+      "subtitle",
+      "small_description",
+      "long_description",
+      "key_features",
+    ].forEach((f) => values[f] && formData.append(f, values[f]));
 
-      const fields = ["title","subtitle", "small_description", "long_description", "key_features"];
-      fields.forEach((f) => {
-        if (values[f]) formData.append(f, values[f]);
-      });
-
-      if (values.brand_logo && values.brand_logo.length > 0) {
-        formData.append("brand_logo", values.brand_logo[0]);
-      }
-
-      mutation.mutate(formData);
-    } catch (err) {
-      swal("Error", err?.message || "Unable to submit form", "error");
+    if (values.brand_logo?.length > 0) {
+      formData.append("brand_logo", values.brand_logo[0]);
     }
+
+    mutation.mutate(formData);
   };
 
   const handleReset = () => {
@@ -137,89 +155,130 @@ const EditBrands = () => {
     setPreviewSrc(null);
   };
 
-  // ✅ UI rendering
+  /* =======================
+     Guards
+  ======================= */
   if (!brandId) {
     return (
-      <div className="container mt-4 text-danger">
-        Invalid or missing <strong>brand_id</strong> in URL.
+      <div className="admin-page text-danger">
+        Invalid or missing <strong>brand_id</strong>.
       </div>
     );
   }
 
-  if (isLoading) return <div className="container mt-4">Loading brand...</div>;
-  if (isError) return <div className="container mt-4 text-danger">Failed to load brand.</div>;
+  if (isLoading) return <div className="admin-page">Loading brand…</div>;
+  if (isError)
+    return <div className="admin-page text-danger">Failed to load brand.</div>;
 
+  /* =======================
+     UI
+  ======================= */
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header bg-white p-3">
-          <h5 className="mb-0">Edit Brand</h5>
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiLayers size={18} />
+            <h5 className="admin-card-title">Edit Brand</h5>
+          </div>
         </div>
 
-        <div className="card-body">
+        {/* Body */}
+        <div className="admin-card-body">
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <div className="row">
+              {/* Title */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Brand Title</label>
+                <label className="form-label fw-semibold">Brand Name</label>
                 <input
                   type="text"
                   className={`form-control ${errors.title ? "is-invalid" : ""}`}
-                  {...register("title", { required: "Brand title is required" })}
+                  {...register("title", { required: "Brand name is required" })}
                 />
-                {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
-              </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Brand Sub Title</label>
-                <input
-                  type="text"
-                  className={`form-control ${errors.subtitle ? "is-invalid" : ""}`}
-                  {...register("subtitle", { required: "Brand subtitle is required" })}
-                />
-                {errors.subtitle && <div className="invalid-feedback">{errors.subtitle.message}</div>}
-              </div>
-
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Short Description</label>
-                <textarea className={`form-control ${errors.small_description ? "is-invalid" : ""}`}
-                  {...register("small_description", { required: "Short description is required" })}></textarea>
-                {errors.small_description && (
-                  <div className="invalid-feedback">{errors.small_description.message}</div>
+                {errors.title && (
+                  <div className="invalid-feedback">{errors.title.message}</div>
                 )}
               </div>
 
-
-              {/* ✅ Brand Image */}
+              {/* Subtitle */}
               <div className="col-md-6 mb-3">
-                <div className="row">
-                  <div className="col-md-8">
-                    <label className="form-label">Brand Logo (replace)</label>
-                    <input type="file" className="form-control" accept="image/*" {...register("brand_logo")} />
-                    <small className="text-muted">Upload new logo to replace the existing one.</small>
+                <label className="form-label fw-semibold">Brand Subtitle</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    errors.subtitle ? "is-invalid" : ""
+                  }`}
+                  {...register("subtitle", {
+                    required: "Brand subtitle is required",
+                  })}
+                />
+                {errors.subtitle && (
+                  <div className="invalid-feedback">
+                    {errors.subtitle.message}
                   </div>
+                )}
+              </div>
 
-                  <div className="col-md-4">
-                    {previewSrc ? (
-                      <div className="mt-2">
-                        <small className="text-muted">New Preview:</small>
-                        <div>
-                          <img src={previewSrc} alt="preview" style={{ maxWidth: "160px", maxHeight: "100px" }} />
-                        </div>
-                      </div>
-                    ) : existingImage ? (
-                      <div className="mt-2">
-                        <small className="text-muted">Existing Logo:</small>
-                        <div>
-                          <img src={existingImage} alt="existing" style={{ maxWidth: "160px", maxHeight: "100px" }} />
-                        </div>
-                      </div>
-                    ) : null}
+              {/* Short Description */}
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold">
+                  Short Description
+                </label>
+                <textarea
+                  rows={4}
+                  className={`form-control ${
+                    errors.small_description ? "is-invalid" : ""
+                  }`}
+                  {...register("small_description", {
+                    required: "Short description is required",
+                  })}
+                />
+                {errors.small_description && (
+                  <div className="invalid-feedback">
+                    {errors.small_description.message}
                   </div>
+                )}
+              </div>
+
+              {/* Logo */}
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiImage />
+                  Brand Logo
+                </label>
+                <div className="d-flex gap-3 align-items-start">
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    {...register("brand_logo")}
+                  />
+
+                  {previewSrc ? (
+                    <img
+                      src={previewSrc}
+                      alt="preview"
+                      className="rounded"
+                      style={{ width: 90, height: 60, objectFit: "contain" }}
+                    />
+                  ) : existingImage ? (
+                    <img
+                      src={existingImage}
+                      alt="existing"
+                      className="rounded"
+                      style={{ width: 90, height: 60, objectFit: "contain" }}
+                    />
+                  ) : null}
                 </div>
               </div>
 
-              {/* ✅ Long Description (ReactQuill) */}
-              <div className="col-6 mb-3">
-                <label className="form-label">Long Description</label>
+              {/* Long Description */}
+              <div className="col-md-6 mb-4">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiFileText />
+                  Long Description
+                </label>
                 <Controller
                   name="long_description"
                   control={control}
@@ -228,15 +287,18 @@ const EditBrands = () => {
                       theme="snow"
                       value={field.value || ""}
                       onChange={field.onChange}
-                      placeholder="Enter long description..."
+                      style={{ minHeight: 180 }}
                     />
                   )}
                 />
               </div>
 
-              {/* ✅ Key Features (ReactQuill) */}
-              <div className="col-6 mb-3">
-                <label className="form-label">Key Features</label>
+              {/* Key Features */}
+              <div className="col-md-6 mb-4">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiList />
+                  Key Features
+                </label>
                 <Controller
                   name="key_features"
                   control={control}
@@ -245,18 +307,32 @@ const EditBrands = () => {
                       theme="snow"
                       value={field.value || ""}
                       onChange={field.onChange}
-                      placeholder="Enter key features..."
+                      style={{ minHeight: 180 }}
                     />
                   )}
                 />
               </div>
             </div>
 
-            <div className="d-flex gap-2">
-              <button type="submit" className="btn btn-primary" disabled={mutation.isLoading || isSubmitting}>
-                {mutation.isLoading || isSubmitting ? "Updating..." : "Update Brand"}
+            {/* Actions */}
+            <div className="admin-form-actions">
+              <button
+                type="submit"
+                className="theme-btn"
+                disabled={mutation.isLoading || isSubmitting}
+              >
+                <FiSave />
+                {mutation.isLoading || isSubmitting
+                  ? "Updating..."
+                  : "Update Brand"}
               </button>
-              <button type="button" className="btn btn-outline-secondary" onClick={handleReset}>
+
+              <button
+                type="button"
+                className="theme-btn btn-danger"
+                onClick={handleReset}
+              >
+                <FiRefreshCw />
                 Reset
               </button>
             </div>

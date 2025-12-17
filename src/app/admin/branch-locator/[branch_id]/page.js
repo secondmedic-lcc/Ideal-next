@@ -15,6 +15,17 @@ import {
   getCityListByState,
 } from "@/services/admin/listServices";
 
+import {
+  FiMapPin,
+  FiGlobe,
+  FiMap,
+  FiHome,
+  FiPhone,
+  FiMail,
+  FiSave,
+  FiX,
+} from "react-icons/fi";
+
 export default function EditBranchLocator() {
   const { branch_id } = useParams();
   const router = useRouter();
@@ -40,34 +51,23 @@ export default function EditBranchLocator() {
 
     (async () => {
       try {
-        
         const branchRes = await getBranchLocatorById(branch_id);
-        if (!branchRes || !branchRes.data) {
-          console.error("Failed to fetch branch details", branchRes);
-          return;
-        }
+        if (!branchRes?.data) return;
+
         const b = branchRes.data;
 
         const branchStateId = b.state_id ? String(b.state_id) : "";
         const branchCityId = b.city_id ? String(b.city_id) : "";
 
         const countryRes = await getCountryList();
-        if (countryRes?.status) {
-          setCountries(countryRes.data.list || []);
-        } else {
-          setCountries([]);
-        }
+        if (countryRes?.status) setCountries(countryRes.data.list || []);
 
         const stateRes = await getStateListByCountry(101);
         if (stateRes?.status) setStates(stateRes.data.list || []);
-        else setStates([]);
 
         if (branchStateId) {
           const cityRes = await getCityListByState(branchStateId);
           if (cityRes?.status) setCities(cityRes.data.list || []);
-          else setCities([]);
-        } else {
-          setCities([]);
         }
 
         reset({
@@ -80,7 +80,7 @@ export default function EditBranchLocator() {
           address: b.address ?? "",
         });
       } catch (err) {
-        console.error("Error loading edit page data:", err);
+        console.error("Error loading branch:", err);
       }
     })();
   }, [branch_id, reset]);
@@ -94,12 +94,8 @@ export default function EditBranchLocator() {
 
     if (!countryId) return;
 
-    try {
-      const stateRes = await getStateListByCountry(countryId);
-      if (stateRes?.status) setStates(stateRes.data.list || []);
-    } catch (err) {
-      console.error("Failed to load states:", err);
-    }
+    const stateRes = await getStateListByCountry(countryId);
+    if (stateRes?.status) setStates(stateRes.data.list || []);
   };
 
   const handleStateChange = async (e) => {
@@ -109,12 +105,8 @@ export default function EditBranchLocator() {
 
     if (!stateId) return;
 
-    try {
-      const cityRes = await getCityListByState(stateId);
-      if (cityRes?.status) setCities(cityRes.data.list || []);
-    } catch (err) {
-      console.error("Failed to load cities:", err);
-    }
+    const cityRes = await getCityListByState(stateId);
+    if (cityRes?.status) setCities(cityRes.data.list || []);
   };
 
   const onSubmit = async (data) => {
@@ -127,29 +119,36 @@ export default function EditBranchLocator() {
         swal("Error", "Failed to update branch", "error");
       }
     } catch (err) {
-        console.error("Update error:", err);
-        swal("Error", "An error occurred while updating branch", "error");
+      console.error("Update error:", err);
+      swal("Error", "An error occurred while updating branch", "error");
     }
   };
 
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header bg-white p-3">
-          <h5 className="mb-0">Edit Branch Locator</h5>
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiMapPin size={18} />
+            <h5 className="admin-card-title">Edit Branch Locator</h5>
+          </div>
         </div>
 
-        <div className="card-body">
+        {/* Body */}
+        <div className="admin-card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
               {/* Country */}
               <div className="col-md-4 mb-3">
-                <label className="form-label">Country</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiGlobe />
+                  Country
+                </label>
                 <select
                   className="form-control"
                   {...register("country_id", { required: true })}
                   onChange={(e) => {
-                    // update form value and then handle loading
                     setValue("country_id", e.target.value);
                     handleCountryChange(e);
                   }}
@@ -165,7 +164,10 @@ export default function EditBranchLocator() {
 
               {/* State */}
               <div className="col-md-4 mb-3">
-                <label className="form-label">State</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiMap />
+                  State
+                </label>
                 <select
                   className="form-control"
                   {...register("state_id", { required: true })}
@@ -185,7 +187,10 @@ export default function EditBranchLocator() {
 
               {/* City */}
               <div className="col-md-4 mb-3">
-                <label className="form-label">City</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiMapPin />
+                  City
+                </label>
                 <select
                   className="form-control"
                   {...register("city_id", { required: true })}
@@ -202,7 +207,10 @@ export default function EditBranchLocator() {
 
               {/* Branch Name */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Branch Name</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiHome />
+                  Branch Name
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -212,7 +220,10 @@ export default function EditBranchLocator() {
 
               {/* Contact */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Contact</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiPhone />
+                  Contact
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -222,7 +233,10 @@ export default function EditBranchLocator() {
 
               {/* Email */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Email</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiMail />
+                  Email
+                </label>
                 <input
                   type="email"
                   className="form-control"
@@ -232,21 +246,35 @@ export default function EditBranchLocator() {
 
               {/* Address */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Address</label>
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiHome />
+                  Address
+                </label>
                 <textarea
-                  className="form-control"
                   rows={3}
+                  className="form-control"
                   {...register("address", { required: true })}
                 />
               </div>
             </div>
 
-            <div className="d-flex gap-2">
-              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            {/* Actions */}
+            <div className="admin-form-actions">
+              <button
+                type="submit"
+                className="theme-btn"
+                disabled={isSubmitting}
+              >
+                <FiSave />
                 {isSubmitting ? "Updating..." : "Update Branch"}
               </button>
 
-              <button type="button" className="btn btn-outline-secondary" onClick={() => router.back()}>
+              <button
+                type="button"
+                className="theme-btn btn-warn"
+                onClick={() => router.back()}
+              >
+                <FiX />
                 Cancel
               </button>
             </div>

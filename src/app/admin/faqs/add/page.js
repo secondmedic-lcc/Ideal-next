@@ -1,46 +1,81 @@
 "use client";
-import React from 'react';
-import { useFAQHooks } from '@/hooks/admin/useFAQHooks';
 
+import React from "react";
+import { useFAQHooks } from "@/hooks/admin/useFAQHooks";
+import {
+  FiHelpCircle,
+  FiMessageSquare,
+  FiSave,
+  FiRefreshCw,
+} from "react-icons/fi";
 
 const AddFAQs = () => {
+  const { handleSubmit, mutate, register } = useFAQHooks();
 
-    const { handleSubmit, mutate, register, } = useFAQHooks();
+  return (
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiHelpCircle size={18} />
+            <h5 className="admin-card-title">Add FAQ</h5>
+          </div>
+        </div>
 
-    return (
-        <>
-            <div className='row'>
-                <div className='col-md-12'>
-                    <div className='card'>
-                        <div className='card-header'>
-                            Manage FAQ
-                        </div>
-                        <div className='card-body'>
-                            <form onSubmit={handleSubmit(mutate)} method='POST'>
-                                <div className='row'>
-                                    <div className='col-md-12'>
-                                        <div className='form-group'>
-                                            <label>FAQ Title</label>
-                                            <input type='text' className='form-control' name='title' {...register('title')} />
-                                        </div>
-                                        <div className='form-group mt-3'>
-                                            <label>FAQ Description</label>
-                                            <textarea className='form-control' name='description' {...register('description')} rows={10}></textarea>
-                                        </div>
-                                        <div className='form-group mt-3'>
-                                            <button type='submit' className='btn btn-primary'>
-                                                Add FAQ
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        {/* Body */}
+        <div className="admin-card-body">
+          <form onSubmit={handleSubmit(mutate)} method="POST">
+            <div className="row">
+              {/* FAQ Title */}
+              <div className="col-md-12 mb-3">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiHelpCircle />
+                  FAQ Title
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter FAQ question"
+                  {...register("title")}
+                />
+              </div>
+
+              {/* FAQ Description */}
+              <div className="col-md-12 mb-3">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiMessageSquare />
+                  FAQ Answer
+                </label>
+                <textarea
+                  rows={8}
+                  className="form-control"
+                  placeholder="Enter FAQ answer"
+                  {...register("description")}
+                />
+              </div>
             </div>
-        </>
-    )
-}
+
+            {/* Actions */}
+            <div className="admin-form-actions">
+              <button type="submit" className="theme-btn">
+                <FiSave />
+                Add FAQ
+              </button>
+
+              <button
+                type="reset"
+                className="theme-btn btn-danger"
+              >
+                <FiRefreshCw />
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default AddFAQs;

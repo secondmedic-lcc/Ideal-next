@@ -1,24 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { getPageContents, updatePageContent } from "@/services/admin/pageContentServices";
+import { useParams } from "next/navigation";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import swal from "sweetalert";
+import {
+  getPageContents,
+  updatePageContent,
+} from "@/services/admin/pageContentServices";
+import { imageUrl } from "@/services/baseUrl";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 import "react-quill-new/dist/quill.snow.css";
-import { imageUrl } from "@/services/baseUrl";
+import { Container } from "react-bootstrap";
 
 const PageContent = () => {
   const params = useParams();
   const pageName = params.page;
-
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["page-content", pageName],
     queryFn: () => getPageContents({ page_name: pageName }),
     enabled: !!pageName,
@@ -29,7 +32,6 @@ const PageContent = () => {
   const [formValues, setFormValues] = useState({});
   const [previewImages, setPreviewImages] = useState({});
 
-  /** Handle text + description changes */
   const handleChange = (index, field, value) => {
     setFormValues((prev) => ({
       ...prev,
@@ -48,10 +50,9 @@ const PageContent = () => {
       [index]: { ...prev[index], image: file },
     }));
 
-    const url = URL.createObjectURL(file);
     setPreviewImages((prev) => ({
       ...prev,
-      [index]: url,
+      [index]: URL.createObjectURL(file),
     }));
   };
 
@@ -73,125 +74,147 @@ const PageContent = () => {
     const updated = formValues[index] || {};
 
     const formData = new FormData();
-
     formData.append("title", updated.title ?? original.title ?? "");
     formData.append("subtitle", updated.subtitle ?? original.subtitle ?? "");
-    formData.append("description", updated.description ?? original.description ?? "");
+    formData.append(
+      "description",
+      updated.description ?? original.description ?? ""
+    );
 
     if (updated.image instanceof File) {
       formData.append("image", updated.image);
     }
 
-    mutation.mutate({
-      id: original.id,
-      payload: formData,
-    });
+    mutation.mutate({ id: original.id, payload: formData });
   };
 
-  if (isLoading)
+  if (isLoading) {
+    return <div className="container mt-4">Loading page content…</div>;
+  }
+
+  if (isError) {
     return (
-      <div className="container mt-4">
-        <div className="alert alert-info">Loading page content...</div>
+      <div className="container mt-4 text-danger">
+        Failed to load page content.
       </div>
     );
+  }
 
-  if (error)
-    return (
-      <div className="container mt-4">
-        <div className="alert alert-danger">Failed to load page content.</div>
-      </div>
-    );
-
-  /* UI Rendering */
   return (
-    <div className="container mt-4">
+    <div className="mt-4">
       <div className="card">
-        <div className="card-header bg-white">
-          Manage {pageContentList[0]?.page_name || "Page"}
+        {/* Header */}
+        <div className="card-header bg-white p-3">
+          <h5 className="mb-0">
+            Manage Page Content –{" "}
+            <span className="text-muted">
+              {pageContentList[0]?.page_name || ""}
+            </span>
+          </h5>
         </div>
 
-        {pageContentList.map((data, index) => (
-          <div className="card-body border-bottom" key={index}>
+        {/* Sections */}
+        {pageContentList.map((section, index) => (
+          <div className="card-body border-top" key={section.id || index}>
             <form onSubmit={(e) => handleSubmit(e, index)}>
               <div className="row">
-
                 {/* Title */}
                 <div className="col-md-6 mb-3">
-                  <label>Title</label>
+                  <label className="form-label fw-semibold">
+                    Section Title
+                  </label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={formValues[index]?.title ?? data.title ?? ""}
-                    onChange={(e) => handleChange(index, "title", e.target.value)}
+                    className="form-control bg-light"
+                    value={formValues[index]?.title ?? section.title ?? ""}
                     readOnly
                   />
                 </div>
 
-                {/* Subtitle (shown only if exists) */}
-                {data.subtitle && (
+                {/* Subtitle */}
+                {section.subtitle && (
                   <div className="col-md-6 mb-3">
-                    <label>Sub Title</label>
+                    <label className="form-label fw-semibold">Subtitle</label>
                     <input
                       type="text"
                       className="form-control"
-                      value={formValues[index]?.subtitle ?? data.subtitle ?? ""}
-                      onChange={(e) => handleChange(index, "subtitle", e.target.value)}
+                      value={
+                        formValues[index]?.subtitle ?? section.subtitle ?? ""
+                      }
+                      onChange={(e) =>
+                        handleChange(index, "subtitle", e.target.value)
+                      }
                     />
                   </div>
                 )}
 
                 {/* Description */}
-                {data.description && (
+                {section.description && (
                   <div className="col-md-8 mb-3">
-                    <label>Description</label>
+                    <label className="form-label fw-semibold">
+                      Description
+                    </label>
                     <ReactQuill
                       theme="snow"
                       value={
                         formValues[index]?.description ??
-                        data.description ??
+                        section.description ??
                         ""
                       }
-                      onChange={(val) => handleChange(index, "description", val)}
+                      onChange={(val) =>
+                        handleChange(index, "description", val)
+                      }
+                      style={{ minHeight: "180px" }}
                     />
-                  </div>)
-                }
+                  </div>
+                )}
 
-                {/* Image Upload */}
-                { data.image &&
+                {/* Image */}
+                {section.image && (
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Image</label>
+                    <label className="form-label fw-semibold">
+                      Section Image
+                    </label>
                     <input
                       type="file"
                       className="form-control"
                       accept="image/*"
-                      onChange={(e) => handleImageChange(index, e.target.files[0])}
+                      onChange={(e) =>
+                        handleImageChange(index, e.target.files[0])
+                      }
                     />
 
-                    {/* Show preview */}
-                    <div className="mt-2">
+                    <div className="mt-3">
                       <img
                         src={
                           previewImages[index]
                             ? previewImages[index]
-                            : data.image
-                            ? `${imageUrl}${data.image}`
+                            : section.image
+                            ? `${imageUrl}${section.image}`
                             : ""
                         }
-                        alt=""
-                        className="rounded"
-                        style={{ maxWidth: "180px", maxHeight: "120px" }}
+                        alt="Preview"
+                        className="rounded border"
+                        style={{
+                          maxWidth: "180px",
+                          maxHeight: "120px",
+                          objectFit: "cover",
+                        }}
                       />
                     </div>
                   </div>
-                }
+                )}
 
-                {/* Submit Button */}
-                <div className="col-md-12">
-                  <button type="submit" className="btn btn-primary">
-                    {mutation.isPending ? "Updating..." : "Update Details"}
+                {/* Button */}
+                <div className="col-12 mt-2">
+                  <button
+                    type="submit"
+                    className="theme-btn"
+                    disabled={mutation.isPending}
+                  >
+                    {mutation.isPending ? "Updating..." : "Update Section"}
                   </button>
                 </div>
-
               </div>
             </form>
           </div>

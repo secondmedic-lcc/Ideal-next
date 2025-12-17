@@ -3,8 +3,16 @@
 
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { useBrandHooks } from "@/hooks/admin/useBrandHooks";
 import { Controller } from "react-hook-form";
+import { useBrandHooks } from "@/hooks/admin/useBrandHooks";
+import {
+  FiLayers,
+  FiImage,
+  FiFileText,
+  FiList,
+  FiSave,
+  FiRefreshCw,
+} from "react-icons/fi";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -24,56 +32,80 @@ export default function AddBrands() {
   }, []);
 
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header bg-white">
-          <p className="mb-0">Create Brand</p>
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiLayers size={18} />
+            <h5 className="admin-card-title">Add Brand</h5>
+          </div>
         </div>
 
-        <div className="card-body">
+        {/* Body */}
+        <div className="admin-card-body">
           <form onSubmit={onSubmit} encType="multipart/form-data">
             <div className="row">
-              {/* Brand Title */}
+              {/* Brand Name */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Brand Name</label>
+                <label className="form-label fw-semibold">
+                  Brand Name
+                </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.title ? "is-invalid" : ""}`}
+                  className={`form-control ${
+                    errors.title ? "is-invalid" : ""
+                  }`}
                   {...register("title", {
                     required: "Brand name is required",
                     minLength: { value: 3, message: "At least 3 characters" },
                   })}
                 />
                 {errors.title && (
-                  <div className="invalid-feedback">{errors.title.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.title.message}
+                  </div>
                 )}
               </div>
+
+              {/* Brand Subtitle */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Brand Sub Title</label>
+                <label className="form-label fw-semibold">
+                  Brand Subtitle
+                </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.subtitle ? "is-invalid" : ""}`}
+                  className={`form-control ${
+                    errors.subtitle ? "is-invalid" : ""
+                  }`}
                   {...register("subtitle", {
-                    required: "Brand name is required",
+                    required: "Brand subtitle is required",
                     minLength: { value: 3, message: "At least 3 characters" },
                   })}
                 />
                 {errors.subtitle && (
-                  <div className="invalid-feedback">{errors.subtitle.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.subtitle.message}
+                  </div>
                 )}
               </div>
 
               {/* Short Description */}
-              <div className="col-6 mb-3">
-                <label className="form-label">Brand Description</label>
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold">
+                  Short Description
+                </label>
                 <textarea
-                  rows="4"
+                  rows={4}
                   className={`form-control ${
                     errors.small_description ? "is-invalid" : ""
                   }`}
                   {...register("small_description", {
                     required: "Brand description is required",
-                    minLength: { value: 10, message: "At least 10 characters" },
+                    minLength: {
+                      value: 10,
+                      message: "At least 10 characters",
+                    },
                   })}
                 />
                 {errors.small_description && (
@@ -84,34 +116,46 @@ export default function AddBrands() {
               </div>
 
               {/* Brand Logo */}
-              <div className="col-6 mb-3">
-                <div className="row">
-                  <div className="col-md-8">
-                    <label className="form-label">Brand Logo</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      {...register("brand_logo")}
-                      accept="image/*"
+              <div className="col-md-6 mb-3">
+                <label className="form-label fw-semibold">
+                  Brand Logo
+                </label>
+                <div className="d-flex gap-3 align-items-start">
+                  <input
+                    type="file"
+                    className="form-control"
+                    {...register("brand_logo")}
+                    accept="image/*"
+                  />
+
+                  {previewSrc ? (
+                    <img
+                      src={previewSrc}
+                      alt="Preview"
+                      className="rounded"
+                      style={{
+                        width: "90px",
+                        height: "60px",
+                        objectFit: "contain",
+                        background: "#f8fafc",
+                        padding: "6px",
+                      }}
                     />
-                  </div>
-                  <div className="col-md-4">
-                    {previewSrc && (
-                      <div className="mt-2">
-                        <img
-                          src={previewSrc}
-                          alt="preview"
-                          style={{ maxWidth: "160px", maxHeight: "100px" }}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  ) : (
+                    <div className="text-muted d-flex align-items-center gap-2">
+                      <FiImage />
+                      <span>No preview</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Long Description (ReactQuill controlled) */}
-              <div className="mb-3 col-md-6">
-                <label className="form-label fw-semibold">Description</label>
+              {/* Long Description */}
+              <div className="col-md-6 mb-4">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiFileText />
+                  Long Description
+                </label>
                 <Controller
                   name="long_description"
                   control={control}
@@ -128,10 +172,12 @@ export default function AddBrands() {
                       value={field.value || ""}
                       onChange={field.onChange}
                       className={`bg-white ${
-                        errors.long_description ? "border border-danger" : ""
+                        errors.long_description
+                          ? "border border-danger"
+                          : ""
                       }`}
-                      placeholder="Write section long description..."
-                      style={{ minHeight: "200px" }}
+                      placeholder="Write brand long description..."
+                      style={{ minHeight: "180px" }}
                     />
                   )}
                 />
@@ -142,9 +188,12 @@ export default function AddBrands() {
                 )}
               </div>
 
-              {/* Key Features (ReactQuill controlled) */}
-              <div className="mb-3 col-md-6">
-                <label className="form-label fw-semibold">Key Features</label>
+              {/* Key Features */}
+              <div className="col-md-6 mb-4">
+                <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                  <FiList />
+                  Key Features
+                </label>
                 <Controller
                   name="key_features"
                   control={control}
@@ -161,10 +210,12 @@ export default function AddBrands() {
                       value={field.value || ""}
                       onChange={field.onChange}
                       className={`bg-white ${
-                        errors.key_features ? "border border-danger" : ""
+                        errors.key_features
+                          ? "border border-danger"
+                          : ""
                       }`}
-                      placeholder="Write section Key Features..."
-                      style={{ minHeight: "200px" }}
+                      placeholder="Write key features..."
+                      style={{ minHeight: "180px" }}
                     />
                   )}
                 />
@@ -176,20 +227,23 @@ export default function AddBrands() {
               </div>
             </div>
 
-            {/* Buttons */}
-            <div className="d-flex gap-2">
+            {/* Actions */}
+            <div className="admin-form-actions">
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="theme-btn"
                 disabled={isLoading}
               >
+                <FiSave />
                 {isLoading ? "Saving..." : "Add Brand"}
               </button>
+
               <button
-                type="reset"
-                className="btn btn-outline-secondary"
+                type="button"
+                className="theme-btn btn-danger"
                 onClick={() => reset()}
               >
+                <FiRefreshCw />
                 Reset
               </button>
             </div>

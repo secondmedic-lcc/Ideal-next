@@ -6,24 +6,33 @@ import Link from "next/link";
 import swal from "sweetalert";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getBrands, deleteBrand } from "@/services/admin/brandServices";
-import { imageUrl } from "@/services/baseUrl"; // ✅ make sure this exists
+import { imageUrl } from "@/services/baseUrl";
+import {
+  FiLayers,
+  FiPlusCircle,
+  FiEdit,
+  FiTrash2,
+  FiImage,
+} from "react-icons/fi";
 
 const BrandsList = () => {
   const queryClient = useQueryClient();
 
-  // ✅ Fetch all brands
   const { data, isLoading, isError } = useQuery({
     queryKey: ["brands"],
     queryFn: getBrands,
   });
 
-  // ✅ Delete brand mutation
   const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
     mutationFn: (id) => deleteBrand(id),
     onSuccess: (result) => {
       if (result?.status) {
-        swal("Deleted!", result.message || "Brand deleted successfully", "success");
-        queryClient.invalidateQueries(["brands"]); // refetch list
+        swal(
+          "Deleted!",
+          result.message || "Brand deleted successfully",
+          "success"
+        );
+        queryClient.invalidateQueries(["brands"]);
       } else {
         swal("Error", result?.message || "Something went wrong", "error");
       }
@@ -33,7 +42,6 @@ const BrandsList = () => {
     },
   });
 
-  // ✅ Handle delete with confirmation
   const handleDelete = (id) => {
     swal({
       title: "Are you sure?",
@@ -46,90 +54,111 @@ const BrandsList = () => {
     });
   };
 
-  if (isLoading) return <div className="container mt-4">Loading brands...</div>;
-  if (isError) return <div className="container mt-4 text-danger">Failed to load brands.</div>;
+  if (isLoading) {
+    return <div className="admin-page">Loading brands…</div>;
+  }
+
+  if (isError) {
+    return <div className="admin-page text-danger">Failed to load brands.</div>;
+  }
 
   const brandsList = data?.data?.list || data?.list || [];
 
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header bg-white d-flex justify-content-between align-items-center p-3">
-          <h5 className="mb-0">Manage Brands List</h5>
-          <Link href="/admin/brands/add" className="btn btn-primary text-white btn-sm">
-            + Add New Brand
+    <div className="admin-page">
+      <div className="admin-card">
+        {/* Header */}
+        <div className="admin-card-header">
+          <div className="admin-card-title-wrap">
+            <FiLayers size={18} />
+            <h5 className="admin-card-title">Brands</h5>
+          </div>
+
+          <Link href="/admin/brands/add" className="theme-btn">
+            <FiPlusCircle />
+            <span>Add Brand</span>
           </Link>
         </div>
 
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Sr.</th>
-                  <th>Name</th>
-                  <th>Logo</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {brandsList.length > 0 ? (
-                  brandsList.map((brand, index) => (
+        {/* Body */}
+        <div className="admin-card-body">
+          {brandsList.length === 0 ? (
+            <div className="admin-empty">No brands found.</div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table admin-table align-middle">
+                <thead>
+                  <tr>
+                    <th style={{ width: "60px" }}>#</th>
+                    <th>Brand Name</th>
+                    <th>Logo</th>
+                    <th>Description</th>
+                    <th className="text-end">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {brandsList.map((brand, index) => (
                     <tr key={brand.id}>
                       <td>{index + 1}</td>
-                      <td>{brand.title}</td>
+
+                      <td className="fw-medium">{brand.title}</td>
+
                       <td>
                         {brand.brand_logo ? (
                           <img
                             src={`${imageUrl}${brand.brand_logo}`}
                             alt={brand.title}
+                            className="rounded"
                             style={{
                               width: "80px",
                               height: "60px",
-                              objectFit: "cover",
-                              borderRadius: "6px",
+                              objectFit: "contain",
+                              background: "#f8fafc",
+                              padding: "6px",
                             }}
                           />
                         ) : (
-                          <span className="text-muted small">No Image</span>
+                          <div className="d-flex align-items-center gap-2 text-muted">
+                            <FiImage />
+                            <span>No Image</span>
+                          </div>
                         )}
                       </td>
-                      <td>
-                        <small className="text-muted">
-                          {brand.small_description?.substring(0, 60)}...
-                        </small>
+
+                      <td className="text-muted">
+                        {brand.small_description
+                          ? brand.small_description.substring(0, 70) + "…"
+                          : "—"}
                       </td>
-                      <td>
-                        <div className="d-flex gap-2">
+
+                      <td className="text-end">
+                        <div className="admin-actions">
                           <Link
-                            href={`/admin/brands/${brand.id}`} 
-                            className="btn btn-sm btn-primary text-white"
+                            href={`/admin/brands/${brand.id}`}
+                            className="icon-btn edit"
+                            title="Edit Brand"
                           >
-                            Edit
+                            <FiEdit />
                           </Link>
+
                           <button
                             type="button"
-                            className="btn btn-sm btn-danger"
+                            className="icon-btn delete"
                             disabled={isDeleting}
                             onClick={() => handleDelete(brand.id)}
+                            title="Delete Brand"
                           >
-                            Delete
+                            <FiTrash2 />
                           </button>
                         </div>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5" className="text-center text-muted">
-                      No brands found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>
