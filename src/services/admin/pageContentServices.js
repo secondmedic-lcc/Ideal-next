@@ -6,26 +6,16 @@ import convertToFormData from "@/helper/convertToFormData";
 
 const ENDPOINT = `${baseUrl}page-content`;
 
-export const createPageContent = async (data) => {
+export const createPageContent = async (data = {}) => {
+    const formData = convertToFormData(data);
 
-    const token = localStorage.getItem('token');
-
-    const headers = {
-        "Content-Type": "application/json",
-    };
-    if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-    }
-
-    let response = await fetch(`${ENDPOINT}`, {
+    const res = await fetch(`${ENDPOINT}`, {
         method: "POST",
-        headers: headers,
-        body: JSON.stringify(data),
+        headers: buildHeaders(false),
+        body: formData,
     });
 
-    response = await response.json();
-
-    return response;
+    return handleResponse(res);
 };
 
 
@@ -86,4 +76,22 @@ export const deletePageContent = async (id, options = {}) => {
     });
 
     return handleResponse(res);
+};
+
+export const uploadPageContentImage = async (file) => {
+  const token = localStorage.getItem("token");
+
+  const fd = new FormData();
+  fd.append("file", file);
+
+  const headers = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
+  const response = await fetch(`${baseUrl}upload`, {
+    method: "POST",
+    headers,
+    body: fd,
+  });
+
+  return response.json();
 };
