@@ -29,6 +29,10 @@ const OnlineLearning = () => {
   const Features = getBlock("FEATURES");
   const UnnoboPro = getBlock("UNNOBO PRO");
 
+  const dynamicBlocks = pageContentList.filter(
+    (item) => Number(item.dynamic_status) === 1
+  );
+
   return (
     <>
       <Header />
@@ -98,6 +102,57 @@ const OnlineLearning = () => {
           </Container>
         </section>
       )}
+      {dynamicBlocks.map((item, index) => {
+        const isEven = index % 2 === 0;
+
+        return (
+          <section key={item.id} className="section-padding">
+            <Container>
+
+              <h2 className="web-heading text-center mb-4">
+                {item.title}
+              </h2>
+
+              <Row className="align-items-center g-5">
+
+                {isEven && item.image && (
+                  <Col lg={5}>
+                    <img
+                      src={`${imageUrl}${item.image}`}
+                      alt={item.title}
+                      width={400}
+                      height={400}
+                      style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                    />
+                  </Col>
+                )}
+
+                <Col lg={item.image ? 7 : 12}>
+                  <div
+                    className="common-check-list features-list"
+                    dangerouslySetInnerHTML={{
+                      __html: item.description,
+                    }}
+                  />
+                </Col>
+
+                {!isEven && item.image && (
+                  <Col lg={5}>
+                    <img
+                      src={`${imageUrl}${item.image}`}
+                      alt={item.title}
+                      width={400}
+                      height={400}
+                      style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                    />
+                  </Col>
+                )}
+
+              </Row>
+            </Container>
+          </section>
+        );
+      })}
 
       {/* ---------- SECTION 3: UNNOBO PRO ---------- */}
       {UnnoboPro && (
