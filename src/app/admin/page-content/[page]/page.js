@@ -132,6 +132,7 @@ const PageContent = () => {
       fd.append("subtitle", payload.subtitle || "");
       fd.append("description", payload.description || "");
       fd.append("status", String(payload.status ?? 1));
+      fd.append("dynamic_status", "1");
       if (payload.image instanceof File) fd.append("image", payload.image);
       return createPageContent(fd);
     },
@@ -297,6 +298,7 @@ const PageContent = () => {
     fd.append("title", title);
     fd.append("subtitle", edited.subtitle ?? row.subtitle ?? "");
     fd.append("description", edited.description ?? row.description ?? "");
+    fd.append("dynamic_status", "1");
     if (edited.image instanceof File) fd.append("image", edited.image);
 
     updateExtraMutation.mutate({ id: row.id, payload: fd });

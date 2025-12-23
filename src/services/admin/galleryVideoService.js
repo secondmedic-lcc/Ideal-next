@@ -1,56 +1,22 @@
-// services/GalleryVideoService.js
 import { baseUrl } from "@/services/baseUrl";
 import buildHeaders from "@/helper/buildHeaders";
 import handleResponse from "@/helper/handleResponse";
 
-
 const ENDPOINT = `${baseUrl}gallery-video`;
 
-export const saveGalleryVideo = async (data) => {
+export const getGalleryVideos = async ({ video_category_id, page = 1, limit = 10 } = {}) => {
+  const qs = new URLSearchParams();
+  if (video_category_id) qs.set("video_category_id", String(video_category_id));
+  qs.set("page", String(page));
+  qs.set("limit", String(limit));
 
-    const token = localStorage.getItem('token');
+  const url = `${ENDPOINT}?${qs.toString()}`;
 
-    const headers = {
-        "Content-Type": "application/json",
-    };
-    if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-    }
+  const res = await fetch(url, {
+    method: "GET",
+    headers: buildHeaders(false),
+    cache: "no-store", // 304 / cache issue avoid
+  });
 
-    let response = await fetch(`${ENDPOINT}`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(data),
-    });
-
-    response = await response.json();
-
-    return response;
-};
-
-
-
-export const getGalleryVideos = async () => {
-
-    const url = ENDPOINT;
-
-    const res = await fetch(url, {
-        method: "GET",
-        headers: buildHeaders(false),
-    });
-
-    return handleResponse(res);
-};
-
-
-
-export const deleteGalleryVideo = async (id) => {
-    if (!id) throw new Error("Gallery Video id is required");
-
-    const res = await fetch(`${ENDPOINT}/${id}`, {
-        method: "DELETE",
-        headers: buildHeaders(false),
-    });
-
-    return handleResponse(res);
+  return handleResponse(res);
 };
