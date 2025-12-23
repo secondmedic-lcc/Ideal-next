@@ -11,7 +11,6 @@ export async function generateMetadata() {
     const json = await res.json();
 
     const list = json?.data?.list || [];
-    // meta data same page_name এর যেকোন row থেকে নিতে পারো (usually founders row)
     const metaRow = list.find((x) => x?.meta_title || x?.meta_description || x?.meta_keywords) || list[0] || {};
 
     const title = metaRow?.meta_title || "About Us";
