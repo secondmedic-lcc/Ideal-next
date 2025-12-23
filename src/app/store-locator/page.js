@@ -73,7 +73,7 @@ const store = () => {
                 <div className="store-locator-branch">
                   <div className="branch-index">1</div>
                   <div className="branch-content">
-                    <div className="branch-title">'Goregaon West - HO'</div>
+                    <div className="branch-title">Goregaon West - HO</div>
                     <div className="branch-meta">
                       <div><strong>Address:</strong> Uma- Smruti, 1st &amp; 2nd floor, Near Filmistan, S.V.Road.</div>
                       <div><strong>Contact:</strong> +91 022 28787553, 8422818110</div>
@@ -86,7 +86,7 @@ const store = () => {
                 <div className="store-locator-branch">
                   <div className="branch-index">2</div>
                   <div className="branch-content">
-                    <div className="branch-title">'Andheri Branch'</div>
+                    <div className="branch-title">Andheri Branch</div>
                     <div className="branch-meta">
                       <div><strong>Address:</strong> XYZ Building, Andheri West</div>
                       <div><strong>Contact:</strong> +91 022 99999999</div>
@@ -99,7 +99,7 @@ const store = () => {
                 <div className="store-locator-branch">
                   <div className="branch-index">3</div>
                   <div className="branch-content">
-                    <div className="branch-title">'Dadar Center'</div>
+                    <div className="branch-title">Dadar Center</div>
                     <div className="branch-meta">
                       <div><strong>Address:</strong> 12, Main Rd, Dadar</div>
                       <div><strong>Contact:</strong> +91 022 88888888</div>
