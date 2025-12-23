@@ -175,6 +175,14 @@ export default function Sidebar() {
           >
             Branch Locator
           </Link>
+          <Link
+            href="/admin/page-content/seo-meta"
+            className={`sidebar-sublink ${
+              pathname === "/admin/page-content/seo-meta" ? "active" : ""
+            }`}
+          >
+            Seo Meta manage
+          </Link>
         </div>
       </nav>
     </aside>
