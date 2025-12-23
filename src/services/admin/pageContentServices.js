@@ -95,3 +95,39 @@ export const uploadPageContentImage = async (file) => {
 
   return response.json();
 };
+
+// SEO Meta list (group by page_name)
+export const getSeoMetaList = async (options = {}) => {
+  try {
+    const headers = buildHeaders(options);
+
+    const res = await fetch(`${ENDPOINT}/seo-meta`, {
+      method: "GET",
+      headers,
+    });
+
+    return handleResponse(res);
+  } catch (error) {
+    console.error("getSeoMetaList error:", error);
+    throw error;
+  }
+};
+
+// SEO Meta update by page_name
+export const updateSeoMeta = async (data = {}, options = {}) => {
+  try {
+    const headers = buildHeaders(options);
+
+    const res = await fetch(`${ENDPOINT}/seo-meta`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(data),
+    });
+
+    return handleResponse(res);
+  } catch (error) {
+    console.error("updateSeoMeta error:", error);
+    throw error;
+  }
+};
+
