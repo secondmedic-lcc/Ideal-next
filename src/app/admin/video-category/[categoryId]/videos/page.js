@@ -62,7 +62,7 @@ const CategoryVideosPage = () => {
                     frameBorder="0"
                     allowFullScreen
                   />
-                  <div className="card-body">
+                  <div className="card-body d-flex justify-content-between align-items-center">
                     <strong>{video.title}</strong>
 
                     <button
@@ -82,7 +82,7 @@ const CategoryVideosPage = () => {
                         })
                       }
                     >
-                      Delete Video
+                      Delete
                     </button>
                   </div>
                 </div>
