@@ -50,7 +50,7 @@ const VideoCategoryPage = () => {
               <div className="col-md-3">
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="theme-btn"
                   disabled={isAdding}
                 >
                   {isAdding ? "Saving..." : "Add Category"}
@@ -80,9 +80,9 @@ const VideoCategoryPage = () => {
                 </tr>
               )}
 
-              {list.map((cat) => (
+              {list.map((cat, index) => (
                 <tr key={cat.id}>
-                  <td>{cat.id}</td>
+                  <td>{index + 1}</td>
                   <td>{cat.title}</td>
                   <td>{cat.slug}</td>
                   <td className="d-flex gap-2">

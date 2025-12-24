@@ -30,3 +30,14 @@ export const saveGalleryVideo = async (payload) => {
 
   return handleResponse(res);
 };
+
+export const deleteGalleryVideo = async (id) => {
+  if (!id) throw new Error("Video id is required");
+
+  const res = await fetch(`${ENDPOINT}/${id}`, {
+    method: "DELETE",
+    headers: buildHeaders(true),
+  });
+
+  return handleResponse(res);
+};

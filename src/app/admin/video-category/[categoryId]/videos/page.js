@@ -3,10 +3,14 @@
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getGalleryVideos } from "@/services/admin/galleryVideoService";
+import { useGalleryVideoDelete } from "@/hooks/admin/useGalleryVideo";
 import Link from "next/link";
+import swal from "sweetalert";
+
 
 const CategoryVideosPage = () => {
   const { categoryId } = useParams();
+  const { deleteVideo } = useGalleryVideoDelete();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["gallery-video", categoryId],
@@ -20,13 +24,15 @@ const CategoryVideosPage = () => {
   });
 
   const videos = data?.data?.list || [];
+   const categoryTitle =
+    videos.length > 0 ? videos[0]?.videoCategory?.title : "";
 
   return (
     <div className="admin-page">
       <div className="admin-card">
         <div className="admin-card-header">
           <h5 className="admin-card-title">
-            Videos under Category ID: {categoryId}
+            Videos under Category : <span className="text-primary">{categoryTitle}</span>
           </h5>
 
           <Link
@@ -58,9 +64,26 @@ const CategoryVideosPage = () => {
                   />
                   <div className="card-body">
                     <strong>{video.title}</strong>
-                    <div className="text-muted" style={{ fontSize: 12 }}>
-                      Video ID: {video.id}
-                    </div>
+
+                    <button
+                      type="button"
+                      className="theme-btn btn-danger"
+                      onClick={() =>
+                        swal({
+                          title: "Are you sure?",
+                          text: "This video will be removed",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        }).then((willDelete) => {
+                          if (willDelete) {
+                            deleteVideo(video.id);
+                          }
+                        })
+                      }
+                    >
+                      Delete Video
+                    </button>
                   </div>
                 </div>
               </div>

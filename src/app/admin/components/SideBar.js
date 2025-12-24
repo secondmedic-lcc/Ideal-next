@@ -199,7 +199,7 @@ export default function Sidebar() {
           className={`sidebar-link sidebar-dropdown ${galleryOpen ? "open" : ""}`}
           onClick={() => setGalleryOpen(!galleryOpen)}
         >
-          <span>Gallery</span>
+          Gallery
           <span className="dropdown-arrow">▾</span>
         </button>
 
