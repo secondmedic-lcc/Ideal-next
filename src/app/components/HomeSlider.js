@@ -63,12 +63,12 @@ const HomeSlider = () => {
             {sliders.map((item) => (
               <div key={item.id}>
                 {item.image && (
-                  <Image
+                  <img
                     src={`${imageUrl}${item.image}`}
-                    alt={item.title || "Slider Image"}
-                    width={1920}
-                    height={1080}
-                    priority
+                    alt="Features Image"
+                    width={400}
+                    height={400}
+                    style={{ width: "100%", height: "auto", borderRadius: "10px" }}
                   />
                 )}
               </div>
