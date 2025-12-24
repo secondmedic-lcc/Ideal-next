@@ -193,6 +193,14 @@ export default function Sidebar() {
           >
             Seo Meta manage
           </Link>
+          <Link
+            href="/admin/home"
+            className={`sidebar-sublink ${
+              pathname === "/admin/home" ? "active" : ""
+            }`}
+          >
+            Home slide and section
+          </Link>
         </div>
         
         <button

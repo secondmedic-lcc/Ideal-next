@@ -1,50 +1,67 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import parse from "html-react-parser";
+
+import { getHomeSectionOne } from "@/services/homeSectionsServices";
+import { imageUrl } from "@/services/baseUrl";
 
 const HomeFuture = () => {
+  const [row, setRow] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getHomeSectionOne();
+        const item = res?.data?.row || null;
+        setRow(item);
+      } catch (e) {
+        setRow(null);
+      }
+    })();
+  }, []);
+
+  if (!row) return null;
+
+ 
+  if (Number(row.status) === 1) return null;
+
   return (
-    <>
-      <section className="home-future-section section-padding">
-        <Container>
-          <Row className="g-md-5 g-3 align-items-center">
-            <Col xs={12}>
-              <h2 className="web-heading">
-                IDEAL EDUCATION: <br /> SHAPING FUTURES FOR{" "}
-                <span className="theme-clr">38 YEARS</span>
-              </h2>
-            </Col>
-            <Col xs={12} md={8} className="order-2 order-md-1">
-              <p className="home-future-para">
-                More than just a coaching institute, Ideal Education is a
-                trusted partner in academic success. From a single classroom 38
-                years ago to empowering over 12,500 students annually, we have
-                evolved into a leading educational institution across India.
-                <br />
-                <br />
-                With 6 streams, 29 courses, and a team of 200+ expert faculty,
-                we provide comprehensive coaching, ensuring every student
-                receives the best guidance. Our commitment to quality education
-                remains unwavering as we continue to innovate and set new
-                benchmarks in learning.
-              </p>
-            </Col>
-            <Col xs={12} md={4} className="order-1 order-md-2">
-              <Image
-                src="/img/home-future-img.png"
-                alt="image"
-                width={800}
-                height={400}
-                className="home-future-img"
-              />
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </>
+    <section className="home-future-section section-padding">
+      <Container>
+        <Row className="g-md-5 g-3 align-items-center">
+          <Col xs={12}>
+            {/* <h2 className="web-heading">
+              {row.title ? parse(String(row.title)) : ""}
+            </h2> */}
+            <h2 className="web-heading">
+              IDEAL EDUCATION: <br /> SHAPING FUTURES FOR{" "}
+              <span className="theme-clr">38 YEARS</span>
+            </h2>
+          </Col>
+
+          <Col xs={12} md={8} className="order-2 order-md-1">
+            <p className="home-future-para">
+              {row.description ? parse(String(row.description)) : ""}
+            </p>
+          </Col>
+
+          <Col xs={12} md={4} className="order-1 order-md-2">
+            {row.image ? (
+              <img
+                  src={`${imageUrl}${row.image}`}
+                  alt="Features Image"
+                  width={400}
+                  height={400}
+                  style={{ width: "100%", height: "auto", borderRadius: "10px" }}
+                />
+            ) : null}
+          </Col>
+        </Row>
+      </Container>
+    </section>
   );
 };
 

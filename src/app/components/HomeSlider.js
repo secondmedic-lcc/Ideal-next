@@ -2,29 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const sliderImages = [
-  {
-    src: "/img/banner-1.png",
-    alt: "Banner Image 1",
-  },
-  {
-    src: "/img/banner-2.png",
-    alt: "Banner Image 2",
-  },
-  {
-    src: "/img/banner-3.png",
-    alt: "Banner Image 3",
-  },
-  {
-    src: "/img/banner-4.png",
-    alt: "Banner Image 4",
-  },
-];
+import { getHomeSlider } from "@/services/homeSliderServices";
+import { imageUrl } from "@/services/baseUrl";
 
 const responsive = {
   superLargeDesktop: {
@@ -45,39 +28,55 @@ const responsive = {
   },
 };
 
-const HomeSlider = ({ images = sliderImages }) => {
+const HomeSlider = () => {
+  const [sliders, setSliders] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getHomeSlider();
+        setSliders(res?.data?.list || []);
+      } catch (e) {
+        setSliders([]);
+      }
+    })();
+  }, []);
+
+  if (!sliders.length) return null;
+
   return (
-    <>
-      <section className="home-banner-slider">
-        <Row className="g-0">
-          <Col>
-            <Carousel
-              swipeable={false}
-              draggable={true}
-              showDots={true}
-              responsive={responsive}
-              infinite={true}
-              autoPlay={true}
-              autoPlaySpeed={3000}
-              transitionDuration={500}
-              arrows={true}
-              dotListClass="custom-dot-list"
-            >
-              {images.map((image, index) => (
-                <div key={image.src}>
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    width={1920}
-                    height={1080}
+    <section className="home-banner-slider">
+      <Row className="g-0">
+        <Col>
+          <Carousel
+            swipeable={false}
+            draggable={true}
+            showDots={true}
+            responsive={responsive}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={3000}
+            transitionDuration={500}
+            arrows={true}
+            dotListClass="custom-dot-list"
+          >
+            {sliders.map((item) => (
+              <div key={item.id}>
+                {item.image && (
+                  <img
+                    src={`${imageUrl}${item.image}`}
+                    alt="Features Image"
+                    width={400}
+                    height={400}
+                    style={{ width: "100%", height: "auto", borderRadius: "10px" }}
                   />
-                </div>
-              ))}
-            </Carousel>
-          </Col>
-        </Row>
-      </section>
-    </>
+                )}
+              </div>
+            ))}
+          </Carousel>
+        </Col>
+      </Row>
+    </section>
   );
 };
 
