@@ -1,53 +1,68 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import parse from "html-react-parser";
+
+import { getHomeSectionTwo } from "@/services/homeSectionsServices";
+import { imageUrl } from "@/services/baseUrl";
 
 const HomeMilestone = () => {
+  const [row, setRow] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getHomeSectionTwo();
+        const item = res?.data?.row || null;
+        setRow(item);
+      } catch (e) {
+        setRow(null);
+      }
+    })();
+  }, []);
+
+  if (!row) return null;
+
+
+  if (Number(row.status) === 1) return null;
+
   return (
-    <>
-      <section className="home-milestone-section web-bg section-padding">
-        <Container>
-          <Row className="g-5 align-items-center">
-            <Col lg={12}>
-              <h2 className="web-heading">
+    <section className="home-milestone-section section-padding">
+      <Container>
+        <Row className="g-md-5 g-3 align-items-center">
+          <Col xs={12}>
+            {/* <h2 className="web-heading">
+              {row.title ? parse(String(row.title)) : ""}
+            </h2> */}
+            <h2 className="web-heading">
                 COMPREHENSIVE COACHING FOR <br />
-                <span className="theme-clr">EVERY ACADEMIC MILESTONE</span>
-              </h2>
-            </Col>
-            <Col lg={6}>
-              <Image
-                src="/img/home-milestone-img.png"
-                alt="image"
-                width={800}
-                height={400}
-                className="home-milestone-img"
+              <span className="theme-clr">EVERY ACADEMIC MILESTONE</span>
+            </h2>
+          </Col>
+
+          {/* Left Image */}
+          <Col xs={12} md={6} className="order-1 order-md-1">
+            {row.image ? (
+              <img
+                src={`${imageUrl}${row.image}`}
+                alt={row.title || "Section 2 Image"}
+                width={600}
+                height={450}
+                style={{ width: "100%", height: "auto", borderRadius: "10px" }}
               />
-            </Col>
-            <Col lg={6}>
-              <p className="home-milestone-para">
-                Ideal Classes stands among the few institutes offering expert
-                coaching across all levels of education. From school to
-                professional courses, we specialize in:
-              </p>
-              <ul className="common-check-list">
-                <li>School | Commerce | Science</li>
-                <li>Competitive & Professional Exams</li>
-                <li>BAF, BMS, BBI, BFM | Engineering</li>
-              </ul>
-              <p className="home-milestone-para mb-0">
-                With a structured, result-oriented approach, we have empowered
-                over <b className="theme-clr">2,00,000 students</b> to excel in
-                their careers, producing thousands of Board and University
-                toppers.
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </>
+            ) : null}
+          </Col>
+
+          {/* Right Content */}
+          <Col xs={12} md={6} className="order-2 order-md-2">
+            <div className="home-milestone-para">
+              {row.description ? parse(String(row.description)) : ""}
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
   );
 };
 
