@@ -7,6 +7,11 @@ import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import {
+  getPhotoGallery as getTestimonials
+} from "@/services/admin/testimonialServices";
+import { useQuery } from "@tanstack/react-query";
+import { imageUrl } from "@/services/baseUrl";
 
 const renderStars = (rating) => {
   const fullStars = Math.floor(rating);
@@ -34,36 +39,6 @@ const renderStars = (rating) => {
   );
 };
 
-const testimonialData = [
-  {
-    userImage: "/img/review-user-1.png",
-    content:
-      "Teachers at ideal education are the drive behind our successful results. They have consistently solved our doubts and provided valuable and insightful knowledge that genuinely helped in our studies. They also gave guidance on how to prepare for exams, and methods to methods to prepare a concept.",
-    name: "Arpita Tiwari",
-    rating: 3.5,
-  },
-  {
-    userImage: "/img/review-user-2.png",
-    content:
-      "Teachers at ideal education are the drive behind our successful results. They have consistently solved our doubts and provided valuable and insightful knowledge that genuinely helped in our studies. They also gave guidance on how to prepare for exams, and methods to methods to prepare a concept.",
-    name: "Arpita Tiwari",
-    rating: 3.5,
-  },
-  {
-    userImage: "/img/review-user-1.png",
-    content:
-      "Teachers at ideal education are the drive behind our successful results. They have consistently solved our doubts and provided valuable and insightful knowledge that genuinely helped in our studies. They also gave guidance on how to prepare for exams, and methods to methods to prepare a concept.",
-    name: "Arpita Tiwari",
-    rating: 3.5,
-  },
-  {
-    userImage: "/img/review-user-2.png",
-    content:
-      "Teachers at ideal education are the drive behind our successful results. They have consistently solved our doubts and provided valuable and insightful knowledge that genuinely helped in our studies. They also gave guidance on how to prepare for exams, and methods to methods to prepare a concept.",
-    name: "Arpita Tiwari",
-    rating: 3.5,
-  },
-];
 
 const responsive = {
   superLargeDesktop: {
@@ -84,7 +59,24 @@ const responsive = {
   },
 };
 
-const HomeTestimonials = ({ testimonials = testimonialData }) => {
+const HomeTestimonials = () => {
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["testimonial"],
+    queryFn: () => getTestimonials(),
+  });
+
+  const testimonialList = data?.data?.list || data?.list || [];
+
+  const testimonials = testimonialList.map(item => ({
+    userImage: imageUrl + item.image,
+    content: item.review,
+    name: item.name,
+    rating: item.rating,
+  }));
+
+  if (testimonials.length == 0) return;
+
   return (
     <>
       <section className="home-testimonials-section web-bg section-padding">
@@ -124,12 +116,17 @@ const HomeTestimonials = ({ testimonials = testimonialData }) => {
                   <div key={index}>
                     <div className="review-box">
                       <div className="img-div">
-                        <Image
+                        <img
+                          src={review.userImage}
+                          alt="Gallery"
+                          className="admin-table-image"
+                        />
+                        {/* <Image
                           src={review.userImage}
                           alt="img"
                           width={300}
                           height={300}
-                        />
+                        /> */}
                       </div>
                       <p className="review-content">{review.content}</p>
                       <hr />

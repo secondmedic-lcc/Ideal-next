@@ -59,6 +59,15 @@ export default function Sidebar() {
           Photo Gallery
         </Link>
 
+          <Link
+          href="/admin/testimonial"
+          className={`sidebar-link ${
+            pathname === "/admin/testimonial" ? "active" : ""
+          }`}
+        >
+          Testimonials
+        </Link>
+
         <Link
           href="/admin/contact-us"
           className={`sidebar-link ${
