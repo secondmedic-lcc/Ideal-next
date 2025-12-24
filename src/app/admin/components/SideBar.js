@@ -59,6 +59,15 @@ export default function Sidebar() {
           Photo Gallery
         </Link>
 
+          <Link
+          href="/admin/testimonial"
+          className={`sidebar-link ${
+            pathname === "/admin/testimonial" ? "active" : ""
+          }`}
+        >
+          Testimonials
+        </Link>
+
         <Link
           href="/admin/contact-us"
           className={`sidebar-link ${
@@ -183,6 +192,14 @@ export default function Sidebar() {
             }`}
           >
             Branch Locator
+          </Link>
+          <Link
+            href="/admin/page-content/seo-meta"
+            className={`sidebar-sublink ${
+              pathname === "/admin/page-content/seo-meta" ? "active" : ""
+            }`}
+          >
+            Seo Meta manage
           </Link>
         </div>
       </nav>
