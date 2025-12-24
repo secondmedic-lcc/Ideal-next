@@ -67,6 +67,14 @@ export default function Sidebar() {
         >
           Testimonials
         </Link>
+          <Link
+          href="/admin/why-choose"
+          className={`sidebar-link ${
+            pathname === "/admin/why-choose" ? "active" : ""
+          }`}
+        >
+          Why Choose
+        </Link>
 
         <Link
           href="/admin/contact-us"
