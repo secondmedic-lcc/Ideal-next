@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Col, Container, Row, Offcanvas, Dropdown } from "react-bootstrap";
+import { getPhotoGallery, } from "@/services/admin/whyChooseServices";
+import { useQuery } from "@tanstack/react-query";
+import { imageUrl } from "@/services/baseUrl";
 
 const whyChooseReasons = [
   {
@@ -32,7 +35,21 @@ const whyChooseReasons = [
   },
 ];
 
-const HomeWhyChoose = ({ reasons = whyChooseReasons }) => {
+const HomeWhyChoose = () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["why-choose"],
+    queryFn: () => getPhotoGallery(),
+  });
+
+  const photoGalleryList = data?.data?.list || data?.list || [];
+
+  const reasons = photoGalleryList.map(item => ({
+    iconSrc: imageUrl + item.image,
+    title: item.title,
+  }));
+  
+  if (reasons.length == 0) return;
+  
   return (
     <>
       <section className="home-why-choose-section section-padding">
@@ -53,12 +70,19 @@ const HomeWhyChoose = ({ reasons = whyChooseReasons }) => {
               >
                 <div className="why-choose-box">
                   <div className="icon-div">
-                    <Image
+                    <img
                       src={reason.iconSrc}
                       alt={`${reason.title} icon`}
                       width={200}
                       height={200}
+                      className="admin-table-image"
                     />
+                    {/* <Image
+                      src={reason.iconSrc}
+                      alt={`${reason.title} icon`}
+                      width={200}
+                      height={200}
+                    /> */}
                   </div>
                   <h4 className="why-choose-title">{reason.title}</h4>
                 </div>
