@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const [pagesOpen, setPagesOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -50,15 +51,7 @@ export default function Sidebar() {
           Gallery Video
         </Link>
 
-        <Link
-          href="/admin/photo-gallery"
-          className={`sidebar-link ${
-            pathname === "/admin/photo-gallery" ? "active" : ""
-          }`}
-        >
-          Photo Gallery
-        </Link>
-
+        
           <Link
           href="/admin/testimonial"
           className={`sidebar-link ${
@@ -136,15 +129,6 @@ export default function Sidebar() {
           <span className="dropdown-arrow">▾</span>
         </button>
 
-        <Link
-          href="/admin/video-category"
-          className={`sidebar-link ${
-            pathname === "/admin/video-category" ? "active" : ""
-          }`}
-        >
-          Video Category
-        </Link>
-
         <div className={`sidebar-submenu ${pagesOpen ? "show" : ""}`}>
           <Link
             href="/admin/page-content/about-us"
@@ -209,6 +193,35 @@ export default function Sidebar() {
           >
             Seo Meta manage
           </Link>
+        </div>
+        
+        <button
+          className={`sidebar-link sidebar-dropdown ${galleryOpen ? "open" : ""}`}
+          onClick={() => setGalleryOpen(!galleryOpen)}
+        >
+          <span>Gallery</span>
+          <span className="dropdown-arrow">▾</span>
+        </button>
+
+        <div className={`sidebar-submenu ${galleryOpen ? "show" : ""}`}>
+          <Link
+            href="/admin/video-category"
+            className={`sidebar-sublink ${
+              pathname === "/admin/video-category" ? "active" : ""
+            }`}
+          >
+            Video Gallery
+          </Link>
+
+          <Link
+          href="/admin/photo-gallery"
+          className={`sidebar-sublink ${
+            pathname === "/admin/photo-gallery" ? "active" : ""
+          }`}
+        >
+          <span>Photo Gallery</span>
+        </Link>
+
         </div>
       </nav>
     </aside>

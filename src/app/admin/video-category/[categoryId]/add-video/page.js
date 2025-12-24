@@ -6,9 +6,6 @@ import { useGalleryVideo } from "@/hooks/admin/useGalleryVideo";
 import { FiVideo, FiLink, FiSave } from "react-icons/fi";
 
 const AddGalleryVideo = () => {
-  const params = useParams();
-console.log("PARAMS:", params);
-console.log("categoryId:", params.categoryId);
   const { categoryId } = useParams(); // 👈 from URL
   const { handleSubmit, mutate, register } = useGalleryVideo();
 
