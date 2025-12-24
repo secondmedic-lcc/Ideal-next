@@ -32,6 +32,7 @@ textarea:focus {
   left: 0;
   top: 0;
   z-index: 111;
+  overflow: auto;
 }
 
 /* Header */

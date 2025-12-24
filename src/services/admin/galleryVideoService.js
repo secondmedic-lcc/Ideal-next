@@ -22,7 +22,7 @@ export const getGalleryVideos = async ({ video_category_id, page = 1, limit = 10
 };
 
 export const saveGalleryVideo = async (payload) => {
-  const res = await fetch(`${ENDPOINT}`, {
+  const res = await fetch(`${ENDPOINT}/add/category-video`, {
     method: "POST",
     headers: buildHeaders(true),
     body: JSON.stringify(payload),
