@@ -20,3 +20,13 @@ export const getGalleryVideos = async ({ video_category_id, page = 1, limit = 10
 
   return handleResponse(res);
 };
+
+export const saveGalleryVideo = async (payload) => {
+  const res = await fetch(`${ENDPOINT}`, {
+    method: "POST",
+    headers: buildHeaders(true),
+    body: JSON.stringify(payload),
+  });
+
+  return handleResponse(res);
+};

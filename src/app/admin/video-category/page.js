@@ -55,13 +55,6 @@ const VideoCategoryPage = () => {
                                         >
                                             View
                                         </a>
-
-                                        <a
-                                            href={`/admin/video-category/${cat.id}/add-video`}
-                                            className="btn btn-sm btn-success"
-                                        >
-                                            Add
-                                        </a>
                                     </td>
                                 </tr>
                             ))}

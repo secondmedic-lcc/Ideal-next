@@ -119,6 +119,15 @@ export default function Sidebar() {
           <span className="dropdown-arrow">▾</span>
         </button>
 
+        <Link
+          href="/admin/video-category"
+          className={`sidebar-link ${
+            pathname === "/admin/video-category" ? "active" : ""
+          }`}
+        >
+          Video Category
+        </Link>
+
         <div className={`sidebar-submenu ${pagesOpen ? "show" : ""}`}>
           <Link
             href="/admin/page-content/about-us"

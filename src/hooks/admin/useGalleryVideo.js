@@ -7,20 +7,18 @@ export const useGalleryVideo = () => {
 
     const { handleSubmit, register, reset } = useForm();
 
-    const { mutate, isPending } = useMutation({
+      const { mutate, isPending } = useMutation({
         mutationFn: saveGalleryVideo,
         onSuccess: (result) => {
-            if (result?.status === true) {
-                swal("Success", result.message || "Course created", "success");
-                reset();
-                setPreviewSrc(null);
-            } else {
-                swal("Error", result?.message || "Something went wrong", "error");
-            }
+        if (result?.status === true) {
+            swal("Success", result.message || "Video added successfully", "success");
+            reset();
+        } else {
+            swal("Error", result?.message || "Something went wrong", "error");
+        }
         },
-        onError: () => {
-            const msg = err?.message || "Network or server error";
-            swal("Error", msg, "error");
+        onError: (err) => {
+        swal("Error", err?.message || "Network or server error", "error");
         },
     });
 
