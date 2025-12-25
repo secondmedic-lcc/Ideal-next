@@ -42,7 +42,7 @@ const Header = () => {
       name: "Gallery",
       submenu: [
         { name: "Photo Gallery", href: "/gallery/photos" },
-        { name: "Video Gallery", href: "/gallery/videos" },
+        { name: "Video Gallery", href: "/gallery/videos-category" },
       ],
     },
     { name: "Careers", href: "/careers" },
