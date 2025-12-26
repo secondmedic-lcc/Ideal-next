@@ -6,13 +6,19 @@ import { useGalleryVideo } from "@/hooks/admin/useGalleryVideo";
 import { FiVideo, FiLink, FiSave } from "react-icons/fi";
 
 const AddGalleryVideo = () => {
-  const { categoryId } = useParams(); // 👈 from URL
+  const { categoryId } = useParams();
   const { handleSubmit, mutate, register } = useGalleryVideo();
+
+  const onSubmit = (data) => {
+    mutate({
+      ...data,
+      video_category_id: Number(categoryId),
+    });
+  };
 
   return (
     <div className="admin-page">
       <div className="admin-card">
-        {/* Header */}
         <div className="admin-card-header">
           <div className="admin-card-title-wrap">
             <FiVideo size={18} />
@@ -20,18 +26,9 @@ const AddGalleryVideo = () => {
           </div>
         </div>
 
-        {/* Body */}
         <div className="admin-card-body">
-          <form
-            onSubmit={handleSubmit((data) =>
-              mutate({
-                ...data,
-                video_category_id: Number(categoryId), // ✅ FROM URL
-              })
-            )}
-          >
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
-              {/* Video Title */}
               <div className="col-md-12 mb-3">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
                   <FiVideo />
@@ -41,11 +38,10 @@ const AddGalleryVideo = () => {
                   type="text"
                   className="form-control"
                   placeholder="Enter video title"
-                  {...register("title")}
+                  {...register("title", { required: true })}
                 />
               </div>
 
-              {/* Video Link */}
               <div className="col-md-12 mb-4">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
                   <FiLink />
@@ -54,12 +50,11 @@ const AddGalleryVideo = () => {
                 <textarea
                   rows={3}
                   className="form-control"
-                  placeholder="Paste video URL here"
-                  {...register("link")}
+                  placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                  {...register("link", { required: true })}
                 />
               </div>
 
-              {/* Actions */}
               <div className="col-md-12">
                 <div className="admin-form-actions">
                   <button type="submit" className="theme-btn">
