@@ -42,14 +42,14 @@ export default function Sidebar() {
           Courses
         </Link>
 
-        <Link
+        {/* <Link
           href="/admin/gallery-video"
           className={`sidebar-link ${
             pathname === "/admin/gallery-video" ? "active" : ""
           }`}
         >
           Gallery Video
-        </Link>
+        </Link> */}
 
         
           <Link
