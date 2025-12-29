@@ -6,23 +6,28 @@ import { submitAdmissionRequest } from "@/services/admissionEnquiryServices";
 import swal from "sweetalert";
 
 export const useAdmissionEnquiryForm = () => {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-    const { handleSubmit, register, reset, formState: { errors } } = useForm();
+  const { mutate, isPending } = useMutation({
+    mutationFn: submitAdmissionRequest,
+    onSuccess: (result) => {
+      if (result?.status === true) {
+        swal("Thank you", result?.message || "Success", "success");
+        reset();
+      } else {
+        swal("Error", result?.message || "Something went wrong", "error");
+      }
+    },
+    onError: (error) => {
+      swal("Error", error?.message || "Something went wrong", "error");
+    },
+  });
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: submitAdmissionRequest,
-        onSuccess: (result) => {
-            if (result['status'] == true) {
-                swal("Thank you", result['message'], "success");
-                reset();
-            } else {
-                swal("Error", result.message, "error");
-            }
-        },
-        onError: () => {
-            swal("Error", result.message, "error");
-        }
-    });
-
-    return { handleSubmit, register, mutate, isPending };
-}
+  return { handleSubmit, register, mutate, isPending, setValue };
+};

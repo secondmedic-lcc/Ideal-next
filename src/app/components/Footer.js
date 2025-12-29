@@ -10,8 +10,7 @@ import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
 
 const Footer = () => {
-  const { register, handleSubmit, mutate, isPending } =
-    useAdmissionEnquiryForm();
+  const { register, handleSubmit, mutate, isPending, setValue } = useAdmissionEnquiryForm();
 
   return (
     <>
@@ -228,6 +227,30 @@ const Footer = () => {
                       placeholder="Write your email id"
                       required
                     />
+                  </Form.Group>
+                  <Form.Group className="form-group">
+                    <Form.Label>Select Division:</Form.Label>
+
+                    <select
+                      className="react-select form-control"
+                      {...register("division_id")}
+                      onChange={(e) => {
+                        const map = {
+                          "1": "Science",
+                          "2": "Commerce",
+                          "3": "School",
+                        };
+
+                        setValue("division_name", map[e.target.value] || "");
+                      }}
+                    >
+                      <option value="">-- Select Division --</option>
+                      <option value="1">Science</option>
+                      <option value="2">Commerce</option>
+                      <option value="3">School</option>
+                    </select>
+
+                    <input type="hidden" {...register("division_name")} />
                   </Form.Group>
                   <Form.Group className="form-group">
                     <Form.Label>For which grade are you applying?</Form.Label>

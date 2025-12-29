@@ -67,6 +67,7 @@ const AdmissionEnquiry = () => {
                     <th>Parent</th>
                     <th>Contact</th>
                     <th>Relation</th>
+                    <th>Division</th>
                     <th>Applying For</th>
                   </tr>
                 </thead>
@@ -103,8 +104,14 @@ const AdmissionEnquiry = () => {
                         </div>
                       </td>
 
-                      <td>{item.relation}</td>
+                      <td>{item.relation}</td>                    
 
+                      <td className="fw-medium">
+                        <div className="d-flex align-items-center gap-2">
+                          <FiBookOpen />
+                          {item.division_name}
+                        </div>
+                      </td>
                       <td className="fw-medium">
                         <div className="d-flex align-items-center gap-2">
                           <FiBookOpen />
