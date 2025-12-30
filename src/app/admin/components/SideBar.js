@@ -201,6 +201,14 @@ export default function Sidebar() {
           >
             Home slide and section
           </Link>
+          <Link
+            href="/admin/custom-page"
+            className={`sidebar-sublink ${
+              pathname === "/admin/custom-page" ? "active" : ""
+            }`}
+          >
+            Custom Pages
+          </Link>
         </div>
         
         <button
