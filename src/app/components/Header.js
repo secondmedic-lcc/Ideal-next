@@ -15,6 +15,9 @@ import { TbMenu4 } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 import { getCourses } from "@/services/admin/courseService";
 import { useQuery } from "@tanstack/react-query";
+import {
+  getPhotoGallery as getMorePages
+} from "@/services/admin/customPageServices";
 
 const Header = () => {
   const { data, isLoading, isError } = useQuery({
@@ -23,6 +26,23 @@ const Header = () => {
   });
 
   const courseList = data?.data?.list || data?.list || [];
+
+  const { data: morePagesData = [] } = useQuery({
+    queryKey: ["custom-page"],
+    queryFn: () => getMorePages(),
+  });
+  const morePagesList = morePagesData?.data?.list ?? [];
+
+  const moreMenu =
+  morePagesList.length > 0
+    ? {
+        name: "More",
+        submenu: morePagesList.map((item) => ({
+          name: item.page_name,
+          href: `/more/${item.page_slug}`,
+        })),
+      }
+    : null;
 
   const menuData = [
     { name: "About Us", href: "/about-us" },
@@ -48,6 +68,7 @@ const Header = () => {
     { name: "Careers", href: "/careers" },
     { name: "Franchise Proposal", href: "/franchise-proposal" },
     { name: "Contact Us", href: "/contact-us" },
+    ...(moreMenu ? [moreMenu] : []),
   ];
 
   const [show, setShow] = useState(false);

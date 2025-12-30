@@ -1,11 +1,17 @@
 const buildHeaders = (isJson = false) => {
+  let token = null;
 
-    const token = localStorage.getItem('token');
+  // ✅ only runs in browser
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
 
-    const headers = {};
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-    if (isJson) headers["Content-Type"] = "application/json";
-    return headers;
+  const headers = {};
+
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (isJson) headers["Content-Type"] = "application/json";
+
+  return headers;
 };
 
 export default buildHeaders;

@@ -31,9 +31,13 @@ export const updatePhotoGallery = async (id, data) => {
 };
 
 
-export const getPhotoGallery = async (params = {}) => {
+export const getPhotoGallery = async (slug = null) => {
     
-    const url = `${baseUrl}custom_page`;
+    let url = `${baseUrl}custom_page`;
+
+    if (slug != null) {
+        url += '?page_slug='+slug;
+    }
 
     const res = await fetch(url, {
         method: "GET",
