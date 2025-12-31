@@ -8,8 +8,13 @@ import { FaEnvelope, FaPhoneSquareAlt } from "react-icons/fa";
 import { FaLocationDot, FaRegPaperPlane } from "react-icons/fa6";
 import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
+import { useState } from "react";
+
 
 const Footer = () => {
+
+  const [division, setDivision] = useState("");
+
   const { register, handleSubmit, mutate, isPending, setValue } = useAdmissionEnquiryForm();
 
   return (
@@ -235,15 +240,16 @@ const Footer = () => {
                       className="react-select form-control"
                       {...register("division_id")}
                       onChange={(e) => {
+                        const value = e.target.value;
+                        setDivision(value);
                         const map = {
                           "1": "Science",
                           "2": "Commerce",
                           "3": "School",
                         };
-
-                        setValue("division_name", map[e.target.value] || "");
-                      }}
-                    >
+                        setValue("division_name", map[value] || "");
+                        setValue("apply_for", "");
+                      }}>
                       <option value="">-- Select Division --</option>
                       <option value="1">Science</option>
                       <option value="2">Commerce</option>
@@ -252,29 +258,35 @@ const Footer = () => {
 
                     <input type="hidden" {...register("division_name")} />
                   </Form.Group>
+
                   <Form.Group className="form-group">
                     <Form.Label>For which grade are you applying?</Form.Label>
                     <select
                       className="react-select form-control"
-                      {...register("apply_for")}
-                    >
+                      {...register("apply_for")} >
                       <option value="">-- Select Grade --</option>
-                      <option value="nursery">Nursery</option>
-                      <option value="kg">KG</option>
-                      <option value="1">Class 1</option>
-                      <option value="2">Class 2</option>
-                      <option value="3">Class 3</option>
-                      <option value="4">Class 4</option>
-                      <option value="5">Class 5</option>
-                      <option value="6">Class 6</option>
-                      <option value="7">Class 7</option>
-                      <option value="8">Class 8</option>
-                      <option value="9">Class 9</option>
-                      <option value="10">Class 10</option>
-                      <option value="11">Class 11</option>
-                      <option value="12">Class 12</option>
+
+                      {(division === "3" || division === "") && (
+                        <>
+                          <option value="nursery">Nursery</option>
+                          <option value="kg">KG</option>
+                          {[...Array(10)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              Class {i + 1}
+                            </option>
+                          ))}
+                        </>
+                      )}
+
+                      {(division === "1" || division === "2") && (
+                        <>
+                          <option value="11">Class 11</option>
+                          <option value="12">Class 12</option>
+                        </>
+                      )}
                     </select>
                   </Form.Group>
+
                   <button type="submit" className="web-btn">
                     <FaRegPaperPlane /> Enquire
                   </button>
