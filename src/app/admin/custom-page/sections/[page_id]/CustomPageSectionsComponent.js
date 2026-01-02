@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Button, Container, Form, Modal, Table, Tabs, Tab, Row, Col } from "react-bootstrap";
 import parse from "html-react-parser";
 import { useParams, useRouter } from "next/navigation";
-
+import dynamic from "next/dynamic";
 import {
   listHomeSlider,
   createHomeSlider,
@@ -18,6 +18,9 @@ import {
 
 import { imageUrl } from "@/services/baseUrl";
 import CustomPageSectionThree from "./CustomPageSectionThree";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+import "react-quill-new/dist/quill.snow.css";
 
 const CustomPageSectionsComponent = ({page_id}) => {
 
@@ -312,12 +315,17 @@ const CustomPageSectionsComponent = ({page_id}) => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description (HTML ok)</Form.Label>
-                  <Form.Control
+                  <ReactQuill
+                    theme="snow"
+                    value={sec1Form.description}
+                    onChange={(value) => setSec1Form((p) => ({ ...p, description: value }))}
+                  />
+                  {/* <Form.Control
                     as="textarea"
                     rows={8}
                     value={sec1Form.description}
                     onChange={(e) => setSec1Form((p) => ({ ...p, description: e.target.value }))}
-                  />
+                  /> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -382,12 +390,17 @@ const CustomPageSectionsComponent = ({page_id}) => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description (HTML ok)</Form.Label>
-                  <Form.Control
+                  <ReactQuill
+                    theme="snow"
+                    value={sec2Form.description}
+                    onChange={(value) => setSec2Form((p) => ({ ...p, description: value }))}
+                  />
+                  {/* <Form.Control
                     as="textarea"
                     rows={8}
                     value={sec2Form.description}
                     onChange={(e) => setSec2Form((p) => ({ ...p, description: e.target.value }))}
-                  />
+                  /> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3">

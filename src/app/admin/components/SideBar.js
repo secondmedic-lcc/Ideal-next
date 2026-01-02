@@ -209,6 +209,22 @@ export default function Sidebar() {
           >
             Custom Pages
           </Link>
+          <Link
+            href="/admin/academic-year"
+            className={`sidebar-sublink ${
+              pathname === "/admin/academic-year" ? "active" : ""
+            }`}
+          >
+            Academic Year
+          </Link>
+          <Link
+            href="/admin/class"
+            className={`sidebar-sublink ${
+              pathname === "/admin/class" ? "active" : ""
+            }`}
+          >
+            Academic Claases
+          </Link>
         </div>
         
         <button
