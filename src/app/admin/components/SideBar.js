@@ -225,6 +225,14 @@ export default function Sidebar() {
           >
             Academic Claases
           </Link>
+          <Link
+            href="/admin/division"
+            className={`sidebar-sublink ${
+              pathname === "/admin/division" ? "active" : ""
+            }`}
+          >
+            Divisions
+          </Link>
         </div>
         
         <button

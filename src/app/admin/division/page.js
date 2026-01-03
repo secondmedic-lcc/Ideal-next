@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getFaqs, deleteFaqs } from "@/services/admin/acYearServices";
+import { getFaqs, deleteFaqs } from "@/services/admin/divisionServices";
 import Link from "next/link";
 import swal from "sweetalert";
 import {
@@ -103,7 +103,8 @@ export default function FAQList() {
                 <thead>
                   <tr>
                     <th style={{ width: "60px" }}>#</th>
-                    <th>Title</th>
+                    <th>Division</th>
+                    <th>Classes</th>
                     <th className="text-end">Actions</th>
                   </tr>
                 </thead>
@@ -116,11 +117,14 @@ export default function FAQList() {
                       <td className="fw-medium">
                         {faq.title}
                       </td>
+                      <td className="fw-medium">
+                        {faq.class_list}
+                      </td>
 
                       <td className="text-end">
                         <div className="admin-actions">
                           <Link
-                            href={`/admin/academic-year/${faq.id}`}
+                            href={`/admin/division/${faq.id}`}
                             className="icon-btn edit"
                             title="Edit"
                           >

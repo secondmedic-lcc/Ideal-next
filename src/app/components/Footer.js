@@ -10,12 +10,29 @@ import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
 import { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+import { getFaqs as acYears } from "@/services/admin/acYearServices";
+import { getFaqs as divisionsData } from "@/services/admin/divisionServices";
+
 
 const Footer = () => {
 
   const [division, setDivision] = useState("");
+  const [divisionClasses, setDivisionClasses] = useState([]);
 
   const { register, handleSubmit, mutate, isPending, setValue } = useAdmissionEnquiryForm();
+
+  const { data: acYearsData } = useQuery({
+    queryKey: ["academic_year"],
+    queryFn: () => acYears(),
+  });
+  const { data: divisionData } = useQuery({
+    queryKey: ["division"],
+    queryFn: () => divisionsData(),
+  });
+
+  const acYearsDataList = acYearsData?.data?.list || acYearsData?.list || [];
+  const divisionDataList = divisionData?.data?.list || divisionData?.list || [];
 
   return (
     <>
@@ -149,7 +166,9 @@ const Footer = () => {
                       {...register("academic_year")}
                     >
                       <option value={""}>-- Select Academic Year --</option>
-                      <option value={"2025-2026"}>2025-2026</option>
+                      {
+                        acYearsDataList.map(item => <option value={item.title}>{item.title}</option>)
+                      }
                     </select>
                   </Form.Group>
                   <Form.Group className="form-group">
@@ -242,18 +261,27 @@ const Footer = () => {
                       onChange={(e) => {
                         const value = e.target.value;
                         setDivision(value);
-                        const map = {
-                          "1": "Science",
-                          "2": "Commerce",
-                          "3": "School",
-                        };
-                        setValue("division_name", map[value] || "");
+                        const selectedDivision = divisionDataList.find(
+                          item => item.id == value
+                        );
+                        setValue("division_name", selectedDivision?.title || "");
+
+                        const classesData =
+                          Array.isArray(selectedDivision?.class_list)
+                            ? selectedDivision.class_list
+                            : selectedDivision?.class_list
+                            ? JSON.parse(selectedDivision.class_list)
+                            : [];
+                        console.log('classesData', classesData);
+                        
+                        setDivisionClasses(classesData);
+
                         setValue("apply_for", "");
                       }}>
                       <option value="">-- Select Division --</option>
-                      <option value="1">Science</option>
-                      <option value="2">Commerce</option>
-                      <option value="3">School</option>
+                      {
+                        divisionDataList.map(item => <option value={item.id}>{item.title}</option>)
+                      }
                     </select>
 
                     <input type="hidden" {...register("division_name")} />
@@ -265,8 +293,10 @@ const Footer = () => {
                       className="react-select form-control"
                       {...register("apply_for")} >
                       <option value="">-- Select Grade --</option>
-
-                      {(division === "3" || division === "") && (
+                      {
+                        divisionClasses.map(item => <option key={item} value={item}>{item}</option>)
+                      }
+                      {/* {(division === "3" || division === "") && (
                         <>
                           <option value="nursery">Nursery</option>
                           <option value="kg">KG</option>
@@ -283,7 +313,7 @@ const Footer = () => {
                           <option value="11">Class 11</option>
                           <option value="12">Class 12</option>
                         </>
-                      )}
+                      )} */}
                     </select>
                   </Form.Group>
 

@@ -149,3 +149,4 @@ const selectStyles = {
 
 
 export default AddFAQs;
+export { selectStyles };
