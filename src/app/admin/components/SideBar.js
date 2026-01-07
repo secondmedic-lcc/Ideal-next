@@ -233,6 +233,14 @@ export default function Sidebar() {
           >
             Divisions
           </Link>
+          <Link
+            href="/admin/social-media"
+            className={`sidebar-sublink ${
+              pathname === "/admin/social-media" ? "active" : ""
+            }`}
+          >
+            Social Links
+          </Link>
         </div>
         
         <button

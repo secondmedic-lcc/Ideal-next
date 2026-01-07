@@ -9,10 +9,11 @@ import { FaLocationDot, FaRegPaperPlane } from "react-icons/fa6";
 import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
 import { useState } from "react";
-
+import { imageUrl } from "@/services/baseUrl";
 import { useQuery } from "@tanstack/react-query";
 import { getFaqs as acYears } from "@/services/admin/acYearServices";
 import { getFaqs as divisionsData } from "@/services/admin/divisionServices";
+import { getPhotoGallery as socialMedia } from "@/services/admin/socialMediaServices";
 
 
 const Footer = () => {
@@ -30,9 +31,14 @@ const Footer = () => {
     queryKey: ["division"],
     queryFn: () => divisionsData(),
   });
+  const { data: socialMediaData } = useQuery({
+    queryKey: ["social-media"],
+    queryFn: () => socialMedia(),
+  });
 
   const acYearsDataList = acYearsData?.data?.list || acYearsData?.list || [];
   const divisionDataList = divisionData?.data?.list || divisionData?.list || [];
+  const socialMediaDataList = socialMediaData?.data?.list || socialMediaData?.list || [];
 
   return (
     <>
@@ -70,39 +76,37 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-              <ul className="footer-social">
-                <li>Follow us</li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/facebook-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/insta-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/linkedin-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-              </ul>
+              {
+                socialMediaDataList.length > 0 &&
+                <ul className="footer-social">
+                  <li>Follow us</li>
+                  {
+                    socialMediaDataList.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.url} target="_blank">
+                          <img
+                            src={imageUrl + item.image}
+                            alt="icon"
+                            width={50}
+                            height={50}
+                          />
+                        </Link>
+                      </li>
+                    ))
+                  }
+                  {/* <li>
+                    <Link href="">
+                      <Image
+                        src="/img/facebook-icon.png"
+                        alt="icon"
+                        width={50}
+                        height={50}
+                      />
+                    </Link>
+                  </li> */}
+                  
+                </ul>
+              }
             </Col>
             <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Quick Links</h5>
