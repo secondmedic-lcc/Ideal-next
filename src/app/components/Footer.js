@@ -8,10 +8,37 @@ import { FaEnvelope, FaPhoneSquareAlt } from "react-icons/fa";
 import { FaLocationDot, FaRegPaperPlane } from "react-icons/fa6";
 import { useAdmissionEnquiryForm } from "@/hooks/useAdmissionEnquiryForm";
 import Loader from "./Loader";
+import { useState } from "react";
+import { imageUrl } from "@/services/baseUrl";
+import { useQuery } from "@tanstack/react-query";
+import { getFaqs as acYears } from "@/services/admin/acYearServices";
+import { getFaqs as divisionsData } from "@/services/admin/divisionServices";
+import { getPhotoGallery as socialMedia } from "@/services/admin/socialMediaServices";
+
 
 const Footer = () => {
-  const { register, handleSubmit, mutate, isPending } =
-    useAdmissionEnquiryForm();
+
+  const [division, setDivision] = useState("");
+  const [divisionClasses, setDivisionClasses] = useState([]);
+
+  const { register, handleSubmit, mutate, isPending, setValue } = useAdmissionEnquiryForm();
+
+  const { data: acYearsData } = useQuery({
+    queryKey: ["academic_year"],
+    queryFn: () => acYears(),
+  });
+  const { data: divisionData } = useQuery({
+    queryKey: ["division"],
+    queryFn: () => divisionsData(),
+  });
+  const { data: socialMediaData } = useQuery({
+    queryKey: ["social-media"],
+    queryFn: () => socialMedia(),
+  });
+
+  const acYearsDataList = acYearsData?.data?.list || acYearsData?.list || [];
+  const divisionDataList = divisionData?.data?.list || divisionData?.list || [];
+  const socialMediaDataList = socialMediaData?.data?.list || socialMediaData?.list || [];
 
   return (
     <>
@@ -49,39 +76,37 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-              <ul className="footer-social">
-                <li>Follow us</li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/facebook-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/insta-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="">
-                    <Image
-                      src="/img/linkedin-icon.png"
-                      alt="icon"
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </li>
-              </ul>
+              {
+                socialMediaDataList.length > 0 &&
+                <ul className="footer-social">
+                  <li>Follow us</li>
+                  {
+                    socialMediaDataList.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.url} target="_blank">
+                          <img
+                            src={imageUrl + item.image}
+                            alt="icon"
+                            width={50}
+                            height={50}
+                          />
+                        </Link>
+                      </li>
+                    ))
+                  }
+                  {/* <li>
+                    <Link href="">
+                      <Image
+                        src="/img/facebook-icon.png"
+                        alt="icon"
+                        width={50}
+                        height={50}
+                      />
+                    </Link>
+                  </li> */}
+                  
+                </ul>
+              }
             </Col>
             <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Quick Links</h5>
@@ -145,7 +170,9 @@ const Footer = () => {
                       {...register("academic_year")}
                     >
                       <option value={""}>-- Select Academic Year --</option>
-                      <option value={"2025-2026"}>2025-2026</option>
+                      {
+                        acYearsDataList.map(item => <option value={item.title}>{item.title}</option>)
+                      }
                     </select>
                   </Form.Group>
                   <Form.Group className="form-group">
@@ -230,28 +257,70 @@ const Footer = () => {
                     />
                   </Form.Group>
                   <Form.Group className="form-group">
+                    <Form.Label>Select Division:</Form.Label>
+
+                    <select
+                      className="react-select form-control"
+                      {...register("division_id")}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setDivision(value);
+                        const selectedDivision = divisionDataList.find(
+                          item => item.id == value
+                        );
+                        setValue("division_name", selectedDivision?.title || "");
+
+                        const classesData =
+                          Array.isArray(selectedDivision?.class_list)
+                            ? selectedDivision.class_list
+                            : selectedDivision?.class_list
+                            ? JSON.parse(selectedDivision.class_list)
+                            : [];
+                        console.log('classesData', classesData);
+                        
+                        setDivisionClasses(classesData);
+
+                        setValue("apply_for", "");
+                      }}>
+                      <option value="">-- Select Division --</option>
+                      {
+                        divisionDataList.map(item => <option value={item.id}>{item.title}</option>)
+                      }
+                    </select>
+
+                    <input type="hidden" {...register("division_name")} />
+                  </Form.Group>
+
+                  <Form.Group className="form-group">
                     <Form.Label>For which grade are you applying?</Form.Label>
                     <select
                       className="react-select form-control"
-                      {...register("apply_for")}
-                    >
+                      {...register("apply_for")} >
                       <option value="">-- Select Grade --</option>
-                      <option value="nursery">Nursery</option>
-                      <option value="kg">KG</option>
-                      <option value="1">Class 1</option>
-                      <option value="2">Class 2</option>
-                      <option value="3">Class 3</option>
-                      <option value="4">Class 4</option>
-                      <option value="5">Class 5</option>
-                      <option value="6">Class 6</option>
-                      <option value="7">Class 7</option>
-                      <option value="8">Class 8</option>
-                      <option value="9">Class 9</option>
-                      <option value="10">Class 10</option>
-                      <option value="11">Class 11</option>
-                      <option value="12">Class 12</option>
+                      {
+                        divisionClasses.map(item => <option key={item} value={item}>{item}</option>)
+                      }
+                      {/* {(division === "3" || division === "") && (
+                        <>
+                          <option value="nursery">Nursery</option>
+                          <option value="kg">KG</option>
+                          {[...Array(10)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              Class {i + 1}
+                            </option>
+                          ))}
+                        </>
+                      )}
+
+                      {(division === "1" || division === "2") && (
+                        <>
+                          <option value="11">Class 11</option>
+                          <option value="12">Class 12</option>
+                        </>
+                      )} */}
                     </select>
                   </Form.Group>
+
                   <button type="submit" className="web-btn">
                     <FaRegPaperPlane /> Enquire
                   </button>

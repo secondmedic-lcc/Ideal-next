@@ -42,14 +42,14 @@ export default function Sidebar() {
           Courses
         </Link>
 
-        <Link
+        {/* <Link
           href="/admin/gallery-video"
           className={`sidebar-link ${
             pathname === "/admin/gallery-video" ? "active" : ""
           }`}
         >
           Gallery Video
-        </Link>
+        </Link> */}
 
         
           <Link
@@ -200,6 +200,46 @@ export default function Sidebar() {
             }`}
           >
             Home slide and section
+          </Link>
+          <Link
+            href="/admin/custom-page"
+            className={`sidebar-sublink ${
+              pathname === "/admin/custom-page" ? "active" : ""
+            }`}
+          >
+            Custom Pages
+          </Link>
+          <Link
+            href="/admin/academic-year"
+            className={`sidebar-sublink ${
+              pathname === "/admin/academic-year" ? "active" : ""
+            }`}
+          >
+            Academic Year
+          </Link>
+          <Link
+            href="/admin/class"
+            className={`sidebar-sublink ${
+              pathname === "/admin/class" ? "active" : ""
+            }`}
+          >
+            Academic Claases
+          </Link>
+          <Link
+            href="/admin/division"
+            className={`sidebar-sublink ${
+              pathname === "/admin/division" ? "active" : ""
+            }`}
+          >
+            Divisions
+          </Link>
+          <Link
+            href="/admin/social-media"
+            className={`sidebar-sublink ${
+              pathname === "/admin/social-media" ? "active" : ""
+            }`}
+          >
+            Social Links
           </Link>
         </div>
         
