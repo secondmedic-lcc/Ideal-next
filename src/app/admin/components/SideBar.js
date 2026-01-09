@@ -222,15 +222,25 @@ export default function Sidebar() {
           </Link>
 
           <Link
-          href="/admin/photo-gallery"
-          className={`sidebar-sublink ${
-            pathname === "/admin/photo-gallery" ? "active" : ""
-          }`}
-        >
-          <span>Photo Gallery</span>
-        </Link>
+            href="/admin/photo-gallery"
+            className={`sidebar-sublink ${
+              pathname === "/admin/photo-gallery" ? "active" : ""
+            }`}
+          >
+            <span>Photo Gallery</span>
+          </Link>
 
         </div>
+
+        <Link
+          href="/admin/change-password"
+          className={`sidebar-link ${
+            pathname === "/admin/change-password" ? "active" : ""
+          }`}
+        >
+          Change Password
+        </Link>
+              
       </nav>
     </aside>
   );

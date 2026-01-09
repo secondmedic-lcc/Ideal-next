@@ -15,7 +15,7 @@ export const getGalleryVideos = async ({ video_category_id, page = 1, limit = 10
   const res = await fetch(url, {
     method: "GET",
     headers: buildHeaders(false),
-    cache: "no-store", // 304 / cache issue avoid
+    cache: "no-store",
   });
 
   return handleResponse(res);
