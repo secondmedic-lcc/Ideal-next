@@ -53,7 +53,7 @@ export const getBrands = async (params = {}, options = {}) => {
 
 
 export const getBrandById = async (id, options = {}) => {
- 
+
     if (!id) throw new Error("Brand id is required");
 
     const res = await fetch(`${ENDPOINT}/${id}`, {

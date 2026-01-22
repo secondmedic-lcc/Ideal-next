@@ -11,7 +11,7 @@ export const useBrandHooks = () => {
         handleSubmit,
         register,
         reset,
-        control, 
+        control,
         watch,
         formState: { errors },
     } = useForm();
@@ -62,6 +62,7 @@ export const useBrandHooks = () => {
 
         const fields = [
             "title",
+            "subtitle",
             "small_description",
             "long_description",
             "key_features",
