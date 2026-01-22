@@ -163,7 +163,7 @@ const FranchiseProposal = () => {
             ))}
           </Row>
           <div className="text-center mt-5" id="contact-form">
-            <Link href="#" className="web-btn franchise-hero-btn">
+            <Link href="https://wa.me/919820420389?text=I'm%20interested%20in%20franchisee%20of%20your%20coaching%20classes" target="_blank" className="web-btn franchise-hero-btn">
               START Your Journey <FaArrowRight />
             </Link>
           </div>
