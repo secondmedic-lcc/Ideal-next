@@ -52,10 +52,10 @@ const Branch = () => {
         <Container>
 
           {/* Filters */}
-          <div className="store-locator-header">
+          {/* <div className="store-locator-header">
             <Row className="align-items-center">
 
-              {/* STATE DROPDOWN */}
+             
               <Col lg={4} md={6}>
                 <label className="store-locator-label">Select State</label>
                 <select
@@ -70,7 +70,7 @@ const Branch = () => {
                 </select>
               </Col>
 
-              {/* CITY DROPDOWN */}
+           
               <Col lg={4} md={6}>
                 <label className="store-locator-label">Select City</label>
                 <select className="store-locator-select">
@@ -82,7 +82,7 @@ const Branch = () => {
                 </select>
               </Col>
 
-              {/* BRANCH DROPDOWN */}
+              
               <Col lg={4} md={6}>
                 <label className="store-locator-label">Select Branch</label>
                 <select className="store-locator-select">
@@ -94,13 +94,13 @@ const Branch = () => {
               </Col>
 
             </Row>
-          </div>
+          </div> */}
 
           {/* Results */}
           <Row className="store-locator-result">
             <Col lg={12}>
-              <h3 className="store-locator-result-title">Result: {branchList.length}</h3>
-              <hr className="store-locator-divider" />
+              {/* <h3 className="store-locator-result-title">Result: {branchList.length}</h3>
+              <hr className="store-locator-divider" /> */}
 
               <div className="store-locator-box">
                 {branchList.map((data, index) => (
