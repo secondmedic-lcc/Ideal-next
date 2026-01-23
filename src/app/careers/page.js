@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useMemo, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
@@ -10,6 +11,8 @@ import { getJobOpenings } from "@/services/admin/jobOpeningService";
 import { useQuery } from "@tanstack/react-query";
 import { useApplyJobForm } from "@/hooks/useApplyJobForm";
 import Loader from "../components/Loader";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const CareersPage = () => {
   const { data } = useQuery({
@@ -17,9 +20,18 @@ const CareersPage = () => {
     queryFn: getJobOpenings,
   });
 
+
+
   const { register, handleSubmit, mutate, isPending } = useApplyJobForm();
 
   const jobOpeningList = data?.data?.list;
+
+  const [selectedJobId, setSelectedJobId] = useState("");
+  const selectedJob = useMemo(() => {
+    return jobOpeningList?.find((j) => String(j.id) === String(selectedJobId));
+  }, [jobOpeningList, selectedJobId]);
+  const [showJobModal, setShowJobModal] = useState(false);
+
 
   return (
     <>
@@ -120,17 +132,24 @@ const CareersPage = () => {
                   <div className="form-group mb-3">
                     <label>
                       Job Title{" "}
-                      <button
-                        type="button"
-                        className="btn text-primary"
-                        title="View Job Description"
-                      >
-                        <u>details</u>
-                      </button>
+                      {selectedJobId ? (
+                        <button
+                          type="button"
+                          className="btn text-primary p-0 ms-2"
+                          onClick={() => setShowJobModal(true)}
+                          title="View Job Description"
+                        >
+                          <u>details</u>
+                        </button>
+                      ) : null}
                     </label>
                     <select
                       className="form-select form-control"
                       {...register("job_id", { required: true })}
+                      onChange={(e) => {
+                        setSelectedJobId(e.target.value);
+                        register("job_id").onChange(e);
+                      }}
                     >
                       <option value="">Select Job Title</option>
                       {jobOpeningList?.map((job) => (
@@ -191,6 +210,30 @@ const CareersPage = () => {
         </Container>
       </section>
       <Footer />
+      <Modal
+        show={showJobModal}
+        onHide={() => setShowJobModal(false)}
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedJob?.title || "Job Details"}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {selectedJob ? (
+            <p className="mb-0">{selectedJob.description}</p>
+          ) : (
+            <p className="mb-0 text-muted">Please select a job title first.</p>
+          )}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowJobModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

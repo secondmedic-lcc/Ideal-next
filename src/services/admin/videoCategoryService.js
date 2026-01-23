@@ -53,3 +53,15 @@ export const deleteVideoCategory = async (id) => {
 
   return handleResponse(res);
 };
+
+export const updateVideoCategory = async (id, data) => {
+  if (!id) throw new Error("Video Category id is required");
+
+  const res = await fetch(`${ENDPOINT}/${id}`, {
+    method: "PUT",
+    headers: buildHeaders(true), // ✅ JSON + Authorization
+    body: JSON.stringify(data),  // { title, slug?, status? }
+  });
+
+  return handleResponse(res);
+};

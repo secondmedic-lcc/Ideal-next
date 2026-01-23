@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-import { getVideoCategories } from "@/services/admin/videoCategoryService";
+import swal from "sweetalert";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { getVideoCategories, updateVideoCategory } from "@/services/admin/videoCategoryService";
 import { useVideoCategory } from "@/hooks/admin/useVideoCategory";
 
 const VideoCategoryPage = () => {
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
@@ -20,6 +24,50 @@ const VideoCategoryPage = () => {
   });
 
   const list = data?.data?.list || [];
+
+  // ✅ UPDATE mutation
+  const { mutate: updateMutate, isPending: isUpdating } = useMutation({
+    mutationFn: ({ id, title }) => updateVideoCategory(id, { title }),
+    onSuccess: (result) => {
+      if (result?.status) {
+        swal("Updated!", result?.message || "Category updated successfully", "success");
+        queryClient.invalidateQueries(["video-category"]);
+      } else {
+        swal("Error", result?.message || "Something went wrong", "error");
+      }
+    },
+    onError: (err) => {
+      swal("Error", err?.message || "Failed to update category", "error");
+    },
+  });
+
+  // ✅ Edit popup
+  const handleEdit = async (cat) => {
+    const newTitle = await swal({
+      title: "Edit Category",
+      text: "Update category title",
+      content: {
+        element: "input",
+        attributes: {
+          placeholder: "Enter new category title",
+          value: cat.title || "",
+          type: "text",
+        },
+      },
+      buttons: ["Cancel", "Update"],
+    });
+
+    // cancel
+    if (newTitle === null) return;
+
+    const title = String(newTitle || "").trim();
+    if (!title) {
+      swal("Error", "Title is required", "error");
+      return;
+    }
+
+    updateMutate({ id: cat.id, title });
+  };
 
   return (
     <div className="admin-page">
@@ -36,9 +84,7 @@ const VideoCategoryPage = () => {
           >
             <div className="row align-items-end">
               <div className="col-md-6">
-                <label className="form-label fw-semibold">
-                  Category Title
-                </label>
+                <label className="form-label fw-semibold">Category Title</label>
                 <input
                   type="text"
                   className="form-control"
@@ -48,11 +94,7 @@ const VideoCategoryPage = () => {
               </div>
 
               <div className="col-md-3">
-                <button
-                  type="submit"
-                  className="theme-btn"
-                  disabled={isAdding}
-                >
+                <button type="submit" className="theme-btn" disabled={isAdding}>
                   {isAdding ? "Saving..." : "Add Category"}
                 </button>
               </div>
@@ -92,6 +134,17 @@ const VideoCategoryPage = () => {
                     >
                       View
                     </Link>
+
+                    {/* ✅ EDIT */}
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-warning"
+                      disabled={isUpdating}
+                      onClick={() => handleEdit(cat)}
+                    >
+                      {isUpdating ? "Updating..." : "Edit"}
+                    </button>
+
                     <button
                       type="button"
                       className="btn btn-sm btn-danger"
@@ -104,6 +157,7 @@ const VideoCategoryPage = () => {
               ))}
             </tbody>
           </table>
+
         </div>
       </div>
     </div>
