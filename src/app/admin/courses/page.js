@@ -134,7 +134,7 @@ export default function CourseList() {
                           </Link>
 
                           <Link
-                            href={`/admin/course-sections?course_id=${course.id}`}
+                            href={`/admin/course-sections?course_id=${course.id}&course_name=${encodeURIComponent(course.course_name || "")}`}
                             className="icon-btn add"
                             title="Add Sections"
                           >

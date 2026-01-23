@@ -2,19 +2,26 @@
 
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   useCourseSections,
   useDeleteCourseSection,
+  useUpdateCourseSection,
 } from "@/hooks/admin/useCourseSectionHooks";
 import swal from "sweetalert";
 import Link from "next/link";
+import { Modal, Button, Form } from "react-bootstrap";
 import {
   FiLayers,
   FiPlusCircle,
   FiTrash2,
   FiChevronLeft,
   FiChevronRight,
+  FiEdit,
 } from "react-icons/fi";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
 
 export default function CourseSectionsLis() {
   return (
@@ -26,6 +33,8 @@ export default function CourseSectionsLis() {
 
 export const SectionsList = () => {
   const searchParams = useSearchParams();
+  const rawCourseName = searchParams?.get("course_name");
+  const courseName = rawCourseName ? decodeURIComponent(rawCourseName) : "";
   const rawCourseId = searchParams?.get("course_id");
   const courseId = rawCourseId ? Number(rawCourseId) : null;
 
@@ -39,11 +48,67 @@ export const SectionsList = () => {
   });
 
   const deleteMutation = useDeleteCourseSection();
+  const updateMutation = useUpdateCourseSection();
 
+  // -------------------------
+  // EDIT MODAL STATE
+  // -------------------------
+  const [showEdit, setShowEdit] = useState(false);
+  const [editRow, setEditRow] = useState(null);
+  const [form, setForm] = useState({ title: "", description: "" });
+
+  const openEdit = (row) => {
+    setEditRow(row);
+    setForm({
+      title: row?.title || "",
+      description: row?.description || "",
+    });
+    setShowEdit(true);
+  };
+
+  const closeEdit = () => {
+    setShowEdit(false);
+    setEditRow(null);
+    setForm({ title: "", description: "" });
+  };
+
+  const submitEdit = (e) => {
+    e.preventDefault();
+    if (!editRow?.id) return;
+
+    updateMutation.mutate(
+      {
+        id: editRow.id,
+        payload: {
+          ...(courseId ? { course_id: Number(courseId) } : {}),
+          title: form.title,
+          description: form.description,
+          status: 1,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.status) {
+            swal("Updated!", res?.message || "Section updated", "success");
+            closeEdit();
+          } else {
+            swal("Error", res?.message || "Update failed", "error");
+          }
+        },
+        onError: (err) => {
+          swal("Error", err?.message || "Update failed", "error");
+        },
+      }
+    );
+  };
+
+  // -------------------------
+  // DELETE
+  // -------------------------
   const handleDelete = (id) => {
     swal({
       title: "Delete this section?",
-      text: "This will mark the section as inactive.",
+      text: "This will permanently delete the section.",
       icon: "warning",
       buttons: ["Cancel", "Delete"],
       dangerMode: true,
@@ -64,7 +129,14 @@ export const SectionsList = () => {
         <div className="admin-card-header">
           <div className="admin-card-title-wrap">
             <FiLayers size={18} />
-            <h5 className="admin-card-title">Course Sections</h5>
+            <h5 className="admin-card-title">
+              Course Sections
+              {courseName ? (
+                <span className="ms-2 badge bg-light text-dark border">
+                  {courseName}
+                </span>
+              ) : null}
+            </h5>
           </div>
 
           <Link
@@ -106,17 +178,33 @@ export const SectionsList = () => {
                       <td className="fw-medium">{sec.title}</td>
                       <td>{sec.courses?.course_name || "—"}</td>
                       <td className="admin-muted">
-                        {new Date(sec.created_at).toLocaleDateString()}
+                        {sec.created_at
+                          ? new Date(sec.created_at).toLocaleDateString()
+                          : "—"}
                       </td>
+
                       <td className="text-end">
-                        <button
-                          onClick={() => handleDelete(sec.id)}
-                          className="icon-btn delete ms-auto"
-                          title="Delete Section"
-                          disabled={deleteMutation.isLoading}
-                        >
-                          <FiTrash2 />
-                        </button>
+                        <div className="admin-actions justify-content-end">
+                          {/* EDIT */}
+                          <button
+                            onClick={() => openEdit(sec)}
+                            className="icon-btn edit"
+                            title="Edit Section"
+                            disabled={updateMutation.isPending}
+                          >
+                            <FiEdit />
+                          </button>
+
+                          {/* DELETE */}
+                          <button
+                            onClick={() => handleDelete(sec.id)}
+                            className="icon-btn delete"
+                            title="Delete Section"
+                            disabled={deleteMutation.isLoading}
+                          >
+                            <FiTrash2 />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -153,6 +241,55 @@ export const SectionsList = () => {
           )}
         </div>
       </div>
+
+      {/* EDIT MODAL */}
+      <Modal show={showEdit} onHide={closeEdit} centered backdrop="static">
+        <Form onSubmit={submitEdit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Section</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Section Title</Form.Label>
+              <Form.Control
+                value={form.title}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, title: e.target.value }))
+                }
+                placeholder="Enter section title"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-0">
+              <Form.Label>Description</Form.Label>
+
+              <ReactQuill
+                theme="snow"
+                value={form.description}
+                onChange={(val) => setForm((p) => ({ ...p, description: val }))}
+                placeholder="Write section description..."
+              />
+            </Form.Group>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={closeEdit}
+              disabled={updateMutation.isPending}
+            >
+              Cancel
+            </Button>
+
+            <Button variant="primary" type="submit" disabled={updateMutation.isPending}>
+              {updateMutation.isPending ? "Updating..." : "Update"}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
     </div>
   );
 };
