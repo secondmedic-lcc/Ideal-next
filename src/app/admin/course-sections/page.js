@@ -22,6 +22,10 @@ import {
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
+import { useRouter } from "next/navigation";
+
+
+
 
 export default function CourseSectionsLis() {
   return (
@@ -32,6 +36,7 @@ export default function CourseSectionsLis() {
 }
 
 export const SectionsList = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const rawCourseName = searchParams?.get("course_name");
   const courseName = rawCourseName ? decodeURIComponent(rawCourseName) : "";
@@ -187,10 +192,11 @@ export const SectionsList = () => {
                         <div className="admin-actions justify-content-end">
                           {/* EDIT */}
                           <button
-                            onClick={() => openEdit(sec)}
                             className="icon-btn edit"
                             title="Edit Section"
-                            disabled={updateMutation.isPending}
+                            onClick={() => {
+                              window.location.href = `/admin/course-sections/edit?id=${sec.id}&course_id=${courseId}&course_name=${encodeURIComponent(courseName)}`;
+                            }}
                           >
                             <FiEdit />
                           </button>
@@ -265,9 +271,9 @@ export const SectionsList = () => {
             <Form.Group className="mb-0">
               <Form.Label>Description</Form.Label>
 
-              <ReactQuill
+               <ReactQuill
                 theme="snow"
-                value={form.description}
+                value={form.description || ""}   // ✅ always string
                 onChange={(val) => setForm((p) => ({ ...p, description: val }))}
                 placeholder="Write section description..."
               />
