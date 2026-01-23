@@ -8,24 +8,43 @@ import {
   getJobOpeningById,
   updateJobOpening,
 } from "@/services/admin/jobOpeningService";
-import { FiBriefcase, FiMail, FiFileText, FiSave, FiX } from "react-icons/fi";
+import {
+  FiBriefcase,
+  FiMail,
+  FiFileText,
+  FiSave,
+  FiX,
+  FiGrid,
+} from "react-icons/fi";
+
+const categoryOptions = [
+  { id: 1, name: "Teaching" },
+  { id: 2, name: "Non-Teaching" },
+];
 
 const EditJobOpening = () => {
   const params = useParams();
   const router = useRouter();
   const jobId = params?.job_id;
 
-  const { register, handleSubmit, reset, formState } = useForm({
+  const { register, handleSubmit, reset, formState, setValue, watch } = useForm({
     defaultValues: {
       title: "",
       apply_mail: "",
       description: "",
       status: 1,
+
+      // ✅ new
+      category_id: 0,
+      category_name: "",
     },
   });
 
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
+
+  // ✅ watch for select value
+  const selectedCategoryId = watch("category_id");
 
   useEffect(() => {
     if (!jobId) return;
@@ -51,6 +70,10 @@ const EditJobOpening = () => {
             apply_mail: job?.apply_mail ?? "",
             description: job?.description ?? "",
             status: typeof job?.status !== "undefined" ? Number(job.status) : 1,
+
+            // ✅ new
+            category_id: typeof job?.category_id !== "undefined" ? Number(job.category_id) : 0,
+            category_name: job?.category_name ?? "",
           });
         }
       } catch (err) {
@@ -66,6 +89,14 @@ const EditJobOpening = () => {
     };
   }, [jobId, reset]);
 
+  const onCategoryChange = (e) => {
+    const selectedId = Number(e.target.value || 0);
+    const selected = categoryOptions.find((x) => x.id === selectedId);
+
+    setValue("category_id", selectedId);
+    setValue("category_name", selected?.name ?? "");
+  };
+
   const onSubmit = async (values) => {
     if (!jobId) {
       return swal("Invalid ID", "Job ID is missing or invalid.", "error");
@@ -78,6 +109,10 @@ const EditJobOpening = () => {
         title: values.title,
         apply_mail: values.apply_mail,
         description: values.description,
+
+        // ✅ new
+        category_id: Number(values.category_id || 0),
+        category_name: values.category_name || "",
       };
 
       const res = await updateJobOpening(jobId, payload);
@@ -118,8 +153,33 @@ const EditJobOpening = () => {
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} method="POST">
               <div className="row">
+                
+                {/* ✅ Category Dropdown */}
+                <div className="col-md-4 mb-3">
+                  <label className="form-label fw-semibold d-flex align-items-center gap-2">
+                    <FiGrid />
+                    Category
+                  </label>
+
+                  <select
+                    className="form-select"
+                    value={String(selectedCategoryId ?? 0)}
+                    onChange={onCategoryChange}
+                  >
+                    <option value="0">Select Category</option>
+                    {categoryOptions.map((c) => (
+                      <option key={c.id} value={String(c.id)}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+
+                 
+                  <input type="hidden" {...register("category_id")} />
+                  <input type="hidden" {...register("category_name")} />
+                </div>
                 {/* Job Title */}
-                <div className="col-md-6 mb-3">
+                <div className="col-md-4 mb-3">
                   <label className="form-label fw-semibold d-flex align-items-center gap-2">
                     <FiBriefcase />
                     Job Title
@@ -132,14 +192,12 @@ const EditJobOpening = () => {
                     {...register("title", { required: true })}
                   />
                   {formState.errors.title && (
-                    <div className="invalid-feedback">
-                      Job title is required
-                    </div>
+                    <div className="invalid-feedback">Job title is required</div>
                   )}
                 </div>
 
                 {/* Apply Email */}
-                <div className="col-md-6 mb-3">
+                <div className="col-md-4 mb-3">
                   <label className="form-label fw-semibold d-flex align-items-center gap-2">
                     <FiMail />
                     Apply Email
@@ -150,6 +208,7 @@ const EditJobOpening = () => {
                     {...register("apply_mail")}
                   />
                 </div>
+
 
                 {/* Description */}
                 <div className="col-md-12 mb-3">
@@ -162,9 +221,7 @@ const EditJobOpening = () => {
                     className={`form-control ${
                       formState.errors.description ? "is-invalid" : ""
                     }`}
-                    {...register("description", {
-                      required: true,
-                    })}
+                    {...register("description", { required: true })}
                   />
                   {formState.errors.description && (
                     <div className="invalid-feedback">
@@ -176,11 +233,7 @@ const EditJobOpening = () => {
 
               {/* Actions */}
               <div className="admin-form-actions">
-                <button
-                  type="submit"
-                  className="theme-btn"
-                  disabled={loading}
-                >
+                <button type="submit" className="theme-btn" disabled={loading}>
                   <FiSave />
                   {loading ? "Updating..." : "Update Job"}
                 </button>

@@ -24,13 +24,27 @@ const CareersPage = () => {
 
   const { register, handleSubmit, mutate, isPending } = useApplyJobForm();
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const jobOpeningList = data?.data?.list;
 
   const [selectedJobId, setSelectedJobId] = useState("");
-  const selectedJob = useMemo(() => {
-    return jobOpeningList?.find((j) => String(j.id) === String(selectedJobId));
-  }, [jobOpeningList, selectedJobId]);
+
+
   const [showJobModal, setShowJobModal] = useState(false);
+
+  const filteredJobs = useMemo(() => {
+    if (!selectedCategory) return [];
+    const catId = selectedCategory === "teaching" ? 1 : 2;
+
+    return (jobOpeningList || []).filter(
+      (j) => Number(j.category_id) === Number(catId)
+    );
+  }, [jobOpeningList, selectedCategory]);
+
+  const selectedJob = useMemo(() => {
+    return filteredJobs?.find((j) => String(j.id) === String(selectedJobId));
+  }, [filteredJobs, selectedJobId]);
 
 
   return (
@@ -59,7 +73,7 @@ const CareersPage = () => {
                 Training Module that gives our staff and faculty the extra edge
                 to do well in any given circumstance. Hence, the exemplary work
                 satisfaction. With adequate opportunities to align your personal
-                goals with organisation's progress, Ideal Education is always
+                goals with organisation`s progress, Ideal Education is always
                 eager to meet people with newer perspectives that will help us
                 offer more better services. <br /> <br />
                 If you are compelled, we will be delighted to hear from you.
@@ -73,34 +87,7 @@ const CareersPage = () => {
                 height={800}
                 className="career-img"
               />
-            </Col>
-            {/* <Col xs={12}>
-              <h2 className="web-heading mb-0">Openings</h2>
-            </Col> */}
-            {/* {
-              jobOpeningList &&
-              jobOpeningList.map((data, index) => (
-                <Col xl={6} lg={6} md={12} key={index}>
-                  <div className="career-card-wrapper">
-                    <Image
-                  alt="career-card-img"
-                  width={300}
-                  height={300}
-                  src="/img/career-icon.png"
-                />
-                    <div className="career-card-content">
-                      <h6 className="career-card-label">Job Title</h6>
-                      <h4 className="career-card-title">{data.title}</h4>
-                      <h6 className="career-card-label">Job Description</h6>
-                      <h5 className="career-card-para">{data.description}</h5>
-                      <Link href={`mailto:${data.apply_mail}`} className="web-btn">
-                        Apply Now
-                      </Link>
-                    </div>
-                  </div>
-                </Col>
-              ))
-            } */}
+            </Col>            
           </Row>
           <Row className="align-items-center career-form-section g-md-5">
             <Col lg={6} md={6} sm={12}>
@@ -122,11 +109,21 @@ const CareersPage = () => {
                     <select
                       className="form-select form-control"
                       {...register("category", { required: true })}
+                      onChange={(e) => {
+                        setSelectedCategory(e.target.value);
+
+                        // react-hook-form update
+                        register("category").onChange(e);
+
+                        // category change হলে job reset
+                        setSelectedJobId("");
+                      }}
                     >
                       <option value="">Select Category</option>
                       <option value="teaching">Teaching</option>
                       <option value="non-teaching">Non-Teaching</option>
                     </select>
+
                   </div>
 
                   <div className="form-group mb-3">
@@ -143,16 +140,20 @@ const CareersPage = () => {
                         </button>
                       ) : null}
                     </label>
-                    <select
+                 <select
                       className="form-select form-control"
                       {...register("job_id", { required: true })}
                       onChange={(e) => {
                         setSelectedJobId(e.target.value);
                         register("job_id").onChange(e);
                       }}
+                      disabled={!selectedCategory}   // category disabled
                     >
-                      <option value="">Select Job Title</option>
-                      {jobOpeningList?.map((job) => (
+                      <option value="">
+                        {selectedCategory ? "Select Job Title" : "Select Category First"}
+                      </option>
+
+                      {filteredJobs?.map((job) => (
                         <option key={job.id} value={job.id}>
                           {job.title}
                         </option>
