@@ -68,13 +68,13 @@ const Footer = () => {
                     admission@idealclasses.com
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="#!">
                     <FaLocationDot />
                     Branches: Virar, Nallasopara, Borivali, Goregaon, Vile
                     Parle, Nerul.
                   </Link>
-                </li>
+                </li> */}
               </ul>
               {
                 socialMediaDataList.length > 0 &&
@@ -111,11 +111,11 @@ const Footer = () => {
             <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Quick Links</h5>
               <ul className="footer-links">
-                <li>
+                {/* <li>
                   <Link href="http://www.flexiclass.com/" target="_blank">
                     Flexi Class
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="http://mail.idealclasses.com/">
                     Member's Login
@@ -130,11 +130,11 @@ const Footer = () => {
                 <li>
                   <Link href="/journey">Journey of Ideal Classes</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="http://www.iset.in/" target="_blank">
                     I-SET
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </Col>
             <Col xl={2} lg={4} xs={12}>
@@ -147,17 +147,17 @@ const Footer = () => {
                 </li>
               </ul>
             </Col>
-            <Col xl={2} lg={4} xs={12}>
+            {/* <Col xl={2} lg={4} xs={12}>
               <h5 className="footer-heading">Find Us</h5>
               <ul className="footer-links">
                 <li>
                   <Link href="/branch-locator">Branch Locator</Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link href="/branch-locator">Course Locator</Link>
-                </li> */}
+                </li> 
               </ul>
-            </Col>
+            </Col> */}
             <Col xl={3} lg={12}>
               <h5 className="footer-heading">Help us know you better</h5>
               <div className="form-box">

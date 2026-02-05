@@ -55,8 +55,8 @@ const Header = () => {
         })),
       ],
     },
-    { name: "Online Learning", href: "/online-learning" },
-    { name: "Brands", href: "/brands" },
+    // { name: "Online Learning", href: "/online-learning" },
+    // { name: "Brands", href: "/brands" },
     { name: "CSR", href: "/csr" },
     {
       name: "Gallery",

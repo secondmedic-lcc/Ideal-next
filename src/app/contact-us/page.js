@@ -37,8 +37,8 @@ export default function contactus() {
                 <div>
                   <h5>Location</h5>
                   <p>
-                    Ideal House, Uma- Smruti, Near Filmistan, S.V.Road, Goregaon
-                    (W), 400062, Mumbai, India
+                    Ideal Management Goregaon<br />
+                    Shop No. 24, 7, 8, 9, Ground Floor, Kenorita Jewels Building Station Road, Bandu Gore Marg, Goregaon, Mumbai, Maharashtra 400104, India
                   </p>
                 </div>
               </div>

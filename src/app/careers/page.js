@@ -14,6 +14,30 @@ import Loader from "../components/Loader";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+const SUBJECTS_BY_SECTION = {
+  school: [
+    "Marathi",
+    "Hindi",
+    "English",
+    "Algebra",
+    "Geometry",
+    "Science",
+    "Social Studies",
+    "Sanskrit",
+  ],
+  commerce: [
+    "Accounts",
+    "Maths",
+    "Economics",
+    "SP",
+    "OC",
+    "English",
+    "Hindi",
+    "IT",
+  ],
+  science: ["Physics", "Chemistry", "Mathematics", "Biology"],
+};
+
 const CareersPage = () => {
   const { data } = useQuery({
     queryKey: ["job-opening"],
@@ -27,10 +51,8 @@ const CareersPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const jobOpeningList = data?.data?.list;
-
   const [selectedJobId, setSelectedJobId] = useState("");
-
-
+  const [teachingSection, setTeachingSection] = useState("");
   const [showJobModal, setShowJobModal] = useState(false);
 
   const filteredJobs = useMemo(() => {
@@ -87,7 +109,7 @@ const CareersPage = () => {
                 height={800}
                 className="career-img"
               />
-            </Col>            
+            </Col>
           </Row>
           <Row className="align-items-center career-form-section g-md-5">
             <Col lg={6} md={6} sm={12}>
@@ -111,11 +133,8 @@ const CareersPage = () => {
                       {...register("category", { required: true })}
                       onChange={(e) => {
                         setSelectedCategory(e.target.value);
-
-                        // react-hook-form update
+                        setTeachingSection("");
                         register("category").onChange(e);
-
-                        // category change হলে job reset
                         setSelectedJobId("");
                       }}
                     >
@@ -125,8 +144,83 @@ const CareersPage = () => {
                     </select>
 
                   </div>
+                  {/* ================= TEACHING ================= */}
+                  {selectedCategory === "teaching" && (
+                    <>
+                      {/* SECTION */}
+                      <div className="form-group mb-3">
+                        <label>Section</label>
+                        <select
+                          className="form-select form-control"
+                          {...register("section", { required: true })}
+                          onChange={(e) => {
+                            setTeachingSection(e.target.value);
+                            register("section").onChange(e);
+                          }}
+                        >
+                          <option value="">Select Section</option>
+                          <option value="school">School</option>
+                          <option value="commerce">Commerce</option>
+                          <option value="science">Science</option>
+                        </select>
+                      </div>
+                      {/* SUBJECT */}
+                      {teachingSection && (
+                        <div className="form-group mb-3">
+                          <label>Subject</label>
+                          <select
+                            className="form-select form-control"
+                            {...register("subject", { required: true })}
+                          >
+                            <option value="">Select Subject</option>
+                            {SUBJECTS_BY_SECTION[teachingSection].map(
+                              (sub) => (
+                                <option key={sub} value={sub}>
+                                  {sub}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        </div>
+                      )}
+                    </>
+                  )}
 
-                  <div className="form-group mb-3">
+                  {/* ================= NON-TEACHING ================= */}
+                  {selectedCategory === "non-teaching" && (
+                    <div className="form-group mb-3">
+                      <label>
+                        Job Title{" "}
+                        {selectedJobId && (
+                          <button
+                            type="button"
+                            className="btn text-primary p-0 ms-2"
+                            onClick={() => setShowJobModal(true)}
+                          >
+                            <u>details</u>
+                          </button>
+                        )}
+                      </label>
+
+                      <select
+                        className="form-select form-control"
+                        {...register("job_id", { required: true })}
+                        onChange={(e) => {
+                          setSelectedJobId(e.target.value);
+                          register("job_id").onChange(e);
+                        }}
+                      >
+                        <option value="">Select Job Title</option>
+                        {filteredJobs.map((job) => (
+                          <option key={job.id} value={job.id}>
+                            {job.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* <div className="form-group mb-3">
                     <label>
                       Job Title{" "}
                       {selectedJobId ? (
@@ -140,7 +234,7 @@ const CareersPage = () => {
                         </button>
                       ) : null}
                     </label>
-                 <select
+                    <select
                       className="form-select form-control"
                       {...register("job_id", { required: true })}
                       onChange={(e) => {
@@ -159,7 +253,7 @@ const CareersPage = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
 
                   <div className="form-group mb-3">
                     <label>Email</label>
@@ -179,7 +273,7 @@ const CareersPage = () => {
                     />
                   </div>
 
-                  <div className="form-group mb-3">
+                  {/* <div className="form-group mb-3">
                     <label>Preferred Branch</label>
                     <select
                       className="form-select form-control"
@@ -190,7 +284,7 @@ const CareersPage = () => {
                       <option value="Mumbai">Mumbai</option>
                       <option value="Bangalore">Bangalore</option>
                     </select>
-                  </div>
+                  </div> */}
 
                   <div className="form-group mb-3">
                     <label>Upload Resume</label>
@@ -209,7 +303,7 @@ const CareersPage = () => {
             </Col>
           </Row>
         </Container>
-      </section>
+      </section >
       <Footer />
       <Modal
         show={showJobModal}
