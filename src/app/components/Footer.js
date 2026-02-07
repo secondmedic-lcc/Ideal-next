@@ -108,7 +108,7 @@ const Footer = () => {
                 </ul>
               }
             </Col>
-            <Col xl={2} lg={4} xs={12}>
+            <Col xl={3} lg={4} xs={12}>
               <h5 className="footer-heading">Quick Links</h5>
               <ul className="footer-links">
                 {/* <li>
@@ -137,7 +137,7 @@ const Footer = () => {
                 </li> */}
               </ul>
             </Col>
-            <Col xl={2} lg={4} xs={12}>
+            <Col xl={3} lg={4} xs={12}>
               <h5 className="footer-heading">Franchisee Invited</h5>
               <ul className="footer-links">
                 <li>
