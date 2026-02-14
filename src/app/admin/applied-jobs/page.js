@@ -60,10 +60,9 @@ const AppliedJobRequest = () => {
                 <thead>
                   <tr>
                     <th style={{ width: "60px" }}>#</th>
-                    <th>Job Title</th>
                     <th>Category</th>
                     <th>Applicant</th>
-                    <th>Preferred Branch</th>
+                    <th>Details</th>
                     <th>Resume</th>
                     <th>Applied At</th>
                   </tr>
@@ -93,13 +92,6 @@ const AppliedJobRequest = () => {
                             {item.contact}
                           </span>
                         </div>
-                      </td>
-
-                      <td>
-                        <span className="d-flex align-items-center gap-2">
-                          <FiMapPin />
-                          {item.preferred_branch}
-                        </span>
                       </td>
 
                       <td>
